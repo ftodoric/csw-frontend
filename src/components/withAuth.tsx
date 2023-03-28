@@ -4,9 +4,9 @@ import { useUserContext } from "@hooks";
 
 export const withAuth = (Component: NextPage) => {
   const AuthenticatedComponent = () => {
-    const { user } = useUserContext();
+    const { isLoggedIn } = useUserContext();
 
-    return user ? <Component /> : null;
+    return isLoggedIn ? <Component /> : null;
   };
 
   return AuthenticatedComponent;

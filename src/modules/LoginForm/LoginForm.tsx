@@ -9,7 +9,6 @@ export const LoginForm = () => {
   const { register, handleSubmit } = useForm<LoginFormInputs>();
   const onSubmit = (data: LoginFormInputs) => {
     loginUser.mutate(data);
-    console.log(data);
   };
 
   return (
