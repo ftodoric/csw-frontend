@@ -38,15 +38,6 @@ export const NewGameForm = () => {
         onSubmit={handleSubmit(onSubmit)}
         style={{ display: "flex", flexDirection: "column", width: 400 }}
       >
-        <label>Korisničko ime</label>
-        <input type="text" {...register("blueTeamName")} />
-
-        <label>Lozinka</label>
-        <input
-          type="password"
-          {...register("redTeamName", { required: true })}
-        />
-
         <input type="submit" />
       </form>
     </div>
