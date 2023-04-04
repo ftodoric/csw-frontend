@@ -1,15 +1,8 @@
 import { withAuth } from "@components/withAuth";
-import { useAxios } from "@hooks";
-import Link from "next/link";
+import { Lobby } from "@modules/Lobby";
 
 export const LobbyPage = () => {
-  const axios = useAxios();
-
-  return (
-    <div>
-      <Link href="/create">Create a new game</Link>
-    </div>
-  );
+  return <Lobby />;
 };
 
 export default withAuth(LobbyPage);

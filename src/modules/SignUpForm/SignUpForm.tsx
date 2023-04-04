@@ -1,8 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterFormInputs, registrationFormSchema } from "@types";
-import { useRouter } from "next/router";
-import { useAxios, useSignUp } from "@hooks";
+import { useSignUp } from "@hooks";
 import {
   AlternativeLink,
   InputContainer,
@@ -16,8 +15,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const SignUpForm = () => {
-  const router = useRouter();
-  const axios = useAxios();
   const signUpUser = useSignUp();
 
   const {
