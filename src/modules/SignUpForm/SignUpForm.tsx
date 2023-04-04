@@ -1,15 +1,19 @@
 import { useForm } from "react-hook-form";
-import {
-  InputGroup,
-  StyledContainer,
-  StyledForm,
-  StyledHint,
-  StyledInput,
-} from "./styles";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterFormInputs, registrationFormSchema } from "@types";
 import { useRouter } from "next/router";
 import { useAxios, useSignUp } from "@hooks";
+import {
+  AlternativeLink,
+  InputContainer,
+  StyledContainer,
+  StyledForm,
+  StyledInput,
+  StyledTitle,
+  SubmitButton,
+} from "@modules/LoginForm/styles";
+import Image from "next/image";
+import Link from "next/link";
 
 export const SignUpForm = () => {
   const router = useRouter();
@@ -30,27 +34,77 @@ export const SignUpForm = () => {
 
   return (
     <StyledContainer>
+      <StyledTitle>Sign Up</StyledTitle>
+
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <InputGroup>
-          <StyledInput placeholder="Username" {...register("username")} />
-          <StyledHint>{errors.username?.message}</StyledHint>
-        </InputGroup>
+        <div style={{ width: "200px" }}>
+          <InputContainer>
+            <Image
+              src="/images/person.svg"
+              width={18}
+              height={18}
+              alt="usernameIcon"
+            />
+            <StyledInput
+              type="text"
+              placeholder="Username"
+              {...register("username")}
+            />
+          </InputContainer>
+          {errors.username && (
+            <div style={{ fontSize: 12, color: "#e34d4d", marginTop: 5 }}>
+              {errors.username.message}
+            </div>
+          )}
+        </div>
 
-        <InputGroup>
-          <StyledInput placeholder="Password" {...register("password")} />
-          <StyledHint>{errors.password?.message}</StyledHint>
-        </InputGroup>
+        <div style={{ width: "200px" }}>
+          <InputContainer style={{ marginTop: 20 }}>
+            <Image
+              src="/images/lock.svg"
+              width={18}
+              height={18}
+              alt="passwordIcon"
+            />
+            <StyledInput
+              type="password"
+              placeholder="Password"
+              {...register("password", { required: true })}
+            />
+          </InputContainer>
+          {errors.password && (
+            <div style={{ fontSize: 12, color: "#e34d4d", marginTop: 5 }}>
+              {errors.password.message}
+            </div>
+          )}
+        </div>
 
-        <InputGroup>
-          <StyledInput
-            placeholder="Confirm password"
-            {...register("confirmPassword")}
-          />
-          <StyledHint>{errors.confirmPassword?.message}</StyledHint>
-        </InputGroup>
+        <div style={{ width: "200px" }}>
+          <InputContainer style={{ marginTop: 20 }}>
+            <Image
+              src="/images/lock.svg"
+              width={18}
+              height={18}
+              alt="passwordIcon"
+            />
+            <StyledInput
+              placeholder="Confirm password"
+              {...register("confirmPassword")}
+            />
+          </InputContainer>
+          {errors.confirmPassword && (
+            <div style={{ fontSize: 12, color: "#e34d4d", marginTop: 5 }}>
+              {errors.confirmPassword.message}
+            </div>
+          )}
+        </div>
 
-        <StyledInput type="submit" />
+        <SubmitButton type="submit" style={{ marginTop: 20 }} value="Sign up" />
       </StyledForm>
+
+      <AlternativeLink>
+        <Link href="/">or Login</Link>
+      </AlternativeLink>
     </StyledContainer>
   );
 };

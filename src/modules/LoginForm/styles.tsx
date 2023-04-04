@@ -5,7 +5,8 @@ export const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  justify-content: center;
+  padding-top: 200px;
+  box-sizing: border-box;
 `;
 
 export const StyledTitle = styled.div`
@@ -14,12 +15,52 @@ export const StyledTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
   color: firebrick;
-  font-style: italic;
 `;
 
 export const StyledForm = styled.form`
   margin-top: 50px;
-  background-color: red;
   display: flex;
   flex-direction: column;
+  align-items: center;
+`;
+
+export const InputContainer = styled.div`
+  border-bottom: solid 1px;
+  padding: 5px 10px 5px 5px;
+  display: flex;
+  align-items: center;
+`;
+
+export const StyledInput = styled.input`
+  border: none;
+  margin-left: 5px;
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const SubmitButton = styled.input`
+  background-color: firebrick;
+  color: #f0f0f0;
+  border: none;
+  padding: 7px 10px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 100%;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+export const AlternativeLink = styled.div`
+  margin-top: 40px;
+  font-size: 12px;
+
+  :hover {
+    color: firebrick;
+    text-decoration: underline;
+  }
 `;

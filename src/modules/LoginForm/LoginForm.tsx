@@ -1,30 +1,84 @@
 import { useLogin } from "@hooks";
-import { LoginFormInputs } from "@types";
+import { LoginFormInputs, loginFormSchema } from "@types";
 import { useForm } from "react-hook-form";
-import { StyledContainer, StyledForm, StyledTitle } from "./styles";
+import {
+  InputContainer,
+  AlternativeLink,
+  StyledContainer,
+  StyledForm,
+  StyledInput,
+  StyledTitle,
+  SubmitButton,
+} from "./styles";
+import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 export const LoginForm = () => {
   const loginUser = useLogin();
 
-  const { register, handleSubmit } = useForm<LoginFormInputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>({ resolver: zodResolver(loginFormSchema) });
   const onSubmit = (data: LoginFormInputs) => {
     loginUser.mutate(data);
   };
 
   return (
     <StyledContainer>
-      <StyledTitle>Dobrodošli u igru!</StyledTitle>
-      <div>Loginajte se kako biste mogli igrati.</div>
+      <StyledTitle>Login</StyledTitle>
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <label>Korisničko ime</label>
-        <input type="text" {...register("username")} />
+        <div style={{ width: "200px" }}>
+          <InputContainer>
+            <Image
+              src="/images/person.svg"
+              width={18}
+              height={18}
+              alt="usernameIcon"
+            />
+            <StyledInput
+              type="text"
+              placeholder="Username"
+              {...register("username")}
+            />
+          </InputContainer>
+          {errors.username && (
+            <div style={{ fontSize: 12, color: "#e34d4d", marginTop: 5 }}>
+              {errors.username.message}
+            </div>
+          )}
+        </div>
 
-        <label>Lozinka</label>
-        <input type="password" {...register("password", { required: true })} />
+        <div style={{ width: "200px" }}>
+          <InputContainer style={{ marginTop: 20 }}>
+            <Image
+              src="/images/lock.svg"
+              width={18}
+              height={18}
+              alt="passwordIcon"
+            />
+            <StyledInput
+              type="password"
+              placeholder="Password"
+              {...register("password", { required: true })}
+            />
+          </InputContainer>
+          {errors.password && (
+            <div style={{ fontSize: 12, color: "#e34d4d", marginTop: 5 }}>
+              {errors.password.message}
+            </div>
+          )}
+        </div>
 
-        <input type="submit" />
+        <SubmitButton type="submit" style={{ marginTop: 20 }} value="Login" />
       </StyledForm>
+
+      <AlternativeLink>
+        <Link href="/signup">or Sign Up</Link>
+      </AlternativeLink>
     </StyledContainer>
   );
 };
