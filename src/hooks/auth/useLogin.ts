@@ -8,7 +8,7 @@ import { LoginFormInputs, LoginResponse } from "@types";
 export const useLogin = () => {
   const axios = useAxios();
   const router = useRouter();
-  const { setIsLoggedIn } = useUserContext();
+  const { setIsLoggedIn, setUser } = useUserContext();
 
   const login = async (input: LoginFormInputs): Promise<LoginResponse> => {
     const response = await axios.post("/auth/login", input);
@@ -20,6 +20,10 @@ export const useLogin = () => {
   return useMutation(login, {
     onSuccess: () => {
       setIsLoggedIn(true);
+
+      axios.get("http://localhost:8000/api/auth/me").then((res) => {
+        setUser(res.data);
+      });
 
       let returnUrl = "/lobby";
       if (router.query.returnUrl) {

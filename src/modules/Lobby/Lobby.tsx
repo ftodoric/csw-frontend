@@ -72,7 +72,6 @@ export const Lobby = () => {
         {games?.length ? (
           <>
             <ItemWrapper>
-              <div>ID</div>
               <div>Blue Team</div>
               <div>Red Team</div>
               <div>Description</div>

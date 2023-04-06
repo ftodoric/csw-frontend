@@ -12,7 +12,7 @@ interface UserContextType {
 export const UserContext = createContext<UserContextType>({
   user: null,
   setUser: () => null,
-  isLoggedIn: true,
+  isLoggedIn: false,
   setIsLoggedIn: () => true,
 });
 
