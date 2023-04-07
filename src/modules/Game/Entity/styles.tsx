@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const CardContainer = styled.div`
   width: 200px;
@@ -9,7 +9,7 @@ export const CardContainer = styled.div`
   position: absolute;
   background-color: white;
   border-radius: 5px;
-`;
+`
 
 export const Header = styled.div`
   display: flex;
@@ -17,14 +17,14 @@ export const Header = styled.div`
   align-items: center;
   height: 25px;
   padding: 0 10px;
-`;
+`
 
 export const Middle = styled.div`
   height: calc(100% - 45px);
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+`
 
 export const Footer = styled.div`
   height: 20px;
@@ -36,4 +36,4 @@ export const Footer = styled.div`
     justify-content: center;
     align-items: center;
   }
-`;
+`

@@ -1,12 +1,12 @@
-import React, { useMemo, useState, createContext } from "react";
+import React, { useMemo, useState, createContext } from 'react'
 
-import { OptionalUser } from "@types";
+import { OptionalUser } from '@types'
 
 interface UserContextType {
-  user: OptionalUser;
-  setUser: React.Dispatch<React.SetStateAction<OptionalUser>>;
-  isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  user: OptionalUser
+  setUser: React.Dispatch<React.SetStateAction<OptionalUser>>
+  isLoggedIn: boolean
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const UserContext = createContext<UserContextType>({
@@ -14,13 +14,13 @@ export const UserContext = createContext<UserContextType>({
   setUser: () => null,
   isLoggedIn: false,
   setIsLoggedIn: () => true,
-});
+})
 
 export const UserContextProvider = ({
   children,
 }: React.PropsWithChildren<unknown>) => {
-  const [user, setUser] = useState<OptionalUser>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [user, setUser] = useState<OptionalUser>(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
 
   const providerUser = useMemo(
     () => ({
@@ -30,11 +30,11 @@ export const UserContextProvider = ({
       setIsLoggedIn,
     }),
     [user, setUser, isLoggedIn, setIsLoggedIn]
-  );
+  )
 
   return React.createElement(
     UserContext.Provider,
     { value: providerUser },
     children
-  );
-};
+  )
+}

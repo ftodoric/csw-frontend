@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const StyledContainer = styled.div`
   display: flex;
@@ -7,7 +7,7 @@ export const StyledContainer = styled.div`
   height: 100vh;
   padding-top: 200px;
   box-sizing: border-box;
-`;
+`
 
 export const StyledTitle = styled.div`
   display: flex;
@@ -15,21 +15,21 @@ export const StyledTitle = styled.div`
   font-size: 20px;
   font-weight: bold;
   color: firebrick;
-`;
+`
 
 export const StyledForm = styled.form`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
+`
 
 export const InputContainer = styled.div`
   border-bottom: solid 1px;
   padding: 5px 10px 5px 5px;
   display: flex;
   align-items: center;
-`;
+`
 
 export const StyledInput = styled.input`
   border: none;
@@ -38,7 +38,7 @@ export const StyledInput = styled.input`
   &:focus {
     outline: none;
   }
-`;
+`
 
 export const SubmitButton = styled.input`
   background-color: firebrick;
@@ -53,7 +53,7 @@ export const SubmitButton = styled.input`
   :hover {
     cursor: pointer;
   }
-`;
+`
 
 export const AlternativeLink = styled.div`
   margin-top: 40px;
@@ -63,4 +63,4 @@ export const AlternativeLink = styled.div`
     color: firebrick;
     text-decoration: underline;
   }
-`;
+`

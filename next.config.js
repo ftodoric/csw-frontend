@@ -6,10 +6,10 @@ const nextConfig = {
   },
   publicRuntimeConfig: {
     apiUrl:
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:8000/api"
-        : "https://api.instrugo.frle.net/api",
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:8000/api'
+        : 'https://api.instrugo.frle.net/api',
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

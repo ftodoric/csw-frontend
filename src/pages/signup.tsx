@@ -1,5 +1,5 @@
-import { SignUpForm } from "@modules/SignUpForm";
+import { SignUpForm } from '@modules/SignUpForm'
 
 export default function RegisterPage() {
-  return <SignUpForm />;
+  return <SignUpForm />
 }

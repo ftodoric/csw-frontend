@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 export const newGameFormSchema = z.object({
   blueTeamName: z.string().nonempty(),
@@ -16,10 +16,10 @@ export const newGameFormSchema = z.object({
   rosenergoatomPlayer: z.string(),
 
   description: z.string(),
-});
+})
 
-export type NewGameFormType = z.infer<typeof newGameFormSchema>;
+export type NewGameFormType = z.infer<typeof newGameFormSchema>
 
 export type NewGameFormResponse = {
-  msg: string;
-};
+  msg: string
+}

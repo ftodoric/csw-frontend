@@ -1,4 +1,4 @@
-import { UserContext } from "@context";
-import { useContext } from "react";
+import { UserContext } from '@context'
+import { useContext } from 'react'
 
-export const useUserContext = () => useContext(UserContext);
+export const useUserContext = () => useContext(UserContext)

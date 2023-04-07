@@ -1,2 +1,2 @@
-export * from "./useAxios";
-export * from "./auth";
+export * from './useAxios'
+export * from './auth'

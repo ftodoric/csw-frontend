@@ -1,8 +1,8 @@
-import { withAuth } from "@components/withAuth";
-import { GameContainer } from "@modules/Game/GameContainer";
+import { withAuth } from '@components/withAuth'
+import { GameContainer } from '@modules/Game/GameContainer'
 
 const GamePage = () => {
-  return <GameContainer />;
-};
+  return <GameContainer />
+}
 
-export default withAuth(GamePage);
+export default withAuth(GamePage)

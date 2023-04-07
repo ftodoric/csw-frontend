@@ -1,5 +1,5 @@
-import { useContext } from "react";
+import { useContext } from 'react'
 
-import { AxiosContext } from "@context";
+import { AxiosContext } from '@context'
 
-export const useAxios = () => useContext(AxiosContext);
+export const useAxios = () => useContext(AxiosContext)

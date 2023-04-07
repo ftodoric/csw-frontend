@@ -1,4 +1,4 @@
-import { IconWrapperProps, IconWrapper } from "./IconWrapper";
+import { IconWrapperProps, IconWrapper } from './IconWrapper'
 
 export const IconPlay = ({ width, height, fill }: IconWrapperProps) => {
   return (
@@ -10,5 +10,5 @@ export const IconPlay = ({ width, height, fill }: IconWrapperProps) => {
     >
       <path d="M320 853V293l440 280-440 280Zm60-280Zm0 171 269-171-269-171v342Z" />
     </IconWrapper>
-  );
-};
+  )
+}

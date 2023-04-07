@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 
 export interface IconWrapperProps {
-  fill?: string;
-  width?: string;
-  height?: string;
-  viewbox?: string;
+  fill?: string
+  width?: string
+  height?: string
+  viewbox?: string
 }
 
 export const IconWrapper = ({
@@ -31,5 +31,5 @@ export const IconWrapper = ({
     >
       {children}
     </svg>
-  );
-};
+  )
+}

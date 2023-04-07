@@ -1,8 +1,8 @@
-import { withAuth } from "@components/withAuth";
-import { Lobby } from "@modules/Lobby";
+import { withAuth } from '@components/withAuth'
+import { Lobby } from '@modules/Lobby'
 
 export const LobbyPage = () => {
-  return <Lobby />;
-};
+  return <Lobby />
+}
 
-export default withAuth(LobbyPage);
+export default withAuth(LobbyPage)

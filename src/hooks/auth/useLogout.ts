@@ -1,25 +1,25 @@
-import { useMutation } from "react-query";
+import { useMutation } from 'react-query'
 
-import { useUserContext, useAxios } from "@hooks";
+import { useUserContext, useAxios } from '@hooks'
 
 export const useLogout = () => {
-  const axios = useAxios();
-  const { setUser, setIsLoggedIn } = useUserContext();
+  const axios = useAxios()
+  const { setUser, setIsLoggedIn } = useUserContext()
 
   const logout = async () => {
-    const data = await axios.post("/auth/logout");
+    const data = await axios.post('/auth/logout')
 
-    return data;
-  };
+    return data
+  }
 
   return useMutation(logout, {
     onSuccess: async () => {
-      setIsLoggedIn(false);
+      setIsLoggedIn(false)
 
-      setUser(null);
+      setUser(null)
     },
     onError: (error) => {
-      console.log(error);
+      console.log(error)
     },
-  });
-};
+  })
+}

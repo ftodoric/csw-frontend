@@ -1,1 +1,1 @@
-export { NewGameForm } from "./NewGameForm";
+export { NewGameForm } from './NewGameForm'

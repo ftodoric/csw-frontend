@@ -1,56 +1,56 @@
-import { IconHome, IconPlay } from "@components/Icons";
-import { useAxios, useUserContext } from "@hooks";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { IconHome, IconPlay } from '@components/Icons'
+import { useAxios, useUserContext } from '@hooks'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import {
   Battleground,
   BlueTeamBackground,
   Header,
   Navigation,
   RedTeamBackground,
-} from "./styles";
-import { EntityContainer } from "./Entity/EntityContainer";
-import { EntityType } from "@types";
+} from './styles'
+import { EntityContainer } from './Entity/EntityContainer'
+import { EntityType } from '@types'
 
 export const GameContainer = () => {
-  const router = useRouter();
-  const { id } = router.query;
+  const router = useRouter()
+  const { id } = router.query
 
-  const axios = useAxios();
+  const axios = useAxios()
 
-  const user = useUserContext();
+  const user = useUserContext()
 
-  const [game, setGame] = useState();
-  const [isOwner, setIsOwner] = useState(false);
+  const [game, setGame] = useState()
+  const [isOwner, setIsOwner] = useState(false)
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) return
 
     axios.get(`games/${id}`).then((res) => {
-      setGame(res.data);
-      setIsOwner(res.data.ownerId === user.user?.id);
-    });
-  }, [axios, id, user.user?.id]);
+      setGame(res.data)
+      setIsOwner(res.data.ownerId === user.user?.id)
+    })
+  }, [axios, id, user.user?.id])
 
-  if (!user.user) return null;
+  if (!user.user) return null
 
   return (
     <>
       <Header>
         <div
           style={{
-            width: "250px",
-            height: "100%",
-            display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "center",
+            width: '250px',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
           }}
         >
           <div
             style={{
-              borderRight: "solid 2px white",
-              padding: "0 20px",
-              marginRight: "20px",
+              borderRight: 'solid 2px white',
+              padding: '0 20px',
+              marginRight: '20px',
             }}
           >
             {user.user?.username}
@@ -63,26 +63,26 @@ export const GameContainer = () => {
 
         <div
           style={{
-            width: "250px",
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            width: '250px',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <div>{`Red Team's Turn`}</div>
-          <div style={{ marginTop: "5px" }}>{`UK Government's Turn`}</div>
+          <div style={{ marginTop: '5px' }}>{`UK Government's Turn`}</div>
         </div>
 
         <div
           style={{
-            width: "250px",
-            height: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            paddingRight: "20px",
+            width: '250px',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            paddingRight: '20px',
           }}
         >
           January, 2020
@@ -235,5 +235,5 @@ export const GameContainer = () => {
 
       <Navigation></Navigation>
     </>
-  );
-};
+  )
+}

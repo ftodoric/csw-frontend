@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const ItemWrapper = styled.div`
   display: flex;
@@ -7,4 +7,4 @@ export const ItemWrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   border-bottom: solid 1px;
-`;
+`

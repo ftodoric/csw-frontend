@@ -1,4 +1,4 @@
-import { IconWrapperProps, IconWrapper } from "./IconWrapper";
+import { IconWrapperProps, IconWrapper } from './IconWrapper'
 
 export const LoaderIcon = ({ width, height, fill }: IconWrapperProps) => {
   return (
@@ -51,5 +51,5 @@ export const LoaderIcon = ({ width, height, fill }: IconWrapperProps) => {
         />
       </path>
     </IconWrapper>
-  );
-};
+  )
+}
