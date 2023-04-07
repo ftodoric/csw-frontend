@@ -1,6 +1,6 @@
-import { IconWrapperProps, IconWrapper } from './IconWrapper'
+import { IconProps, IconWrapper } from './IconWrapper'
 
-export const LoaderIcon = ({ width, height, fill }: IconWrapperProps) => {
+export const IconLoader = ({ width, height, fill }: IconProps) => {
   return (
     <IconWrapper
       fill={fill}

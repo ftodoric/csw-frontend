@@ -1,6 +1,6 @@
 import { IconProps, IconWrapper } from './IconWrapper'
 
-export const IconHome = ({ width, height, fill }: IconProps) => {
+export const IconPause = ({ width, height, fill }: IconProps) => {
   return (
     <IconWrapper
       fill={fill}
@@ -8,7 +8,7 @@ export const IconHome = ({ width, height, fill }: IconProps) => {
       height={height}
       viewbox="0 96 960 960"
     >
-      <path d="M220 876h150V626h220v250h150V486L480 291 220 486v390Zm-60 60V456l320-240 320 240v480H530V686H430v250H160Zm320-353Z" />
+      <path d="M525 856V296h235v560H525Zm-325 0V296h235v560H200Zm385-60h115V356H585v440Zm-325 0h115V356H260v440Z" />
     </IconWrapper>
   )
 }

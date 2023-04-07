@@ -1,4 +1,4 @@
-import { LogoutIcon } from '@components/Icons'
+import { IconLogout } from '@components/Icons'
 import { useAxios, useLogout } from '@hooks'
 import { useEffect, useState } from 'react'
 import { CreateWrapper, LogoutWrapper } from './styles'
@@ -48,7 +48,7 @@ export const Lobby = () => {
           width: '100%',
           height: '50px',
           backgroundColor: 'firebrick',
-          color: '#f4f4f4',
+          color: 'white',
           padding: '20px',
           boxSizing: 'border-box',
         }}
@@ -63,7 +63,7 @@ export const Lobby = () => {
         >
           <div style={{ marginRight: '20px' }}>Hi, {username}</div>
           <LogoutWrapper onClick={handleLogout}>
-            <LogoutIcon width="24px" height="24px" fill="#f4f4f4" />
+            <IconLogout width="24px" height="24px" fill="white" />
           </LogoutWrapper>
         </div>
       </div>

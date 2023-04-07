@@ -56,9 +56,9 @@ export const GameContainer = () => {
             {user.user?.username}
           </div>
 
-          <IconHome width="24px" fill="#fff" />
+          <IconHome width="26px" fill="#fff" />
 
-          <div>{isOwner && <IconPlay width="30px" fill="#fff" />}</div>
+          <div>{isOwner && <IconPlay width="30px" fill="white" />}</div>
         </div>
 
         <div
