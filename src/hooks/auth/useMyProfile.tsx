@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useQuery } from 'react-query'
 
 import { useAxios } from '@hooks/useAxios'
@@ -7,28 +8,28 @@ import { useUserContext } from './useUserContext'
 
 export const useMyProfile = () => {
   const axios = useAxios()
-  const { user, setUser, isLoggedIn, setIsLoggedIn } = useUserContext()
+  const { setUser } = useUserContext()
+  const router = useRouter()
 
-  const getProfile = async (): Promise<User> => {
+  const getMyProfile = async (): Promise<User> => {
     const response = await axios.get('/auth/me')
 
     if (!response || !response.data) {
-      throw new Error()
+      throw new Error('Unauthorized')
     }
 
     return response.data as User
   }
 
-  return useQuery('profile', getProfile, {
+  return useQuery('profile', getMyProfile, {
     onSuccess: (data) => {
-      setIsLoggedIn(true)
       setUser(data)
     },
-    onError: () => {
-      setIsLoggedIn(false)
+    onError: async () => {
+      await router.push('/')
+      setUser(null)
     },
     staleTime: Infinity,
     retry: false,
-    enabled: !user && isLoggedIn,
   })
 }

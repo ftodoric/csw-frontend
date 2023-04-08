@@ -88,7 +88,7 @@ export const SignUpForm = () => {
       </StyledForm>
 
       <AlternativeLink>
-        <Link href="/">or Login</Link>
+        <Link href="/">Already have an account? Login</Link>
       </AlternativeLink>
 
       {signUpUser.isLoading && (

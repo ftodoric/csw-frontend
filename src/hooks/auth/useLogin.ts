@@ -9,7 +9,7 @@ import { useUserContext } from './useUserContext'
 export const useLogin = () => {
   const axios = useAxios()
   const router = useRouter()
-  const { setIsLoggedIn, setUser } = useUserContext()
+  const { setUser } = useUserContext()
 
   const login = async (input: LoginFormInputs): Promise<LoginResponse> => {
     const response = await axios.post('/auth/login', input)
@@ -19,10 +19,8 @@ export const useLogin = () => {
   }
 
   return useMutation(login, {
-    onSuccess: () => {
-      setIsLoggedIn(true)
-
-      axios.get('/auth/me').then((res) => {
+    onSuccess: async () => {
+      await axios.get('/auth/me').then((res) => {
         setUser(res.data)
       })
 

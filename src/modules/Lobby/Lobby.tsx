@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 import { IconLogout } from '@components/Icons'
-import { useAxios, useLogout } from '@hooks'
+import { useAxios, useLogout, useUserContext } from '@hooks'
 import { Game } from '@types'
 
 import { GameItem } from './GameItem/GameItem'
@@ -15,22 +15,17 @@ export const Lobby = () => {
   const logout = useLogout()
   const router = useRouter()
 
-  const [username, setUsername] = useState()
+  const { user } = useUserContext()
   const [games, setGames] = useState<Game[]>()
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/auth/me').then((res) => {
-      setUsername(res.data.username)
-    })
-
-    axios.get('http://localhost:8000/api/games').then((res) => {
+    axios.get('/games').then((res) => {
       setGames(res.data)
     })
   }, [axios])
 
   const handleLogout = () => {
     logout.mutate()
-    router.push('/')
   }
 
   return (
@@ -63,7 +58,7 @@ export const Lobby = () => {
             alignItems: 'center',
           }}
         >
-          <div style={{ marginRight: '20px' }}>Hi, {username}</div>
+          <div style={{ marginRight: '20px' }}>Hi, {user!.username}</div>
           <LogoutWrapper onClick={handleLogout}>
             <IconLogout width="24px" height="24px" fill="white" />
           </LogoutWrapper>
