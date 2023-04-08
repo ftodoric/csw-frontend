@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { IconPassword, IconUser } from '@components/Icons'
+import { IconLoader, IconPassword, IconUser } from '@components/Icons'
 import { useSignUp } from '@hooks'
 import {
   AlternativeLink,
@@ -90,6 +90,12 @@ export const SignUpForm = () => {
       <AlternativeLink>
         <Link href="/">or Login</Link>
       </AlternativeLink>
+
+      {signUpUser.isLoading && (
+        <div style={{ marginTop: '20px' }}>
+          <IconLoader width="20px" fill="firebrick" />
+        </div>
+      )}
     </StyledContainer>
   )
 }

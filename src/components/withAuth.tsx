@@ -1,44 +1,14 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useQuery } from 'react-query'
 
-import { useAxios, useUserContext } from '@hooks'
-import { User } from '@types'
+import { useMyProfile, useUserContext } from '@hooks'
 
 import { Loader } from './Loader'
 
-const useProfile = () => {
-  const axios = useAxios()
-  const { user, setUser, isLoggedIn, setIsLoggedIn } = useUserContext()
-
-  const getProfile = async (): Promise<User> => {
-    const response = await axios.get('/auth/me')
-
-    if (!response || !response.data) {
-      throw new Error()
-    }
-
-    return response.data as User
-  }
-
-  return useQuery('profile', getProfile, {
-    onSuccess: (data) => {
-      setIsLoggedIn(true)
-      setUser(data)
-    },
-    onError: () => {
-      setIsLoggedIn(false)
-    },
-    staleTime: Infinity,
-    retry: false,
-    enabled: !user && isLoggedIn,
-  })
-}
-
 export const withAuth = (Component: NextPage) => {
   const AuthenticatedComponent = () => {
+    const { isLoading, isError } = useMyProfile()
     const { isLoggedIn, user } = useUserContext()
-    const { isLoading, isError } = useProfile()
     const router = useRouter()
 
     console.log(
