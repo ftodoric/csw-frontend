@@ -8,7 +8,7 @@ const nextConfig = {
     apiUrl:
       process.env.NODE_ENV === 'development'
         ? 'http://localhost:8000/api'
-        : 'https://api.instrugo.frle.net/api',
+        : 'https://subdomain.domain.com/api',
   },
 }
 

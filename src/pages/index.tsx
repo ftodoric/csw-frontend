@@ -6,7 +6,7 @@ export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>Cyber Warfare Game | Log In</title>
+        <title>CS Wargame | Log In</title>
       </Head>
 
       <LoginForm />

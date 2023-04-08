@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <meta
           name="description"
-          content="Simulate cyber warfare between two opposing sides each consisting of their own government and 4 more appropriate national entites."
+          content="Simulate a cyber security warfare situation between two opposing sides each representing a nation of their own with a government and four more appropriate entites."
         />
       </Head>
 

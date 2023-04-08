@@ -50,7 +50,7 @@ export const Lobby = () => {
           boxSizing: 'border-box',
         }}
       >
-        <div style={{ fontStyle: 'italic' }}>Cyber Warfare Game</div>
+        <div style={{ fontStyle: 'italic' }}>Cyber Security Wargame</div>
         <div
           style={{
             display: 'flex',

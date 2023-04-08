@@ -7,7 +7,7 @@ export const LobbyPage = () => {
   return (
     <>
       <Head>
-        <title>Cyber Warfare Game | Lobby</title>
+        <title>CS Wargame | Lobby</title>
       </Head>
 
       <Lobby />

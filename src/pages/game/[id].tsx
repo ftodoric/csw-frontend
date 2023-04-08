@@ -7,7 +7,7 @@ const GamePage = () => {
   return (
     <>
       <Head>
-        <title>Cyber Warfare Game | Play</title>
+        <title>CS Wargame | Play</title>
       </Head>
 
       <GameContainer />

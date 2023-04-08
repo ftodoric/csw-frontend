@@ -6,7 +6,7 @@ export default function SignUpPage() {
   return (
     <>
       <Head>
-        <title>Cyber Warfare Game | Sign Up</title>
+        <title>CS Wargame | Sign Up</title>
       </Head>
 
       <SignUpForm />
