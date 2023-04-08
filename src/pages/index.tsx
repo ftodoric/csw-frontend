@@ -2,16 +2,11 @@ import Head from 'next/head'
 
 import { LoginForm } from '@modules/LoginForm'
 
-export default function Home() {
+export default function LoginPage() {
   return (
     <>
       <Head>
-        <title>
-          Cyber Warfare | Educational game in cyber intelligence warfare
-        </title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Cyber Warfare Game | Log In</title>
       </Head>
 
       <LoginForm />
