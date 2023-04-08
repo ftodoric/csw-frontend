@@ -15,6 +15,7 @@ import {
   StyledInput,
   StyledTitle,
   SubmitButton,
+  ErrorContainer,
 } from './styles'
 
 export const LoginForm = () => {
@@ -34,46 +35,34 @@ export const LoginForm = () => {
       <StyledTitle>Login</StyledTitle>
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <div style={{ width: '200px' }}>
-          <InputContainer>
-            <IconUser width="18px" height="18px" />
-            <StyledInput
-              type="text"
-              placeholder="Username"
-              {...register('username')}
-            />
-          </InputContainer>
-          {errors.username && (
-            <div style={{ fontSize: 12, color: '#e34d4d', marginTop: 5 }}>
-              {errors.username.message}
-            </div>
-          )}
-        </div>
+        <InputContainer>
+          <IconUser width="18px" height="18px" />
+          <StyledInput
+            type="text"
+            placeholder="Username"
+            {...register('username')}
+          />
+        </InputContainer>
+        {errors.username && (
+          <ErrorContainer>{errors.username.message}</ErrorContainer>
+        )}
 
-        <div style={{ width: '200px' }}>
-          <InputContainer style={{ marginTop: 20 }}>
-            <IconPassword width="18px" height="18px" />
-            <StyledInput
-              type="password"
-              placeholder="Password"
-              {...register('password', { required: true })}
-            />
-          </InputContainer>
-          {errors.password && (
-            <div style={{ fontSize: 12, color: '#e34d4d', marginTop: 5 }}>
-              {errors.password.message}
-            </div>
-          )}
-        </div>
+        <InputContainer style={{ marginTop: 20 }}>
+          <IconPassword width="18px" height="18px" />
+          <StyledInput
+            type="password"
+            placeholder="Password"
+            {...register('password', { required: true })}
+          />
+        </InputContainer>
+        {errors.password && (
+          <ErrorContainer>{errors.password.message}</ErrorContainer>
+        )}
 
-        <SubmitButton type="submit" style={{ marginTop: 20 }} value="Login" />
+        <SubmitButton type="submit" value="Login" />
       </StyledForm>
 
-      {loginUser.isError && (
-        <div style={{ marginTop: '10px', fontSize: '14px', color: '#e34d4d' }}>
-          Wrong credentials.
-        </div>
-      )}
+      {loginUser.isError && <ErrorContainer>Wrong credentials.</ErrorContainer>}
 
       <AlternativeLink>
         <Link href="/signup">or Sign Up</Link>

@@ -7,6 +7,7 @@ import { IconLoader, IconPassword, IconUser } from '@components/Icons'
 import { useSignUp } from '@hooks'
 import {
   AlternativeLink,
+  ErrorContainer,
   InputContainer,
   StyledContainer,
   StyledForm,
@@ -36,56 +37,48 @@ export const SignUpForm = () => {
       <StyledTitle>Sign Up</StyledTitle>
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <div style={{ width: '200px' }}>
-          <InputContainer>
-            <IconUser width="18px" height="18px" />
-            <StyledInput
-              type="text"
-              placeholder="Username"
-              {...register('username')}
-            />
-          </InputContainer>
-          {errors.username && (
-            <div style={{ fontSize: 12, color: '#e34d4d', marginTop: 5 }}>
-              {errors.username.message}
-            </div>
-          )}
-        </div>
+        <InputContainer>
+          <IconUser width="18px" height="18px" />
+          <StyledInput
+            type="text"
+            placeholder="Username"
+            {...register('username')}
+          />
+        </InputContainer>
+        {errors.username && (
+          <ErrorContainer>{errors.username.message}</ErrorContainer>
+        )}
 
-        <div style={{ width: '200px' }}>
-          <InputContainer style={{ marginTop: 20 }}>
-            <IconPassword width="18px" height="18px" />
-            <StyledInput
-              type="password"
-              placeholder="Password"
-              {...register('password', { required: true })}
-            />
-          </InputContainer>
-          {errors.password && (
-            <div style={{ fontSize: 12, color: '#e34d4d', marginTop: 5 }}>
-              {errors.password.message}
-            </div>
-          )}
-        </div>
+        <InputContainer style={{ marginTop: 20 }}>
+          <IconPassword width="18px" height="18px" />
+          <StyledInput
+            type="password"
+            placeholder="Password"
+            {...register('password', { required: true })}
+          />
+        </InputContainer>
+        {errors.password && (
+          <ErrorContainer>{errors.password.message}</ErrorContainer>
+        )}
 
-        <div style={{ width: '200px' }}>
-          <InputContainer style={{ marginTop: 20 }}>
-            <IconPassword width="18px" height="18px" />
-            <StyledInput
-              type="password"
-              placeholder="Confirm password"
-              {...register('confirmPassword')}
-            />
-          </InputContainer>
-          {errors.confirmPassword && (
-            <div style={{ fontSize: 12, color: '#e34d4d', marginTop: 5 }}>
-              {errors.confirmPassword.message}
-            </div>
-          )}
-        </div>
+        <InputContainer style={{ marginTop: 20 }}>
+          <IconPassword width="18px" height="18px" />
+          <StyledInput
+            type="password"
+            placeholder="Confirm password"
+            {...register('confirmPassword')}
+          />
+        </InputContainer>
+        {errors.confirmPassword && (
+          <ErrorContainer>{errors.confirmPassword.message}</ErrorContainer>
+        )}
 
-        <SubmitButton type="submit" style={{ marginTop: 20 }} value="Sign up" />
+        <SubmitButton type="submit" value="Sign up" />
       </StyledForm>
+
+      {signUpUser.isError && (
+        <ErrorContainer>Username already exists.</ErrorContainer>
+      )}
 
       <AlternativeLink>
         <Link href="/">Already have an account? Login</Link>

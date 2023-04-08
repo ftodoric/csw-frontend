@@ -22,6 +22,12 @@ export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 200px;
+
+  > div {
+    width: 100%;
+    box-sizing: border-box;
+  }
 `
 
 export const InputContainer = styled.div`
@@ -40,6 +46,12 @@ export const StyledInput = styled.input`
   }
 `
 
+export const ErrorContainer = styled.div`
+  margin-top: 5px;
+  font-size: 12px;
+  color: #e34d4d;
+`
+
 export const SubmitButton = styled.input`
   background-color: firebrick;
   color: #f0f0f0;
@@ -49,6 +61,7 @@ export const SubmitButton = styled.input`
   text-transform: uppercase;
   font-weight: bold;
   width: 100%;
+  margin-top: 20px;
 
   :hover {
     cursor: pointer;
