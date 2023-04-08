@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import React, { createContext, useMemo } from 'react'
 
 import Axios, { AxiosInstance } from 'axios'
+
 import { useLogout, useUserContext } from '@hooks'
 
 export const AxiosContext = createContext<AxiosInstance>(

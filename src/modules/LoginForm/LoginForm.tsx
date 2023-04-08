@@ -1,6 +1,12 @@
+import Link from 'next/link'
+import { useForm } from 'react-hook-form'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+
+import { IconPassword, IconUser } from '@components/Icons'
 import { useLogin } from '@hooks'
 import { LoginFormInputs, loginFormSchema } from '@types'
-import { useForm } from 'react-hook-form'
+
 import {
   InputContainer,
   AlternativeLink,
@@ -10,10 +16,6 @@ import {
   StyledTitle,
   SubmitButton,
 } from './styles'
-import Image from 'next/image'
-import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
-import { IconPassword, IconUser } from '@components/Icons'
 
 export const LoginForm = () => {
   const loginUser = useLogin()

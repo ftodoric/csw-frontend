@@ -1,6 +1,8 @@
 import Image from 'next/image'
-import { CardContainer, Footer, Header, Middle } from './styles'
+
 import { EntityType } from '@types'
+
+import { CardContainer, Footer, Header, Middle } from './styles'
 
 interface EntityProps {
   type: EntityType

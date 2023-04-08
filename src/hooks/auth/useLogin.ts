@@ -2,8 +2,9 @@ import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
 
 import { useAxios } from '@hooks'
-import { useUserContext } from './useUserContext'
 import { LoginFormInputs, LoginResponse } from '@types'
+
+import { useUserContext } from './useUserContext'
 
 export const useLogin = () => {
   const axios = useAxios()
@@ -21,7 +22,7 @@ export const useLogin = () => {
     onSuccess: () => {
       setIsLoggedIn(true)
 
-      axios.get('http://localhost:8000/api/auth/me').then((res) => {
+      axios.get('/auth/me').then((res) => {
         setUser(res.data)
       })
 

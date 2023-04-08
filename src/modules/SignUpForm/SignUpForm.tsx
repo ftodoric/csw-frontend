@@ -1,6 +1,9 @@
+import Link from 'next/link'
 import { useForm } from 'react-hook-form'
+
 import { zodResolver } from '@hookform/resolvers/zod'
-import { RegisterFormInputs, registrationFormSchema } from '@types'
+
+import { IconPassword, IconUser } from '@components/Icons'
 import { useSignUp } from '@hooks'
 import {
   AlternativeLink,
@@ -11,8 +14,7 @@ import {
   StyledTitle,
   SubmitButton,
 } from '@modules/LoginForm/styles'
-import Image from 'next/image'
-import Link from 'next/link'
+import { RegisterFormInputs, registrationFormSchema } from '@types'
 
 export const SignUpForm = () => {
   const signUpUser = useSignUp()
@@ -36,12 +38,7 @@ export const SignUpForm = () => {
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <div style={{ width: '200px' }}>
           <InputContainer>
-            <Image
-              src="/images/person.svg"
-              width={18}
-              height={18}
-              alt="usernameIcon"
-            />
+            <IconUser width="18px" height="18px" />
             <StyledInput
               type="text"
               placeholder="Username"
@@ -57,12 +54,7 @@ export const SignUpForm = () => {
 
         <div style={{ width: '200px' }}>
           <InputContainer style={{ marginTop: 20 }}>
-            <Image
-              src="/images/lock.svg"
-              width={18}
-              height={18}
-              alt="passwordIcon"
-            />
+            <IconPassword width="18px" height="18px" />
             <StyledInput
               type="password"
               placeholder="Password"
@@ -78,12 +70,7 @@ export const SignUpForm = () => {
 
         <div style={{ width: '200px' }}>
           <InputContainer style={{ marginTop: 20 }}>
-            <Image
-              src="/images/lock.svg"
-              width={18}
-              height={18}
-              alt="passwordIcon"
-            />
+            <IconPassword width="18px" height="18px" />
             <StyledInput
               type="password"
               placeholder="Confirm password"

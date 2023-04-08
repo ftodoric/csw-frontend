@@ -1,16 +1,12 @@
-import { IconHome, IconPlay } from '@components/Icons'
-import { useAxios, useUserContext } from '@hooks'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import {
-  Battleground,
-  BlueTeamBackground,
-  Header,
-  Navigation,
-  RedTeamBackground,
-} from './styles'
-import { EntityContainer } from './Entity/EntityContainer'
+
+import { IconHome, IconPlay } from '@components/Icons'
+import { useAxios, useUserContext } from '@hooks'
 import { EntityType } from '@types'
+
+import { EntityContainer } from './Entity/EntityContainer'
+import { Battleground, Header, Navigation } from './styles'
 
 export const GameContainer = () => {
   const router = useRouter()

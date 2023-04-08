@@ -1,5 +1,7 @@
-import { Game } from '@types'
 import Link from 'next/link'
+
+import { Game } from '@types'
+
 import { ItemWrapper } from './styles'
 
 export const GameItem = ({ game }: { game: Game }) => {

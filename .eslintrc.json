@@ -1,3 +1,26 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "plugins": ["eslint-plugin-import"],
+  "rules": {
+    "import/order": [
+      "warn",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling", "index"]
+        ],
+        "newlines-between": "always",
+        "pathGroups": [
+          { "pattern": "next*", "group": "builtin" },
+          { "pattern": "next/*", "group": "builtin" },
+          { "pattern": "react*", "group": "builtin" },
+          { "pattern": "react/*", "group": "builtin" }
+        ],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "pathGroupsExcludedImportTypes": ["builtin"]
+      }
+    ]
+  }
 }

@@ -1,4 +1,5 @@
 import Head from 'next/head'
+
 import { LoginForm } from '@modules/LoginForm'
 
 export default function Home() {

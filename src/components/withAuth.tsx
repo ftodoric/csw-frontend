@@ -1,8 +1,10 @@
 import { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useQuery } from 'react-query'
+
 import { useAxios, useUserContext } from '@hooks'
 import { User } from '@types'
-import { useQuery } from 'react-query'
-import { useRouter } from 'next/router'
+
 import { Loader } from './Loader'
 
 const useProfile = () => {

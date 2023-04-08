@@ -1,12 +1,14 @@
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+
 import { IconLogout } from '@components/Icons'
 import { useAxios, useLogout } from '@hooks'
-import { useEffect, useState } from 'react'
-import { CreateWrapper, LogoutWrapper } from './styles'
-import { useRouter } from 'next/router'
 import { Game } from '@types'
+
 import { GameItem } from './GameItem/GameItem'
-import Link from 'next/link'
 import { ItemWrapper } from './GameItem/styles'
+import { CreateWrapper, LogoutWrapper } from './styles'
 
 export const Lobby = () => {
   const axios = useAxios()
