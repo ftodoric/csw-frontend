@@ -69,6 +69,12 @@ export const LoginForm = () => {
         <SubmitButton type="submit" style={{ marginTop: 20 }} value="Login" />
       </StyledForm>
 
+      {loginUser.isError && (
+        <div style={{ marginTop: '10px', fontSize: '14px', color: '#e34d4d' }}>
+          Wrong credentials.
+        </div>
+      )}
+
       <AlternativeLink>
         <Link href="/signup">or Sign Up</Link>
       </AlternativeLink>
