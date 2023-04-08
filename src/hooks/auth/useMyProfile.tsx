@@ -25,10 +25,6 @@ export const useMyProfile = () => {
     onSuccess: (data) => {
       setUser(data)
     },
-    onError: async () => {
-      await router.push('/')
-      setUser(null)
-    },
     staleTime: Infinity,
     retry: false,
   })
