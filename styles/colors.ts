@@ -1,2 +1,5 @@
 export const primaryColor = 'firebrick'
-export const primaryColorHover = 'rgb(193, 64, 64)'
+export const primaryHoverColor = 'rgb(193, 64, 64)'
+export const errorRedColor = '#e34d4d'
+export const blueTeamColor = 'rgba(48, 141, 193)'
+export const redTeamColor = 'rgba(190, 64, 55)'

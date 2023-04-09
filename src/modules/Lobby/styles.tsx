@@ -1,4 +1,4 @@
-import { primaryColor, primaryColorHover } from '@colors'
+import { primaryColor, primaryHoverColor } from '@colors'
 import styled from 'styled-components'
 
 export const LobbyContainer = styled.div`
@@ -46,6 +46,6 @@ export const CreateWrapper = styled.div`
 
   :hover {
     cursor: pointer;
-    background-color: ${primaryColorHover};
+    background-color: ${primaryHoverColor};
   }
 `

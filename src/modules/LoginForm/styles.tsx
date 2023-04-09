@@ -1,4 +1,4 @@
-import { primaryColor } from '@colors'
+import { errorRedColor, primaryColor } from '@colors'
 import styled from 'styled-components'
 
 export const StyledContainer = styled.div`
@@ -50,7 +50,7 @@ export const StyledInput = styled.input`
 export const ErrorContainer = styled.div`
   margin-top: 5px;
   font-size: 12px;
-  color: #e34d4d;
+  color: ${errorRedColor};
 `
 
 export const SubmitButton = styled.input`

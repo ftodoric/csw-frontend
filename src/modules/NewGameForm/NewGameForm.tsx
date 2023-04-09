@@ -7,6 +7,7 @@ import { IconHome, IconLogout } from '@components/Icons'
 import { useLogout, useUserContext } from '@hooks'
 import { useAllUsers } from '@hooks/auth/useAllUsers'
 import * as S from '@modules/Lobby/styles'
+import { TeamSide } from '@types'
 
 import { NewGameFormType, newGameFormSchema } from './interface'
 import { FormContainer, TeamsContainer } from './styles'
@@ -58,24 +59,37 @@ export const NewGameForm = () => {
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <TeamsContainer>
           <TeamForm
-            teamName="Blue Team"
+            side={TeamSide.Blue}
             users={users}
             formRegister={register}
           />
 
-          <TeamForm teamName="Red Team" users={users} formRegister={register} />
+          <TeamForm side={TeamSide.Red} users={users} formRegister={register} />
         </TeamsContainer>
 
-        <textarea
+        <div
           style={{
-            marginTop: 20,
-            width: '90%',
-            height: '100px',
-            resize: 'vertical',
+            width: '100%',
+            padding: '0 10px',
+            boxSizing: 'border-box',
+            marginTop: 50,
           }}
         >
-          nesto
-        </textarea>
+          <textarea
+            placeholder="Enter description here."
+            style={{
+              width: '100%',
+              height: '100px',
+              resize: 'vertical',
+              padding: '10px',
+              boxSizing: 'inherit',
+              borderColor: '#cacaca',
+              borderRadius: '4px',
+            }}
+          >
+            nesto
+          </textarea>
+        </div>
 
         <input type="submit" value="Create" style={{ marginTop: 20 }} />
       </FormContainer>
