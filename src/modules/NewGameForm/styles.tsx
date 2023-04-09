@@ -15,6 +15,15 @@ export const TeamsContainer = styled.div`
   justify-content: space-around;
 `
 
+export const VersusLabel = styled.div`
+  position: absolute;
+  transform: translate(0, -50%);
+  background-color: white;
+  padding: 0 10px;
+  color: grey;
+  font-style: italic;
+`
+
 export const ErrorContainer = styled.div`
   color: ${errorRedColor};
   margin-top: 10px;

@@ -1,6 +1,6 @@
 import { errorRedColor } from '@colors'
 
-import { User } from '@types'
+import { TeamSide, User } from '@types'
 
 import * as S from './styles'
 
@@ -9,6 +9,7 @@ interface PlayerSelectProps {
   formRegister: any
   inputName: string
   users?: User[]
+  side: TeamSide
 }
 
 export const PlayerSelect = ({
@@ -16,13 +17,24 @@ export const PlayerSelect = ({
   formRegister,
   inputName,
   users,
+  side,
 }: PlayerSelectProps) => {
+  const isBlueTeam = side === TeamSide.Blue
+
   return (
     <S.SelectContainer>
-      <S.SelectLabel>
-        {entityName} Player <span style={{ color: errorRedColor }}>*</span>
+      <S.SelectLabel
+        style={{
+          justifyContent: isBlueTeam ? 'flex-start' : 'flex-end',
+        }}
+      >
+        {entityName} Player
+        <span style={{ color: errorRedColor, marginLeft: '2px' }}>*</span>
       </S.SelectLabel>
-      <S.StyledSelect {...formRegister(inputName)}>
+      <S.StyledSelect
+        {...formRegister(inputName)}
+        style={{ textAlign: isBlueTeam ? 'left' : 'right' }}
+      >
         <option value="" hidden>
           Select player
         </option>

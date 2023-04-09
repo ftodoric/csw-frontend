@@ -15,6 +15,7 @@ import {
   ErrorContainer,
   SubmitButton,
   TeamsContainer,
+  VersusLabel,
 } from './styles'
 import { TeamForm } from './TeamForm'
 
@@ -87,6 +88,8 @@ export const NewGameForm = () => {
           />
 
           <TeamForm side={TeamSide.Red} users={users} formRegister={register} />
+
+          <VersusLabel>VS</VersusLabel>
         </TeamsContainer>
 
         <GameDescContainer>

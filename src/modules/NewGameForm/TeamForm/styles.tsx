@@ -11,12 +11,12 @@ export const Title = styled.div`
   padding-bottom: 5px;
   position: absolute;
   background-color: white;
-  padding-right: 10px;
   transform: translate(0, -50%);
 `
 
 export const TitleRule = styled.div`
   border-bottom: solid 1px #dedede;
+  width: 100%;
 `
 
 export const TeamNameInput = styled.input`
@@ -24,6 +24,8 @@ export const TeamNameInput = styled.input`
   padding: 10px;
   border-radius: 5px;
   border: solid 1px #c5c5c5;
+  width: 90%;
+  box-sizing: border-box;
 
   :focus {
     outline: none;
@@ -36,6 +38,7 @@ export const SelectContainer = styled.div`
 `
 export const SelectLabel = styled.div`
   color: #5f5f5f;
+  display: flex;
 `
 
 export const StyledSelect = styled.select`

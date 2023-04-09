@@ -19,10 +19,14 @@ export const TeamForm: React.FC<TeamFormProps> = ({
   const isBlueTeam = side === TeamSide.Blue
 
   return (
-    <S.TeamFormContainer>
+    <S.TeamFormContainer
+      style={{ alignItems: isBlueTeam ? 'flex-start' : 'flex-end' }}
+    >
       <S.Title
         style={{
           color: isBlueTeam ? blueTeamColor : redTeamColor,
+          paddingRight: isBlueTeam ? 10 : 0,
+          paddingLeft: isBlueTeam ? 0 : 10,
         }}
       >
         {isBlueTeam ? 'Blue Team' : 'Red Team'}
@@ -32,6 +36,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
       <S.TeamNameInput
         placeholder="Team name"
         {...formRegister(isBlueTeam ? 'blueTeamName' : 'redTeamName')}
+        style={{ textAlign: !isBlueTeam ? 'left' : 'right' }}
       />
 
       <PlayerSelect
@@ -39,6 +44,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
         formRegister={formRegister}
         inputName={isBlueTeam ? 'electoratePlayer' : 'onlineTrollsPlayer'}
         users={users}
+        side={side}
       />
 
       <PlayerSelect
@@ -46,6 +52,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
         formRegister={formRegister}
         inputName={isBlueTeam ? 'ukPlcPlayer' : 'energeticBearPlayer'}
         users={users}
+        side={side}
       />
 
       <PlayerSelect
@@ -55,6 +62,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
           isBlueTeam ? 'ukGovernmentPlayer' : 'russianGovernmentPlayer'
         }
         users={users}
+        side={side}
       />
 
       <PlayerSelect
@@ -62,6 +70,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
         formRegister={formRegister}
         inputName={isBlueTeam ? 'ukEnergyPlayer' : 'rosenergoatomPlayer'}
         users={users}
+        side={side}
       />
 
       <PlayerSelect
@@ -69,6 +78,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
         formRegister={formRegister}
         inputName={isBlueTeam ? 'gchqPlayer' : 'scsPlayer'}
         users={users}
+        side={side}
       />
     </S.TeamFormContainer>
   )
