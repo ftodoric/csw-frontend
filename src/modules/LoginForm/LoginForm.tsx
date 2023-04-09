@@ -55,14 +55,16 @@ export const LoginForm = () => {
       </S.StyledForm>
 
       {loginUser.isError && (
-        <S.ErrorContainer>Wrong credentials.</S.ErrorContainer>
+        <S.ErrorContainer style={{ marginTop: 10 }}>
+          Wrong credentials.
+        </S.ErrorContainer>
       )}
 
       <S.AlternativeLink>
         <Link href="/signup">or Sign Up</Link>
       </S.AlternativeLink>
 
-      {loginUser.isLoading && (
+      {(loginUser.isLoading || loginUser.isSuccess) && (
         <div style={{ marginTop: '20px' }}>
           <IconLoader width="20px" fill={primaryColor} />
         </div>

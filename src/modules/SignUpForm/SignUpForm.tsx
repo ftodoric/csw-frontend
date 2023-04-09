@@ -69,7 +69,9 @@ export const SignUpForm = () => {
       </S.StyledForm>
 
       {signUpUser.isError && (
-        <S.ErrorContainer>Username already exists.</S.ErrorContainer>
+        <S.ErrorContainer style={{ marginTop: 10 }}>
+          Username already exists.
+        </S.ErrorContainer>
       )}
 
       <S.AlternativeLink>
