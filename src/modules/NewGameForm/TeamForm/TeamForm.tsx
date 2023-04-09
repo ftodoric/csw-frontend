@@ -29,7 +29,10 @@ export const TeamForm: React.FC<TeamFormProps> = ({
       </S.Title>
       <S.TitleRule />
 
-      <S.TeamNameInput placeholder="Team name" />
+      <S.TeamNameInput
+        placeholder="Team name"
+        {...formRegister(isBlueTeam ? 'blueTeamName' : 'redTeamName')}
+      />
 
       <PlayerSelect
         entityName={isBlueTeam ? 'Electorate' : 'Online Trolls'}

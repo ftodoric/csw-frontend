@@ -4,13 +4,18 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { IconHome, IconLogout } from '@components/Icons'
-import { useLogout, useUserContext } from '@hooks'
+import { useCreateGame, useLogout, useUserContext } from '@hooks'
 import { useAllUsers } from '@hooks/auth/useAllUsers'
 import * as S from '@modules/Lobby/styles'
-import { TeamSide } from '@types'
+import { newGameFormSchema, NewGameFormType, TeamSide } from '@types'
 
-import { NewGameFormType, newGameFormSchema } from './interface'
-import { FormContainer, TeamsContainer } from './styles'
+import {
+  FormContainer,
+  GameDescContainer,
+  ErrorContainer,
+  SubmitButton,
+  TeamsContainer,
+} from './styles'
 import { TeamForm } from './TeamForm'
 
 export const NewGameForm = () => {
@@ -18,23 +23,40 @@ export const NewGameForm = () => {
   const logout = useLogout()
   const { data: users } = useAllUsers()
 
+  const createGame = useCreateGame()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<NewGameFormType>({ resolver: zodResolver(newGameFormSchema) })
 
-  const onSubmit = async (data: NewGameFormType) => {
+  const onSubmit = (data: NewGameFormType) => {
     console.log(
       '%clog | new game submit\n',
       'color: #0e8dbf; margin-bottom: 5px;',
       data
     )
+    createGame.mutate(data)
   }
 
   const handleLogout = () => {
     logout.mutate()
   }
+
+  const isTeamNameError = errors.blueTeamName || errors.redTeamName
+
+  const isPlayersError =
+    errors.electoratePlayer ||
+    errors.ukPlcPlayer ||
+    errors.ukGovernmentPlayer ||
+    errors.ukEnergyPlayer ||
+    errors.gchqPlayer ||
+    errors.onlineTrollsPlayer ||
+    errors.energeticBearPlayer ||
+    errors.russianGovernmentPlayer ||
+    errors.rosenergoatomPlayer ||
+    errors.scsPlayer
 
   return (
     <S.LobbyContainer>
@@ -67,32 +89,26 @@ export const NewGameForm = () => {
           <TeamForm side={TeamSide.Red} users={users} formRegister={register} />
         </TeamsContainer>
 
-        <div
-          style={{
-            width: '100%',
-            padding: '0 10px',
-            boxSizing: 'border-box',
-            marginTop: 50,
-          }}
-        >
+        <GameDescContainer>
           <textarea
             placeholder="Enter description here."
-            style={{
-              width: '100%',
-              height: '100px',
-              resize: 'vertical',
-              padding: '10px',
-              boxSizing: 'inherit',
-              borderColor: '#cacaca',
-              borderRadius: '4px',
-            }}
-          >
-            nesto
-          </textarea>
-        </div>
+            {...register('description')}
+          />
+        </GameDescContainer>
 
-        <input type="submit" value="Create" style={{ marginTop: 20 }} />
+        <SubmitButton type="submit" value="Create" />
+
+        {isTeamNameError && (
+          <ErrorContainer>Team names are required.</ErrorContainer>
+        )}
+
+        {isPlayersError && (
+          <ErrorContainer>All players must be assigned.</ErrorContainer>
+        )}
       </FormContainer>
+
+      {/* Bottom padding */}
+      <div style={{ marginTop: '50px' }}></div>
     </S.LobbyContainer>
   )
 }
