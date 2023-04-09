@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 
+import { primaryColor } from '@colors'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { IconLoader, IconPassword, IconUser } from '@components/Icons'
@@ -77,7 +78,7 @@ export const SignUpForm = () => {
 
       {signUpUser.isLoading && (
         <div style={{ marginTop: '20px' }}>
-          <IconLoader width="20px" fill="firebrick" />
+          <IconLoader width="20px" fill={primaryColor} />
         </div>
       )}
     </S.StyledContainer>

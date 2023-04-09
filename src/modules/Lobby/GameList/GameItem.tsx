@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import { primaryColor } from '@colors'
+
 import { IconClose, IconInfo, IconOpen } from '@components/Icons'
 import { Game } from '@types'
 
@@ -46,7 +48,7 @@ export const GameItem = ({
         <div>{game.description ? game.description : 'No description.'}</div>
 
         <S.DescriptionClose onClick={() => handleDescriptionClose(index)}>
-          <IconClose width="20px" fill="firebrick" />
+          <IconClose width="20px" fill={primaryColor} />
         </S.DescriptionClose>
       </S.DescriptionContainer>
     </>

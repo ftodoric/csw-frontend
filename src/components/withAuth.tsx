@@ -11,12 +11,6 @@ export const withAuth = (Component: NextPage) => {
     const { user } = useUserContext()
     const router = useRouter()
 
-    /* console.log(
-      '%clog | withAuth\n',
-      'color: #0e8dbf; margin-bottom: 5px;',
-      user
-    ) */
-
     if (isLoading) {
       return <Loader />
     }

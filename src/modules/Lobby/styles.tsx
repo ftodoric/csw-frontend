@@ -1,3 +1,4 @@
+import { primaryColor, primaryColorHover } from '@colors'
 import styled from 'styled-components'
 
 export const LobbyContainer = styled.div`
@@ -13,7 +14,7 @@ export const Navbar = styled.div`
   max-width: 600px;
   width: 100%;
   height: 50px;
-  background-color: firebrick;
+  background-color: ${primaryColor};
   color: white;
   padding: 0 20px;
   box-sizing: border-box;
@@ -38,13 +39,13 @@ export const NavLinkContainer = styled.div`
 `
 
 export const CreateWrapper = styled.div`
-  background-color: firebrick;
+  background-color: ${primaryColor};
   color: white;
   padding: 10px 20px;
   border-radius: 20px;
 
   :hover {
     cursor: pointer;
-    background-color: rgb(193, 64, 64);
+    background-color: ${primaryColorHover};
   }
 `

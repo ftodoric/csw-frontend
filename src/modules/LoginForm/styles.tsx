@@ -1,3 +1,4 @@
+import { primaryColor } from '@colors'
 import styled from 'styled-components'
 
 export const StyledContainer = styled.div`
@@ -14,7 +15,7 @@ export const StyledTitle = styled.div`
   justify-content: center;
   font-size: 20px;
   font-weight: bold;
-  color: firebrick;
+  color: ${primaryColor};
 `
 
 export const StyledForm = styled.form`
@@ -53,7 +54,7 @@ export const ErrorContainer = styled.div`
 `
 
 export const SubmitButton = styled.input`
-  background-color: firebrick;
+  background-color: ${primaryColor};
   color: #f0f0f0;
   border: none;
   padding: 7px 10px;
@@ -73,7 +74,7 @@ export const AlternativeLink = styled.div`
   font-size: 12px;
 
   :hover {
-    color: firebrick;
+    color: ${primaryColor};
     text-decoration: underline;
   }
 `
