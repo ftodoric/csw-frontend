@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { IconLogout } from '@components/Icons'
+import { IconHome, IconLogout } from '@components/Icons'
 import { useGames, useLogout, useUserContext } from '@hooks'
 
 import { GameList } from './GameList/GameList'
@@ -24,9 +24,15 @@ export const Lobby = () => {
         <S.NavbarRight>
           <div>Hi, {user!.username}</div>
 
-          <S.LogoutWrapper onClick={handleLogout}>
+          <S.NavLinkContainer>
+            <Link href="/lobby">
+              <IconHome width="24px" height="24px" fill="white" />
+            </Link>
+          </S.NavLinkContainer>
+
+          <S.NavLinkContainer onClick={handleLogout}>
             <IconLogout width="24px" height="24px" fill="white" />
-          </S.LogoutWrapper>
+          </S.NavLinkContainer>
         </S.NavbarRight>
       </S.Navbar>
 
@@ -37,7 +43,7 @@ export const Lobby = () => {
           marginTop: 80,
         }}
       >
-        <Link href="/create">
+        <Link href="/new">
           <S.CreateWrapper>Create a new game</S.CreateWrapper>
         </Link>
       </div>

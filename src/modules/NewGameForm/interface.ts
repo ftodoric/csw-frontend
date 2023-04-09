@@ -2,18 +2,18 @@ import { z } from 'zod'
 
 export const newGameFormSchema = z.object({
   blueTeamName: z.string().nonempty(),
-  blueGovernmentPlayer: z.string().nonempty(),
-  ukPlcPlayer: z.string(),
-  electoratePlayer: z.string(),
-  gchqPlayer: z.string(),
-  ukEnergyPlayer: z.string(),
+  electoratePlayer: z.string().nonempty(),
+  ukPlcPlayer: z.string().nonempty(),
+  ukGovernmentPlayer: z.string().nonempty(),
+  ukEnergyPlayer: z.string().nonempty(),
+  gchqPlayer: z.string().nonempty(),
 
   redTeamName: z.string().nonempty(),
-  redGovernmentPlayer: z.string(),
+  onlineTrollsPlayer: z.string().nonempty(),
   energeticBearPlayer: z.string().nonempty(),
-  onlineTrollsPlayer: z.string(),
-  scsPlayer: z.string(),
-  rosenergoatomPlayer: z.string(),
+  russianGovernmentPlayer: z.string().nonempty(),
+  rosenergoatomPlayer: z.string().nonempty(),
+  scsPlayer: z.string().nonempty(),
 
   description: z.string(),
 })

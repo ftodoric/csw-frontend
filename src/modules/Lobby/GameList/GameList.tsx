@@ -37,7 +37,7 @@ export const GameList = ({ gameList }: { gameList: Game[] | undefined }) => {
             })}
           </>
         ) : (
-          <S.EmptyList>You havent play any games.</S.EmptyList>
+          <S.EmptyList>{`You don't have any games.`}</S.EmptyList>
         )
       ) : (
         <Loader />

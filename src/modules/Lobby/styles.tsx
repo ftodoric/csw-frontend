@@ -29,7 +29,7 @@ export const NavbarRight = styled.div`
   align-items: center;
 `
 
-export const LogoutWrapper = styled.div`
+export const NavLinkContainer = styled.div`
   margin-left: 20px;
 
   &:hover {
