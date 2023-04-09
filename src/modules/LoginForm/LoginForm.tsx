@@ -7,16 +7,7 @@ import { IconLoader, IconPassword, IconUser } from '@components/Icons'
 import { useLogin } from '@hooks'
 import { LoginFormInputs, loginFormSchema } from '@types'
 
-import {
-  InputContainer,
-  AlternativeLink,
-  StyledContainer,
-  StyledForm,
-  StyledInput,
-  StyledTitle,
-  SubmitButton,
-  ErrorContainer,
-} from './styles'
+import * as S from './styles'
 
 export const LoginForm = () => {
   const loginUser = useLogin()
@@ -31,48 +22,50 @@ export const LoginForm = () => {
   }
 
   return (
-    <StyledContainer>
-      <StyledTitle>Login</StyledTitle>
+    <S.StyledContainer>
+      <S.StyledTitle>Login</S.StyledTitle>
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <InputContainer>
+      <S.StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <S.InputContainer>
           <IconUser width="18px" height="18px" />
-          <StyledInput
+          <S.StyledInput
             type="text"
             placeholder="Username"
             {...register('username')}
           />
-        </InputContainer>
+        </S.InputContainer>
         {errors.username && (
-          <ErrorContainer>{errors.username.message}</ErrorContainer>
+          <S.ErrorContainer>{errors.username.message}</S.ErrorContainer>
         )}
 
-        <InputContainer style={{ marginTop: 20 }}>
+        <S.InputContainer style={{ marginTop: 20 }}>
           <IconPassword width="18px" height="18px" />
-          <StyledInput
+          <S.StyledInput
             type="password"
             placeholder="Password"
             {...register('password', { required: true })}
           />
-        </InputContainer>
+        </S.InputContainer>
         {errors.password && (
-          <ErrorContainer>{errors.password.message}</ErrorContainer>
+          <S.ErrorContainer>{errors.password.message}</S.ErrorContainer>
         )}
 
-        <SubmitButton type="submit" value="Login" />
-      </StyledForm>
+        <S.SubmitButton type="submit" value="Login" />
+      </S.StyledForm>
 
-      {loginUser.isError && <ErrorContainer>Wrong credentials.</ErrorContainer>}
+      {loginUser.isError && (
+        <S.ErrorContainer>Wrong credentials.</S.ErrorContainer>
+      )}
 
-      <AlternativeLink>
+      <S.AlternativeLink>
         <Link href="/signup">or Sign Up</Link>
-      </AlternativeLink>
+      </S.AlternativeLink>
 
       {loginUser.isLoading && (
         <div style={{ marginTop: '20px' }}>
           <IconLoader width="20px" fill="firebrick" />
         </div>
       )}
-    </StyledContainer>
+    </S.StyledContainer>
   )
 }

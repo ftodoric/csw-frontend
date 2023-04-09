@@ -5,16 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { IconLoader, IconPassword, IconUser } from '@components/Icons'
 import { useSignUp } from '@hooks'
-import {
-  AlternativeLink,
-  ErrorContainer,
-  InputContainer,
-  StyledContainer,
-  StyledForm,
-  StyledInput,
-  StyledTitle,
-  SubmitButton,
-} from '@modules/LoginForm/styles'
+import * as S from '@modules/LoginForm/styles'
 import { RegisterFormInputs, registrationFormSchema } from '@types'
 
 export const SignUpForm = () => {
@@ -33,62 +24,62 @@ export const SignUpForm = () => {
   }
 
   return (
-    <StyledContainer>
-      <StyledTitle>Sign Up</StyledTitle>
+    <S.StyledContainer>
+      <S.StyledTitle>Sign Up</S.StyledTitle>
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <InputContainer>
+      <S.StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <S.InputContainer>
           <IconUser width="18px" height="18px" />
-          <StyledInput
+          <S.StyledInput
             type="text"
             placeholder="Username"
             {...register('username')}
           />
-        </InputContainer>
+        </S.InputContainer>
         {errors.username && (
-          <ErrorContainer>{errors.username.message}</ErrorContainer>
+          <S.ErrorContainer>{errors.username.message}</S.ErrorContainer>
         )}
 
-        <InputContainer style={{ marginTop: 20 }}>
+        <S.InputContainer style={{ marginTop: 20 }}>
           <IconPassword width="18px" height="18px" />
-          <StyledInput
+          <S.StyledInput
             type="password"
             placeholder="Password"
             {...register('password', { required: true })}
           />
-        </InputContainer>
+        </S.InputContainer>
         {errors.password && (
-          <ErrorContainer>{errors.password.message}</ErrorContainer>
+          <S.ErrorContainer>{errors.password.message}</S.ErrorContainer>
         )}
 
-        <InputContainer style={{ marginTop: 20 }}>
+        <S.InputContainer style={{ marginTop: 20 }}>
           <IconPassword width="18px" height="18px" />
-          <StyledInput
+          <S.StyledInput
             type="password"
             placeholder="Confirm password"
             {...register('confirmPassword')}
           />
-        </InputContainer>
+        </S.InputContainer>
         {errors.confirmPassword && (
-          <ErrorContainer>{errors.confirmPassword.message}</ErrorContainer>
+          <S.ErrorContainer>{errors.confirmPassword.message}</S.ErrorContainer>
         )}
 
-        <SubmitButton type="submit" value="Sign up" />
-      </StyledForm>
+        <S.SubmitButton type="submit" value="Sign up" />
+      </S.StyledForm>
 
       {signUpUser.isError && (
-        <ErrorContainer>Username already exists.</ErrorContainer>
+        <S.ErrorContainer>Username already exists.</S.ErrorContainer>
       )}
 
-      <AlternativeLink>
+      <S.AlternativeLink>
         <Link href="/">Already have an account? Login</Link>
-      </AlternativeLink>
+      </S.AlternativeLink>
 
       {signUpUser.isLoading && (
         <div style={{ marginTop: '20px' }}>
           <IconLoader width="20px" fill="firebrick" />
         </div>
       )}
-    </StyledContainer>
+    </S.StyledContainer>
   )
 }

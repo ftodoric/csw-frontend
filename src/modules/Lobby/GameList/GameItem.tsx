@@ -1,0 +1,54 @@
+import Link from 'next/link'
+
+import { IconClose, IconInfo, IconOpen } from '@components/Icons'
+import { Game } from '@types'
+
+import * as S from './styles'
+import { handleDescriptionClick, handleDescriptionClose } from './utils'
+
+export const GameItem = ({
+  game,
+  index,
+  listSize,
+}: {
+  game: Game
+  index: number
+  listSize: number
+}) => {
+  return (
+    <>
+      <S.ItemWrapper key={game.id}>
+        <div id="game-index">#{index + 1}</div>
+
+        <div>{game.blueTeam.name}</div>
+
+        <div>{game.redTeam.name}</div>
+
+        <div>{game.winner ? game.winner.name : 'In progress'}</div>
+
+        <div id={`game-desc`}>
+          <div
+            id="listener"
+            onClick={(event) => handleDescriptionClick(event, index, listSize)}
+          >
+            <IconInfo width="20px" height="20px" />
+          </div>
+        </div>
+
+        <div id="game-link">
+          <Link href={`/game/${game.id}`}>
+            <IconOpen width="20px" />
+          </Link>
+        </div>
+      </S.ItemWrapper>
+
+      <S.DescriptionContainer id={`game-desc-text-${index}`}>
+        <div>{game.description ? game.description : 'No description.'}</div>
+
+        <S.DescriptionClose onClick={() => handleDescriptionClose(index)}>
+          <IconClose width="20px" fill="firebrick" />
+        </S.DescriptionClose>
+      </S.DescriptionContainer>
+    </>
+  )
+}
