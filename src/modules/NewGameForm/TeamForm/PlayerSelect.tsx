@@ -23,6 +23,9 @@ export const PlayerSelect = ({
         {entityName} Player <span style={{ color: errorRedColor }}>*</span>
       </S.SelectLabel>
       <S.StyledSelect {...formRegister(inputName)}>
+        <option value="" hidden>
+          Select player
+        </option>
         {users?.map((user) => {
           return (
             <option key={user.id} value={user.id}>

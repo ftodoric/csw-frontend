@@ -7,7 +7,7 @@ import { IconHome, IconLogout } from '@components/Icons'
 import { useCreateGame, useLogout, useUserContext } from '@hooks'
 import { useAllUsers } from '@hooks/auth/useAllUsers'
 import * as S from '@modules/Lobby/styles'
-import { newGameFormSchema, NewGameFormType, TeamSide } from '@types'
+import { newGameFormSchema, NewGameFormType, TeamSide, User } from '@types'
 
 import {
   FormContainer,
