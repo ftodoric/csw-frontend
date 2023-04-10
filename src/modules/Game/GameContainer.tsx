@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react'
 
 import { IconHome, IconPlay } from '@components/Icons'
 import { useAxios, useUserContext } from '@hooks'
-import { EntityType } from '@types'
+import { EntityType, TeamSide } from '@types'
 
+import { SideBackground } from './Battleground'
 import { EntityContainer } from './Entity/EntityContainer'
-import { Battleground, Header, Navigation } from './styles'
+import * as S from './styles'
 
 export const GameContainer = () => {
   const router = useRouter()
@@ -32,91 +33,25 @@ export const GameContainer = () => {
 
   return (
     <>
-      <Header>
-        <div
-          style={{
-            width: '250px',
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
-          <div
-            style={{
-              borderRight: 'solid 2px white',
-              padding: '0 20px',
-              marginRight: '20px',
-            }}
-          >
-            {user.user?.username}
-          </div>
+      <S.Header>
+        <S.UserNav>
+          <S.Username>{user.user?.username}</S.Username>
 
           <IconHome width="26px" fill="#fff" />
 
-          <div>{isOwner && <IconPlay width="30px" fill="white" />}</div>
-        </div>
+          <div style={{ marginLeft: 10 }}>
+            {isOwner && <IconPlay width="32px" fill="white" />}
+          </div>
+        </S.UserNav>
 
-        <div
-          style={{
-            width: '250px',
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <div>{`Red Team's Turn`}</div>
-          <div style={{ marginTop: '5px' }}>{`UK Government's Turn`}</div>
-        </div>
+        <S.Counter>2:14</S.Counter>
 
-        <div
-          style={{
-            width: '250px',
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            paddingRight: '20px',
-          }}
-        >
-          January, 2020
-        </div>
-      </Header>
+        <S.GamePeriod>January, 2020</S.GamePeriod>
+      </S.Header>
 
-      <Battleground>
-        <svg
-          width="100%"
-          height="50%"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-        >
-          <path d="M0 0 L100 0 L50 90 z" fill="rgba(190, 64, 55, 0.4)" />
-          <path
-            d="M100 0 L50 90 L0 0"
-            stroke="firebrick"
-            strokeWidth="0.1px"
-            strokeDasharray="0.5 0.5"
-            fill="none"
-          />
-        </svg>
-
-        <svg
-          width="100%"
-          height="50%"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-        >
-          <path d="M0 100 L100 100 L50 10 z" fill="rgba(48, 141, 193, 0.18)" />
-          <path
-            d="M100 100 L50 10 L0 100"
-            stroke="#222281"
-            strokeWidth="0.1px"
-            strokeDasharray="0.5 0.5"
-            fill="none"
-          />
-        </svg>
+      <S.Battleground>
+        <SideBackground side={TeamSide.Red} />
+        <SideBackground side={TeamSide.Blue} mySide />
 
         <EntityContainer
           type={EntityType.People}
@@ -227,9 +162,9 @@ export const GameContainer = () => {
           resources={10}
           vitality={4}
         />
-      </Battleground>
+      </S.Battleground>
 
-      <Navigation></Navigation>
+      <S.Navigation></S.Navigation>
     </>
   )
 }

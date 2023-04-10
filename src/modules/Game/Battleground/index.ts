@@ -1,0 +1,1 @@
+export { SideBackground } from './SideBackground'
