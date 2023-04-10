@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -8,7 +9,6 @@ import { EntityType, TeamSide } from '@types'
 import { SideBackground } from './Battleground'
 import { EntityContainer } from './Entity/EntityContainer'
 import * as S from './styles'
-import Link from 'next/link'
 
 export const GameContainer = () => {
   const router = useRouter()
