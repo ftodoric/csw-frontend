@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { primaryColor, secondaryColor } from '@colors'
+import { primaryColor, secondaryColor, secondaryHoverColor } from '@colors'
 
 export const Header = styled.div`
   background-color: ${primaryColor};
@@ -26,6 +26,15 @@ export const Username = styled.div`
   height: 20;
   display: flex;
   align-items: center;
+`
+
+export const UserNavHoverWrapper = styled.div`
+  border-radius: 100px;
+  padding: 1px 2px;
+
+  :hover {
+    background-color: ${secondaryHoverColor};
+  }
 `
 
 export const Counter = styled.div`

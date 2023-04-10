@@ -8,6 +8,7 @@ import { EntityType, TeamSide } from '@types'
 import { SideBackground } from './Battleground'
 import { EntityContainer } from './Entity/EntityContainer'
 import * as S from './styles'
+import Link from 'next/link'
 
 export const GameContainer = () => {
   const router = useRouter()
@@ -37,10 +38,18 @@ export const GameContainer = () => {
         <S.UserNav>
           <S.Username>{user.user?.username}</S.Username>
 
-          <IconHome width="26px" fill="#fff" />
+          <Link href="/lobby">
+            <S.UserNavHoverWrapper>
+              <IconHome width="26px" fill="#fff" />
+            </S.UserNavHoverWrapper>
+          </Link>
 
           <div style={{ marginLeft: 10 }}>
-            {isOwner && <IconPlay width="32px" fill="white" />}
+            {isOwner && (
+              <S.UserNavHoverWrapper style={{ padding: '2px 2px 0' }}>
+                <IconPlay width="32px" fill="white" />
+              </S.UserNavHoverWrapper>
+            )}
           </div>
         </S.UserNav>
 
