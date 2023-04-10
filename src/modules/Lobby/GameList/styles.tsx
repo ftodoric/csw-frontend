@@ -1,3 +1,4 @@
+import { primaryHoverColor } from '@colors'
 import styled from 'styled-components'
 
 export const GameListContainer = styled.div`
@@ -43,6 +44,21 @@ export const ItemWrapper = styled.div`
   #listener {
     display: flex;
     align-items: center;
+    padding: 2px;
+    border-radius: 100px;
+
+    :hover {
+      fill: firebrick;
+    }
+  }
+
+  #game-link a {
+    padding: 2px;
+    border-radius: 100px;
+
+    :hover {
+      fill: firebrick;
+    }
   }
 
   #game-desc #listener:hover {

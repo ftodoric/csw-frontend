@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { secondaryColor } from '@colors'
 import { IconHome, IconLogout } from '@components/Icons'
 import { useGames, useLogout, useUserContext } from '@hooks'
 
@@ -26,12 +27,12 @@ export const Lobby = () => {
 
           <S.NavLinkContainer>
             <Link href="/lobby">
-              <IconHome width="24px" height="24px" fill="white" />
+              <IconHome width="26px" height="26px" fill={secondaryColor} />
             </Link>
           </S.NavLinkContainer>
 
-          <S.NavLinkContainer onClick={handleLogout}>
-            <IconLogout width="24px" height="24px" fill="white" />
+          <S.NavLinkContainer id="logout" onClick={handleLogout}>
+            <IconLogout width="24px" height="24px" fill={secondaryColor} />
           </S.NavLinkContainer>
         </S.NavbarRight>
       </S.Navbar>

@@ -1,5 +1,11 @@
-import { errorRedColor, primaryColor, primaryHoverColor } from '@colors'
 import styled from 'styled-components'
+
+import {
+  errorRedColor,
+  primaryColor,
+  primaryHoverColor,
+  secondaryColor,
+} from '@colors'
 
 export const FormContainer = styled.form`
   width: 600px;
@@ -50,9 +56,9 @@ export const GameDescContainer = styled.div`
 
 export const SubmitButton = styled.input`
   background-color: ${primaryColor};
-  color: white;
+  color: ${secondaryColor};
   border: none;
-  padding: 7px 10px;
+  padding: 10px;
   border-radius: 50px;
   text-transform: uppercase;
   font-weight: bold;
