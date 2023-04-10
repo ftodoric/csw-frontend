@@ -55,6 +55,7 @@ export const GamePeriod = styled.div`
   align-items: center;
   padding-right: 20px;
   font-style: italic;
+  box-sizing: border-box;
 `
 
 export const Battleground = styled.div`

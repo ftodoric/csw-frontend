@@ -1,42 +1,38 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 import { IconHome, IconPlay } from '@components/Icons'
-import { useAxios, useUserContext } from '@hooks'
+import { useGame, useUserContext } from '@hooks'
 import { EntityType, TeamSide } from '@types'
 
 import { SideBackground } from './Battleground'
 import { EntityContainer } from './Entity/EntityContainer'
 import * as S from './styles'
+import { determineUserSide } from './utils'
 
 export const GameContainer = () => {
-  const router = useRouter()
-  const { id } = router.query
+  const { user } = useUserContext()
+  const { data: game } = useGame()
 
-  const axios = useAxios()
-
-  const user = useUserContext()
-
-  const [game, setGame] = useState()
   const [isOwner, setIsOwner] = useState(false)
+  const [mySide, setMySide] = useState(TeamSide.Blue)
 
   useEffect(() => {
-    if (!id) return
+    if (!user || !game) return
 
-    axios.get(`games/${id}`).then((res) => {
-      setGame(res.data)
-      setIsOwner(res.data.ownerId === user.user?.id)
-    })
-  }, [axios, id, user.user?.id])
+    setIsOwner(game.ownerId === user.id)
 
-  if (!user.user) return null
+    const usersSide = determineUserSide(user, game)
+    setMySide(usersSide)
+  }, [game, user])
+
+  if (!user || !game) return null
 
   return (
     <>
       <S.Header>
         <S.UserNav>
-          <S.Username>{user.user?.username}</S.Username>
+          <S.Username>{user.username}</S.Username>
 
           <Link href="/lobby">
             <S.UserNavHoverWrapper>
@@ -59,115 +55,117 @@ export const GameContainer = () => {
       </S.Header>
 
       <S.Battleground>
-        <SideBackground side={TeamSide.Red} />
-        <SideBackground side={TeamSide.Blue} mySide />
+        <SideBackground
+          side={mySide === TeamSide.Blue ? TeamSide.Red : TeamSide.Blue}
+        />
+        <SideBackground side={mySide} mySide />
 
         <EntityContainer
           type={EntityType.People}
-          side="blue"
+          side={TeamSide.Blue}
+          isUserSide={mySide === TeamSide.Blue}
           name="Electorate"
-          player={user.user?.username}
+          player={game.blueTeam.peoplePlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.Industry}
-          side="blue"
+          side={TeamSide.Blue}
+          isUserSide={mySide === TeamSide.Blue}
           name="UK PLC"
-          player={user.user?.username}
+          player={game.blueTeam.industryPlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.Government}
-          side="blue"
-          name="Government"
-          player={user.user?.username}
+          side={TeamSide.Blue}
+          isUserSide={mySide === TeamSide.Blue}
+          name="UK Government"
+          player={game.blueTeam.governmentPlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.Energy}
-          side="blue"
+          side={TeamSide.Blue}
+          isUserSide={mySide === TeamSide.Blue}
           name="UK Energy"
-          player={user.user?.username}
+          player={game.blueTeam.energyPlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.Intelligence}
-          side="blue"
+          side={TeamSide.Blue}
+          isUserSide={mySide === TeamSide.Blue}
           name="GCHQ"
-          player={user.user?.username}
+          player={game.blueTeam.intelligencePlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.People}
-          side="red"
+          side={TeamSide.Red}
+          isUserSide={mySide === TeamSide.Red}
           name="Online Trolls"
-          player={user.user?.username}
+          player={game.redTeam.peoplePlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.Industry}
-          side="red"
+          side={TeamSide.Red}
+          isUserSide={mySide === TeamSide.Red}
           name="Energetic Bear"
-          player={user.user?.username}
+          player={game.redTeam.industryPlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.Government}
-          side="red"
-          name="Government"
-          player={user.user?.username}
+          side={TeamSide.Red}
+          isUserSide={mySide === TeamSide.Red}
+          name="Russian Government"
+          player={game.redTeam.governmentPlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.Energy}
-          side="red"
+          side={TeamSide.Red}
+          isUserSide={mySide === TeamSide.Red}
           name="Rosenergoatom"
-          player={user.user?.username}
+          player={game.redTeam.energyPlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />
 
         <EntityContainer
           type={EntityType.Intelligence}
-          side="red"
+          side={TeamSide.Red}
+          isUserSide={mySide === TeamSide.Red}
           name="SCS"
-          player={user.user?.username}
+          player={game.redTeam.intelligencePlayer.username}
           vp={12}
-          imageUri="/images/gchq.jpg"
           resources={10}
           vitality={4}
         />

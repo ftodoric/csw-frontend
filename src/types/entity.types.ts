@@ -1,7 +1,7 @@
 export enum EntityType {
-  People,
-  Industry,
-  Government,
-  Energy,
-  Intelligence,
+  People = 'people',
+  Industry = 'industry',
+  Government = 'government',
+  Energy = 'energy',
+  Intelligence = 'intelligence',
 }

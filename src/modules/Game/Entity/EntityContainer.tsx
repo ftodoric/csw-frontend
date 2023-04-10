@@ -1,16 +1,16 @@
 import Image from 'next/image'
 
-import { EntityType } from '@types'
+import { EntityType, TeamSide } from '@types'
 
 import { CardContainer, Footer, Header, Middle } from './styles'
 
 interface EntityProps {
   type: EntityType
-  side: string
+  side: TeamSide
+  isUserSide: boolean
   name: string
   player: string
   vp: number
-  imageUri: string
   resources: number
   vitality: number
 }
@@ -18,41 +18,56 @@ interface EntityProps {
 export const EntityContainer = ({
   type,
   side,
+  isUserSide,
   name,
   player,
   vp,
-  imageUri,
   resources,
   vitality,
 }: EntityProps) => {
   const positions: Record<EntityType, string[]> = {
-    [EntityType.People]: ['5%', '30%'],
-    [EntityType.Industry]: ['5%', '70%'],
+    [EntityType.People]: ['5%', '25%'],
+    [EntityType.Industry]: ['5%', '75%'],
     [EntityType.Government]: ['20%', '50%'],
-    [EntityType.Energy]: ['30%', '25%'],
-    [EntityType.Intelligence]: ['30%', '75%'],
+    [EntityType.Energy]: ['30%', '20%'],
+    [EntityType.Intelligence]: ['30%', '80%'],
   }
 
   return (
     <CardContainer
       style={{
-        top:
-          side === 'blue'
-            ? positions[type][0]
-            : `calc(100% - ${positions[type][0]})`,
+        top: isUserSide
+          ? `calc(100% - ${positions[type][0]})`
+          : positions[type][0],
         left: positions[type][1],
-        transform:
-          side === 'red' ? 'translate(-50%, -100%)' : 'translate(-50%, 0)',
+        transform: isUserSide ? 'translate(-50%, -100%)' : 'translate(-50%, 0)',
       }}
     >
       <Header>
         <div>{player}</div>
-        <div>{name}</div>
-        <div>{vp}</div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Image
+            src="/images/victoryPoints.svg"
+            width={20}
+            height={20}
+            alt="Victory Points"
+          />
+          {vp}
+        </div>
       </Header>
 
       <Middle>
-        <Image src={imageUri} width={100} height={45} alt="gchq" />
+        <Image
+          src={
+            name !== 'Energetic Bear'
+              ? `/images/entities/${type}.svg`
+              : '/images/entities/espionage.svg'
+          }
+          width={30}
+          height={30}
+          alt="gchq"
+        />
+        <div style={{ marginLeft: 10 }}>{name}</div>
       </Middle>
 
       <Footer>

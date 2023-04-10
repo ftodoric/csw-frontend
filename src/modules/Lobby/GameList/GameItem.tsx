@@ -1,7 +1,6 @@
 import Link from 'next/link'
 
 import { primaryColor } from '@colors'
-
 import { IconClose, IconInfo, IconOpen } from '@components/Icons'
 import { Game } from '@types'
 

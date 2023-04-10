@@ -1,4 +1,5 @@
 import { Game } from './game.types'
+import { User } from './user.types'
 
 export enum TeamSide {
   Blue,
@@ -9,10 +10,10 @@ export interface Team {
   id: string
   side: TeamSide
   name: string
-  peoplePlayerId: string
-  industryPlayerId: string
-  governmentPlayerId: string
-  energyPlayerId: string
-  intelligencePlayerId: string
+  peoplePlayer: User
+  industryPlayer: User
+  governmentPlayer: User
+  energyPlayer: User
+  intelligencePlayer: User
   game: Game
 }
