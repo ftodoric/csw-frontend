@@ -1,10 +1,12 @@
-import { useMutation, useQuery } from 'react-query'
+import { useRouter } from 'next/router'
+import { useMutation } from 'react-query'
 
 import { useAxios } from '@hooks'
 import { NewGameFormType } from '@types'
 
 export const useCreateGame = () => {
   const axios = useAxios()
+  const router = useRouter()
 
   const createGame = async (input: NewGameFormType): Promise<string> => {
     const response = await axios.post('/games', input)
@@ -13,7 +15,9 @@ export const useCreateGame = () => {
   }
 
   return useMutation(createGame, {
-    onSuccess: async () => {},
+    onSuccess: async () => {
+      router.push('/lobby')
+    },
     onError: (error) => {
       console.log(error)
     },
