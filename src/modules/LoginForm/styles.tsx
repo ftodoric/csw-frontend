@@ -1,5 +1,6 @@
-import { errorRedColor, primaryColor } from '@colors'
 import styled from 'styled-components'
+
+import { errorRedColor, primaryColor } from '@colors'
 
 export const StyledContainer = styled.div`
   display: flex;

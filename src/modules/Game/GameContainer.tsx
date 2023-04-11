@@ -19,6 +19,12 @@ export const GameContainer = () => {
   const [isOwner, setIsOwner] = useState(false)
   const [userSide, setUserSide] = useState(TeamSide.Blue)
 
+  console.log(
+    '%clog | description\n',
+    'color: #0e8dbf; margin-bottom: 5px;',
+    userSide
+  )
+
   useEffect(() => {
     if (!user || !game) return
 

@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 
-import { primaryColor } from '@colors'
 import { zodResolver } from '@hookform/resolvers/zod'
 
+import { primaryColor } from '@colors'
 import { IconLoader, IconPassword, IconUser } from '@components/Icons'
 import { useLogin } from '@hooks'
 import { LoginFormInputs, loginFormSchema } from '@types'

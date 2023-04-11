@@ -1,5 +1,4 @@
 import { errorRedColor } from '@colors'
-
 import { TeamSide, User } from '@types'
 
 import * as S from './styles'

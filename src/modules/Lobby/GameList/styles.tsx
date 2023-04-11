@@ -1,4 +1,3 @@
-import { primaryHoverColor } from '@colors'
 import styled from 'styled-components'
 
 export const GameListContainer = styled.div`

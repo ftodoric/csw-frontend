@@ -7,11 +7,11 @@ import { Game, TeamSide, User } from '@types'
  * @returns {TeamSide}
  */
 export const determineUserSide = (user: User, game: Game) => {
-  return game.blueTeam.peoplePlayer.id === user.id ||
-    game.blueTeam.industryPlayer.id === user.id ||
-    game.blueTeam.governmentPlayer.id === user.id ||
-    game.blueTeam.energyPlayer.id === user.id ||
-    game.blueTeam.intelligencePlayer.id === user.id
+  return game.blueTeam.peoplePlayer.user.id === user.id ||
+    game.blueTeam.industryPlayer.user.id === user.id ||
+    game.blueTeam.governmentPlayer.user.id === user.id ||
+    game.blueTeam.energyPlayer.user.id === user.id ||
+    game.blueTeam.intelligencePlayer.user.id === user.id
     ? TeamSide.Blue
     : TeamSide.Red
 }

@@ -1,5 +1,4 @@
 import { primaryColor } from '@colors'
-
 import { IconLoader } from '@components/Icons'
 
 export const Loader = () => {

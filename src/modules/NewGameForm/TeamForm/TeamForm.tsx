@@ -1,5 +1,4 @@
 import { blueTeamColor, redTeamColor } from '@colors'
-
 import { TeamSide, User } from '@types'
 
 import { PlayerSelect } from './PlayerSelect'
