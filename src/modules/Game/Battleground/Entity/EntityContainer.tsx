@@ -1,18 +1,15 @@
 import Image from 'next/image'
 
-import { EntityType, TeamSide } from '@types'
+import { EntityType, Player, TeamSide } from '@types'
 
 import { CardContainer, Footer, Header, Middle } from './styles'
 
 interface EntityProps {
   type: EntityType
   side: TeamSide
-  isUserSide: boolean
   name: string
-  player: string
-  vp: number
-  resources: number
-  vitality: number
+  player: Player
+  isUserSide: boolean
 }
 
 export const EntityContainer = ({
@@ -21,9 +18,6 @@ export const EntityContainer = ({
   isUserSide,
   name,
   player,
-  vp,
-  resources,
-  vitality,
 }: EntityProps) => {
   const positions: Record<EntityType, string[]> = {
     [EntityType.People]: ['5%', '25%'],
@@ -44,7 +38,7 @@ export const EntityContainer = ({
       }}
     >
       <Header>
-        <div>{player}</div>
+        <div>{player.user.username}</div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Image
             src="/images/victoryPoints.svg"
@@ -52,7 +46,7 @@ export const EntityContainer = ({
             height={20}
             alt="Victory Points"
           />
-          {vp}
+          {player.victoryPoints}
         </div>
       </Header>
 
@@ -78,7 +72,7 @@ export const EntityContainer = ({
             borderBottomLeftRadius: 5,
           }}
         >
-          {resources}
+          {player.resource}
         </div>
 
         <div
@@ -88,7 +82,7 @@ export const EntityContainer = ({
             borderBottomRightRadius: 5,
           }}
         >
-          {vitality}
+          {player.vitality}
         </div>
       </Footer>
     </CardContainer>

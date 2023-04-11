@@ -1,1 +1,2 @@
-export { SideBackground } from './SideBackground'
+export { TeamBackground } from './TeamBackground'
+export { Battleground } from './Battleground'

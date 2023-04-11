@@ -4,19 +4,17 @@ import { useQuery } from 'react-query'
 import { useAxios } from '@hooks/useAxios'
 import { Game } from '@types'
 
-export const useGame = () => {
+export const useGame = (id: string | undefined) => {
   const axios = useAxios()
-  const router = useRouter()
 
-  const getGame = async (): Promise<Game> => {
-    const { id } = router.query
+  const getGame = async (id: string | undefined): Promise<Game> => {
+    let response
+    if (id) response = await axios.get(`/games/${id}`)
 
-    const response = await axios.get(`/games/${id}`)
-
-    return response.data
+    return response?.data
   }
 
-  return useQuery('game', () => getGame(), {
+  return useQuery('game', () => getGame(id), {
     onSuccess: () => {},
     onError: (error) => {
       console.log(error)

@@ -1,11 +1,11 @@
 import { TeamSide } from '@types'
 
-interface SideBackgroundProps {
+interface TeamBackgroundProps {
   side: TeamSide
-  mySide?: boolean
+  userSide?: boolean
 }
 
-export const SideBackground = ({ side, mySide }: SideBackgroundProps) => {
+export const TeamBackground = ({ side, userSide }: TeamBackgroundProps) => {
   const isBlueTeam = side === TeamSide.Blue
 
   const lowerTeamAreaPath = 'M0 100 L100 100 L50 10 z'
@@ -23,13 +23,13 @@ export const SideBackground = ({ side, mySide }: SideBackgroundProps) => {
       style={{ display: 'block' }}
     >
       <path
-        d={mySide ? lowerTeamAreaPath : upperTeamAreaPath}
+        d={userSide ? lowerTeamAreaPath : upperTeamAreaPath}
         fill={
           isBlueTeam ? 'rgba(48, 141, 193, 0.18)' : 'rgba(190, 64, 55, 0.4)'
         }
       />
       <path
-        d={mySide ? lowerTeamBorderPath : upperTeamBorderPath}
+        d={userSide ? lowerTeamBorderPath : upperTeamBorderPath}
         stroke={isBlueTeam ? '#222281' : 'firebrick'}
         strokeWidth="0.1px"
         strokeDasharray="0.5 0.5"
