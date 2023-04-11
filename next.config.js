@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
+
+const developmentAPI = 'http://localhost:8000/api'
+const productionAPI = developmentAPI
+
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
@@ -6,9 +10,7 @@ const nextConfig = {
   },
   publicRuntimeConfig: {
     apiUrl:
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:8000/api'
-        : 'https://subdomain.domain.com/api',
+      process.env.NODE_ENV === 'development' ? productionAPI : developmentAPI,
   },
 }
 
