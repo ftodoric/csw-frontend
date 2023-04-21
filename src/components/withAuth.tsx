@@ -5,8 +5,8 @@ import { useMyProfile, useUserContext } from '@hooks'
 
 import { Loader } from './Loader'
 
-export const withAuth = (Component: NextPage) => {
-  const AuthenticatedComponent = () => {
+export const withAuth = (Component: NextPage<any>) => {
+  const AuthenticatedComponent = (props: any) => {
     const { isLoading, isError } = useMyProfile()
     const { user } = useUserContext()
     const router = useRouter()
@@ -20,7 +20,7 @@ export const withAuth = (Component: NextPage) => {
       return null
     }
 
-    return <Component />
+    return <Component {...props} />
   }
 
   return AuthenticatedComponent

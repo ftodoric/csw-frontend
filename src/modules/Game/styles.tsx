@@ -62,12 +62,3 @@ export const Battleground = styled.div`
   height: calc(100vh - 150px);
   position: relative;
 `
-
-export const RedTeamBackground = styled.div``
-
-export const BlueTeamBackground = styled.div``
-
-export const Navigation = styled.div`
-  height: 100px;
-  box-shadow: 0 0 10px #c7c7c7;
-`

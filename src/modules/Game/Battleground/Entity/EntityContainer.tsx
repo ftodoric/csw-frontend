@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import { EntityType, Player, TeamSide } from '@types'
 
-import { CardContainer, Footer, Header, Middle } from './styles'
+import * as S from './styles'
 
 interface EntityProps {
   type: EntityType
@@ -10,6 +10,7 @@ interface EntityProps {
   name: string
   player: Player
   isUserSide: boolean
+  isActive?: boolean
 }
 
 export const EntityContainer = ({
@@ -18,6 +19,7 @@ export const EntityContainer = ({
   isUserSide,
   name,
   player,
+  isActive,
 }: EntityProps) => {
   const positions: Record<EntityType, string[]> = {
     [EntityType.People]: ['5%', '25%'],
@@ -28,16 +30,18 @@ export const EntityContainer = ({
   }
 
   return (
-    <CardContainer
+    <S.CardContainer
       style={{
         top: isUserSide
           ? `calc(100% - ${positions[type][0]})`
           : positions[type][0],
         left: positions[type][1],
         transform: isUserSide ? 'translate(-50%, -100%)' : 'translate(-50%, 0)',
+        // boxShadow: isActive ? '0 1px 10px rgb(48, 140, 193)' : undefined,
       }}
+      id={isActive ? 'activePlayer' : undefined}
     >
-      <Header>
+      <S.Header>
         <div>{player.user.username}</div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Image
@@ -48,9 +52,9 @@ export const EntityContainer = ({
           />
           {player.victoryPoints}
         </div>
-      </Header>
+      </S.Header>
 
-      <Middle>
+      <S.Middle>
         <Image
           src={
             name !== 'Energetic Bear'
@@ -61,10 +65,12 @@ export const EntityContainer = ({
           height={30}
           alt="gchq"
         />
-        <div style={{ marginLeft: 10 }}>{name}</div>
-      </Middle>
+        <div style={{ marginLeft: 10, maxWidth: '145px', textAlign: 'center' }}>
+          {name}
+        </div>
+      </S.Middle>
 
-      <Footer>
+      <S.Footer>
         <div
           style={{
             backgroundColor: '#F0EAAF',
@@ -84,7 +90,13 @@ export const EntityContainer = ({
         >
           {player.vitality}
         </div>
-      </Footer>
-    </CardContainer>
+      </S.Footer>
+
+      {isActive && (
+        <S.AnimationContainer
+          color={side === TeamSide.Blue ? '#2e84c5' : '#b22222'}
+        />
+      )}
+    </S.CardContainer>
   )
 }

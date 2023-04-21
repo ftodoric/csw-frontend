@@ -16,6 +16,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         player={game.blueTeam.peoplePlayer}
         name="Electorate"
         isUserSide={userSide === TeamSide.Blue}
+        isActive={
+          game.activePlayer === 'peoplePlayer' &&
+          game.activeSide === TeamSide.Blue
+        }
       />
 
       <EntityContainer
@@ -24,6 +28,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Blue}
         name="UK PLC"
         player={game.blueTeam.industryPlayer}
+        isActive={
+          game.activePlayer === 'industryPlayer' &&
+          game.activeSide === TeamSide.Blue
+        }
       />
 
       <EntityContainer
@@ -32,6 +40,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Blue}
         name="UK Government"
         player={game.blueTeam.governmentPlayer}
+        isActive={
+          game.activePlayer === 'governmentPlayer' &&
+          game.activeSide === TeamSide.Blue
+        }
       />
 
       <EntityContainer
@@ -40,6 +52,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Blue}
         name="UK Energy"
         player={game.blueTeam.energyPlayer}
+        isActive={
+          game.activePlayer === 'energyPlayer' &&
+          game.activeSide === TeamSide.Blue
+        }
       />
 
       <EntityContainer
@@ -48,6 +64,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Blue}
         name="GCHQ"
         player={game.blueTeam.intelligencePlayer}
+        isActive={
+          game.activePlayer === 'intelligencePlayer' &&
+          game.activeSide === TeamSide.Blue
+        }
       />
 
       <EntityContainer
@@ -56,6 +76,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Red}
         name="Online Trolls"
         player={game.redTeam.peoplePlayer}
+        isActive={
+          game.activePlayer === 'peoplePlayer' &&
+          game.activeSide === TeamSide.Red
+        }
       />
 
       <EntityContainer
@@ -64,6 +88,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Red}
         name="Energetic Bear"
         player={game.redTeam.industryPlayer}
+        isActive={
+          game.activePlayer === 'industryPlayer' &&
+          game.activeSide === TeamSide.Red
+        }
       />
 
       <EntityContainer
@@ -72,6 +100,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Red}
         name="Russian Government"
         player={game.redTeam.governmentPlayer}
+        isActive={
+          game.activePlayer === 'governmentPlayer' &&
+          game.activeSide === TeamSide.Red
+        }
       />
 
       <EntityContainer
@@ -80,6 +112,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Red}
         name="Rosenergoatom"
         player={game.redTeam.energyPlayer}
+        isActive={
+          game.activePlayer === 'energyPlayer' &&
+          game.activeSide === TeamSide.Red
+        }
       />
 
       <EntityContainer
@@ -88,6 +124,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         isUserSide={userSide === TeamSide.Red}
         name="SCS"
         player={game.redTeam.intelligencePlayer}
+        isActive={
+          game.activePlayer === 'intelligencePlayer' &&
+          game.activeSide === TeamSide.Red
+        }
       />
     </>
   )

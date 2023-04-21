@@ -34,11 +34,6 @@ export const NewGameForm = () => {
   } = useForm<NewGameFormType>({ resolver: zodResolver(newGameFormSchema) })
 
   const onSubmit = (data: NewGameFormType) => {
-    console.log(
-      '%clog | new game submit\n',
-      'color: #0e8dbf; margin-bottom: 5px;',
-      data
-    )
     createGame.mutate(data)
   }
 

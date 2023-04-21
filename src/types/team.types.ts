@@ -2,8 +2,8 @@ import { Game } from './game.types'
 import { Player } from './player.types'
 
 export enum TeamSide {
-  Blue,
-  Red,
+  Blue = 'blueTeam',
+  Red = 'redTeam',
 }
 
 export interface Team {

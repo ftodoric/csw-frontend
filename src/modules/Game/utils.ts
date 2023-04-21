@@ -15,3 +15,18 @@ export const determineUserSide = (user: User, game: Game) => {
     ? TeamSide.Blue
     : TeamSide.Red
 }
+
+/**
+ * Format timers sceonds. Padd with zeroes.
+ * @param seconds
+ * @returns {string}
+ */
+export const formatTimer = (seconds: number) => {
+  const m = Math.floor(seconds / 60)
+  const s = seconds - m * 60
+
+  const mLength = m.toString().length
+  const sLength = s.toString().length
+
+  return `${'0'.repeat(2 - mLength)}${m}:${'0'.repeat(2 - sLength)}${s}`
+}

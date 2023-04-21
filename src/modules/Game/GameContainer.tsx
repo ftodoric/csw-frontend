@@ -1,29 +1,54 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query'
 
-import { IconHome, IconPlay } from '@components/Icons'
+import { io } from 'socket.io-client'
+
+import { IconHome, IconPause, IconPlay } from '@components/Icons'
 import { useGame, useUserContext } from '@hooks'
 import { TeamSide } from '@types'
 
 import { Battleground, TeamBackground } from './Battleground'
+import { Navigation } from './Navigation'
 import * as S from './styles'
-import { determineUserSide } from './utils'
+import { determineUserSide, formatTimer } from './utils'
 
-export const GameContainer = () => {
+export const GameContainer = ({ gameId }: { gameId: string }) => {
   const { user } = useUserContext()
-  const router = useRouter()
-  const { id } = router.query
-  const { data: game } = useGame(id as string | undefined)
+  const { data: game } = useGame(gameId)
 
   const [isOwner, setIsOwner] = useState(false)
   const [userSide, setUserSide] = useState(TeamSide.Blue)
 
-  console.log(
-    '%clog | description\n',
-    'color: #0e8dbf; margin-bottom: 5px;',
-    userSide
-  )
+  const [socket, setSocket] = useState<any>(null)
+  const [time, setTime] = useState<number>(game ? game.turnsRemainingTime : 0)
+
+  const queryClient = useQueryClient()
+
+  useEffect(() => {
+    const socket = io('localhost:8000', {
+      // Prevent long polling
+      transports: ['websocket'],
+      query: {
+        gameId,
+      },
+    })
+
+    socket.on('connect', () => {
+      console.log('connected')
+    })
+
+    socket.on('tick', (data) => {
+      console.log(data)
+      setTime(data.time)
+    })
+
+    setSocket(socket)
+
+    return () => {
+      socket.disconnect()
+    }
+  }, [gameId])
 
   useEffect(() => {
     if (!user || !game) return
@@ -33,6 +58,17 @@ export const GameContainer = () => {
     const usersSide = determineUserSide(user, game)
     setUserSide(usersSide)
   }, [game, user])
+
+  useEffect(() => {
+    if (time === 0) queryClient.invalidateQueries('game')
+  }, [queryClient, time])
+
+  const handleToggleTimer = (gamePaused: boolean) => {
+    if (socket) {
+      socket.emit(gamePaused ? 'startTimer' : 'pauseTimer')
+      queryClient.invalidateQueries('game')
+    }
+  }
 
   if (!user || !game) return null
 
@@ -50,14 +86,21 @@ export const GameContainer = () => {
 
           <div style={{ marginLeft: 10 }}>
             {isOwner && (
-              <S.UserNavHoverWrapper style={{ padding: '2px 2px 0' }}>
-                <IconPlay width="32px" fill="white" />
+              <S.UserNavHoverWrapper
+                style={{ padding: '2px 2px 0' }}
+                onClick={() => handleToggleTimer(game.paused)}
+              >
+                {game.paused ? (
+                  <IconPlay width="32px" fill="white" />
+                ) : (
+                  <IconPause width="32px" fill="white" />
+                )}
               </S.UserNavHoverWrapper>
             )}
           </div>
         </S.UserNav>
 
-        <S.Counter>2:14</S.Counter>
+        <S.Counter>{formatTimer(time)}</S.Counter>
 
         <S.GamePeriod>January, 2020</S.GamePeriod>
       </S.Header>
@@ -71,7 +114,7 @@ export const GameContainer = () => {
         <Battleground game={game} userSide={userSide} />
       </S.Battleground>
 
-      <S.Navigation></S.Navigation>
+      <Navigation />
     </>
   )
 }

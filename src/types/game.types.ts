@@ -1,3 +1,4 @@
+import { TeamSide } from './team.types'
 import { Team } from './team.types'
 
 export enum GameStatus {
@@ -14,4 +15,8 @@ export interface Game {
   status: GameStatus
   description: string
   winner: Team
+  turnsRemainingTime: number
+  paused: boolean
+  activePlayer: string
+  activeSide: TeamSide
 }
