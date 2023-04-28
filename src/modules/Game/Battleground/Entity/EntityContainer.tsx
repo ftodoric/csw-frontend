@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import { EntityType, Player, TeamSide } from '@types'
 
+import { HandleDeterminator } from './HandleDeterminator'
 import * as S from './styles'
 
 interface EntityProps {
@@ -9,38 +10,17 @@ interface EntityProps {
   side: TeamSide
   name: string
   player: Player
-  isUserSide: boolean
+  userSide: TeamSide
   isActive?: boolean
 }
 
-export const EntityContainer = ({
-  type,
-  side,
-  isUserSide,
-  name,
-  player,
-  isActive,
-}: EntityProps) => {
-  const positions: Record<EntityType, string[]> = {
-    [EntityType.People]: ['5%', '25%'],
-    [EntityType.Industry]: ['5%', '75%'],
-    [EntityType.Government]: ['20%', '50%'],
-    [EntityType.Energy]: ['30%', '20%'],
-    [EntityType.Intelligence]: ['30%', '80%'],
-  }
+export const EntityContainer = ({ data }: { data: EntityProps }) => {
+  const { type, side, name, player, userSide, isActive } = data
 
   return (
-    <S.CardContainer
-      style={{
-        top: isUserSide
-          ? `calc(100% - ${positions[type][0]})`
-          : positions[type][0],
-        left: positions[type][1],
-        transform: isUserSide ? 'translate(-50%, -100%)' : 'translate(-50%, 0)',
-        // boxShadow: isActive ? '0 1px 10px rgb(48, 140, 193)' : undefined,
-      }}
-      id={isActive ? 'activePlayer' : undefined}
-    >
+    <S.CardContainer id={isActive ? 'activePlayer' : undefined}>
+      <HandleDeterminator type={type} side={side} userSide={userSide} />
+
       <S.Header>
         <div>{player.user.username}</div>
         <div style={{ display: 'flex', alignItems: 'center' }}>

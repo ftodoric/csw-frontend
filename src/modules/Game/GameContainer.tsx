@@ -6,12 +6,12 @@ import { io } from 'socket.io-client'
 
 import { IconHome, IconPause, IconPlay } from '@components/Icons'
 import { useGame, useUserContext } from '@hooks'
-import { TeamSide } from '@types'
+import { GameOutcome, TeamSide } from '@types'
 
 import { Battleground, TeamBackground } from './Battleground'
 import { Navigation } from './Navigation'
 import * as S from './styles'
-import { determineUserSide, formatTimer } from './utils'
+import { determineUserSide, formatTimer, gamePeriodMap } from './utils'
 
 export const GameContainer = ({ gameId }: { gameId: string }) => {
   const { user } = useUserContext()
@@ -39,7 +39,6 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     })
 
     socket.on('tick', (data) => {
-      console.log(data)
       setTime(data.time)
     })
 
@@ -102,7 +101,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
         <S.Counter>{formatTimer(time)}</S.Counter>
 
-        <S.GamePeriod>January, 2020</S.GamePeriod>
+        <S.GamePeriod>{gamePeriodMap[game.activePeriod]}, 2020</S.GamePeriod>
       </S.Header>
 
       <S.Battleground>
@@ -114,7 +113,19 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
         <Battleground game={game} userSide={userSide} />
       </S.Battleground>
 
-      <Navigation />
+      <Navigation game={game} />
+
+      {game.outcome && (
+        <S.WinnerBanner style={{ display: !game.outcome ? 'none' : 'block' }}>
+          {(game.outcome as GameOutcome) === 0 && <div>Blue Wins</div>}
+          {game.outcome === 1 && <div>Red Wins</div>}
+          {game.outcome === 2 && <div>{"It's a TIE"}</div>}
+
+          <span>
+            <Link href="/lobby">Back to Lobby</Link>
+          </span>
+        </S.WinnerBanner>
+      )}
     </>
   )
 }

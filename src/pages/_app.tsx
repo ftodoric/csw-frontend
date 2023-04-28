@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { AxiosProvider, UserContextProvider } from '@context'
 
 import '../../styles/reset.css'
+import 'reactflow/dist/style.css'
 
 const queryClient = new QueryClient()
 

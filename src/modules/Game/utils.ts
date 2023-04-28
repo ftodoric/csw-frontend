@@ -1,4 +1,4 @@
-import { Game, TeamSide, User } from '@types'
+import { Game, GamePeriod, TeamSide, User } from '@types'
 
 /**
  * Determines player's team. If the player plays on both sides, the blue team is set by default.
@@ -29,4 +29,19 @@ export const formatTimer = (seconds: number) => {
   const sLength = s.toString().length
 
   return `${'0'.repeat(2 - mLength)}${m}:${'0'.repeat(2 - sLength)}${s}`
+}
+
+export const gamePeriodMap = {
+  [GamePeriod.January]: 'January',
+  [GamePeriod.February]: 'February',
+  [GamePeriod.March]: 'March',
+  [GamePeriod.April]: 'April',
+  [GamePeriod.May]: 'May',
+  [GamePeriod.June]: 'June',
+  [GamePeriod.July]: 'July',
+  [GamePeriod.August]: 'August',
+  [GamePeriod.September]: 'September',
+  [GamePeriod.October]: 'October',
+  [GamePeriod.November]: 'November',
+  [GamePeriod.December]: 'December',
 }

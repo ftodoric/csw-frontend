@@ -38,4 +38,8 @@ export const ActionButtonWrapper = styled.button<{ bgColor: string }>`
   :disabled {
     opacity: 0.4;
   }
+
+  :focus-visible {
+    outline: none;
+  }
 `
