@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { resourceBgColor, resourceColor, victoryPointsColor, vitalityBgColor, vitalityColor } from '@colors'
+
 export const CardContainer = styled.div`
   width: 200px;
   height: 100px;
@@ -24,7 +26,7 @@ export const Header = styled.div`
 export const VictoryPoints = styled.div`
   display: flex;
   align-items: center;
-  color: #ac5dd1;
+  color: ${victoryPointsColor};
 `
 
 export const Middle = styled.div`
@@ -48,6 +50,18 @@ export const Footer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  #resource {
+    background-color: ${resourceBgColor};
+    color: ${resourceColor};
+    border-bottom-left-radius: 5;
+  }
+
+  #vitality {
+    background-color: ${vitalityBgColor};
+    color: ${vitalityColor};
+    border-bottom-right-radius: 5;
   }
 `
 

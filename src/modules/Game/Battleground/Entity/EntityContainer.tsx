@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { victoryPointsColor } from '@colors'
 import { IconVictoryPoints } from '@components/Icons'
 import { EntityType, Player, TeamSide } from '@types'
 
@@ -26,7 +27,7 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
         <div>{player.user.username}</div>
 
         <S.VictoryPoints>
-          <IconVictoryPoints width="17px" height="17px" fill="#8729b3" />
+          <IconVictoryPoints width="17px" height="17px" fill={victoryPointsColor} />
           {player.victoryPoints}
         </S.VictoryPoints>
       </S.Header>
@@ -43,25 +44,9 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
       </S.Middle>
 
       <S.Footer>
-        <div
-          style={{
-            backgroundColor: '#F0EAAF',
-            color: '#877725',
-            borderBottomLeftRadius: 5,
-          }}
-        >
-          {player.resource}
-        </div>
+        <div id="resource">{player.resource}</div>
 
-        <div
-          style={{
-            backgroundColor: '#B2CCD7',
-            color: '#105881',
-            borderBottomRightRadius: 5,
-          }}
-        >
-          {player.vitality}
-        </div>
+        <div id="vitality">{player.vitality}</div>
       </S.Footer>
 
       {isActive && <S.AnimationContainer color={side === TeamSide.Blue ? '#2e84c5' : '#b22222'} />}
