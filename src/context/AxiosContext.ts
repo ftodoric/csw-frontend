@@ -13,9 +13,7 @@ export const AxiosContext = createContext<AxiosInstance>(
   })
 )
 
-export const AxiosProvider = ({
-  children,
-}: React.PropsWithChildren<unknown>) => {
+export const AxiosProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const router = useRouter()
   const logout = useLogout()
   const { user } = useUserContext()

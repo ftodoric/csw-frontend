@@ -12,9 +12,7 @@ export const UserContext = createContext<UserContextType>({
   setUser: () => null,
 })
 
-export const UserContextProvider = ({
-  children,
-}: React.PropsWithChildren<unknown>) => {
+export const UserContextProvider = ({ children }: React.PropsWithChildren<unknown>) => {
   const [user, setUser] = useState<OptionalUser>(null)
 
   const providerUser = useMemo(
@@ -25,9 +23,5 @@ export const UserContextProvider = ({
     [user, setUser]
   )
 
-  return React.createElement(
-    UserContext.Provider,
-    { value: providerUser },
-    children
-  )
+  return React.createElement(UserContext.Provider, { value: providerUser }, children)
 }
