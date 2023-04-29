@@ -17,7 +17,7 @@ export const GameList = ({ gameList }: { gameList: Game[] | undefined }) => {
         <div id="game-index">No.</div>
         <div>Blue team</div>
         <div>Red team</div>
-        <div>Winner</div>
+        <div>Status</div>
         <div id="game-desc">Description</div>
         <div id="game-link">Link</div>
       </S.ItemWrapper>

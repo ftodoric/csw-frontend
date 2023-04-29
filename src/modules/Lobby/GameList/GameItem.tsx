@@ -2,10 +2,14 @@ import Link from 'next/link'
 
 import { primaryColor } from '@colors'
 import { IconClose, IconInfo, IconOpen } from '@components/Icons'
-import { Game } from '@types'
+import { Game, GameStatus } from '@types'
 
 import * as S from './styles'
-import { handleDescriptionClick, handleDescriptionClose } from './utils'
+import {
+  getStatusText,
+  handleDescriptionClick,
+  handleDescriptionClose,
+} from './utils'
 
 export const GameItem = ({
   game,
@@ -25,7 +29,7 @@ export const GameItem = ({
 
         <div>{game.redTeam.name}</div>
 
-        <div>{game.winner ? game.winner.name : 'In progress'}</div>
+        <div>{getStatusText(game.status, game.outcome)}</div>
 
         <div id={`game-desc`}>
           <div

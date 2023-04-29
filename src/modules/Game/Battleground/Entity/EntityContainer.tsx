@@ -4,6 +4,7 @@ import { EntityType, Player, TeamSide } from '@types'
 
 import { HandleDeterminator } from './HandleDeterminator'
 import * as S from './styles'
+import { IconVictoryPoints } from '@components/Icons'
 
 interface EntityProps {
   type: EntityType
@@ -23,15 +24,11 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
 
       <S.Header>
         <div>{player.user.username}</div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Image
-            src="/images/victoryPoints.svg"
-            width={20}
-            height={20}
-            alt="Victory Points"
-          />
+
+        <S.VictoryPoints>
+          <IconVictoryPoints width="17px" height="17px" fill="#8729b3" />
           {player.victoryPoints}
-        </div>
+        </S.VictoryPoints>
       </S.Header>
 
       <S.Middle>
@@ -45,9 +42,8 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
           height={30}
           alt="gchq"
         />
-        <div style={{ marginLeft: 10, maxWidth: '145px', textAlign: 'center' }}>
-          {name}
-        </div>
+
+        <div>{name}</div>
       </S.Middle>
 
       <S.Footer>

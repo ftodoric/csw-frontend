@@ -8,6 +8,8 @@ export const CardContainer = styled.div`
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
   background-color: white;
   border-radius: 5px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
 `
 
 export const Header = styled.div`
@@ -16,6 +18,13 @@ export const Header = styled.div`
   align-items: center;
   height: 25px;
   padding: 0 10px;
+  box-shadow: 0 0 2px #afafaf;
+`
+
+export const VictoryPoints = styled.div`
+  display: flex;
+  align-items: center;
+  color: #ac5dd1;
 `
 
 export const Middle = styled.div`
@@ -23,7 +32,11 @@ export const Middle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 15px;
+
+  > div {
+    margin-left: 10px;
+    text-align: center;
+  }
 `
 
 export const Footer = styled.div`

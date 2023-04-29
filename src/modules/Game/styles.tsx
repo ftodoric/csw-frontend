@@ -30,7 +30,7 @@ export const Username = styled.div`
 
 export const UserNavHoverWrapper = styled.div`
   border-radius: 100px;
-  padding: 1px 2px;
+  padding: 2px 2px 0;
 
   :hover {
     background-color: ${secondaryHoverColor};
@@ -108,6 +108,7 @@ export const WinnerBanner = styled.div`
     :hover {
       color: firebrick;
       text-decoration: underline;
+      cursor: pointer;
     }
   }
 `

@@ -1,4 +1,4 @@
-import { Game, GamePeriod, TeamSide, User } from '@types'
+import { Game, GameOutcome, GamePeriod, TeamSide, User } from '@types'
 
 /**
  * Determines player's team. If the player plays on both sides, the blue team is set by default.
@@ -44,4 +44,18 @@ export const gamePeriodMap = {
   [GamePeriod.October]: 'October',
   [GamePeriod.November]: 'November',
   [GamePeriod.December]: 'December',
+}
+
+export const getWinnerText = (
+  outcome: GameOutcome,
+  showcase?: boolean
+): string => {
+  switch (outcome) {
+    case GameOutcome.BlueWins:
+      return 'Blue Team Wins'
+    case GameOutcome.RedWins:
+      return 'Red Team Wins'
+    case GameOutcome.Tie:
+      return showcase ? `It's a TIE` : 'TIE'
+  }
 }

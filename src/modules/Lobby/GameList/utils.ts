@@ -1,5 +1,8 @@
 import { MouseEvent } from 'react'
 
+import { getWinnerText } from '@modules/Game/utils'
+import { GameOutcome, GameStatus } from '@types'
+
 export const handleDescriptionClick = (
   event: MouseEvent,
   index: number,
@@ -29,5 +32,21 @@ export const handleDescriptionClose = (index: number) => {
 
   if (gameDescription) {
     gameDescription.style.display = 'none'
+  }
+}
+
+export const getStatusText = (
+  gameStatus: GameStatus,
+  gameOutcome?: GameOutcome
+) => {
+  switch (gameStatus) {
+    case GameStatus.NotStarted:
+      return 'Not started'
+    case GameStatus.InProgress:
+      return 'In progress'
+    case GameStatus.Paused:
+      return 'Paused'
+    case GameStatus.Finished:
+      if (gameOutcome) return getWinnerText(gameOutcome)
   }
 }
