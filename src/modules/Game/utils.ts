@@ -53,6 +53,6 @@ export const getWinnerText = (outcome: GameOutcome, showcase?: boolean): string 
     case GameOutcome.RedWins:
       return 'Red Team Wins'
     case GameOutcome.Tie:
-      return showcase ? `It's a TIE` : 'TIE'
+      return showcase ? `It's a TIE` : 'Tie'
   }
 }

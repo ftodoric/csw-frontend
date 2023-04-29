@@ -4,7 +4,7 @@ import { victoryPointsColor } from '@colors'
 import { IconVictoryPoints } from '@components/Icons'
 import { EntityType, Player, TeamSide } from '@types'
 
-import { HandleDeterminator } from './HandleDeterminator'
+import { EdgeHandleDeterminator } from './EdgeHandleDeterminator'
 import * as S from './styles'
 
 interface EntityProps {
@@ -21,7 +21,7 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
 
   return (
     <S.CardContainer id={isActive ? 'activePlayer' : undefined}>
-      <HandleDeterminator type={type} side={side} userSide={userSide} />
+      <EdgeHandleDeterminator type={type} side={side} />
 
       <S.Header>
         <div>{player.user.username}</div>
