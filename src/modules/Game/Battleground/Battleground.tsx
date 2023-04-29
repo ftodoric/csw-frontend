@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react'
-import { ReactFlow, addEdge, useEdgesState, useNodesState } from 'reactflow'
+import { Connection, Edge, ReactFlow, addEdge, useEdgesState, useNodesState } from 'reactflow'
 
 import { Game, TeamSide } from '@types'
 
-import { initialEdges } from './edges'
+import { calculateEdges } from './edges'
 import { EntityContainer } from './Entity'
-import { getInitialNodes } from './nodes'
+import { calculateNodes } from './nodes'
 import * as S from './styles'
 
 interface BattlegroundProps {
@@ -17,23 +17,31 @@ const nodeTypes: any = {
   entity: EntityContainer,
 }
 
+/**
+ * This component defines React Flow panel and initializes its nodes and edges.
+ *
+ * Custom defined node type is an Entity container which receives all data through a nodes caluclation function.
+ *
+ * This component should only be modified in case of React Flow configuration,
+ * or in case of adding additional props to Entity container.
+ */
 export const Battleground = ({ game, userSide }: BattlegroundProps) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(
-    getInitialNodes(game, userSide)
-  )
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges(userSide))
+  const [nodes, setNodes, onNodesChange] = useNodesState(calculateNodes(game, userSide))
+  const [edges, setEdges, onEdgesChange] = useEdgesState(calculateEdges(userSide))
 
   const onConnect = useCallback(
-    (params: any) => setEdges((eds: any) => addEdge(params, eds)),
+    (params: Connection | Edge) => setEdges((eds: Edge[]) => addEdge(params, eds)),
     [setEdges]
   )
 
+  // Recalculate nodes on any prop update
   useEffect(() => {
-    setNodes(getInitialNodes(game, userSide))
+    setNodes(calculateNodes(game, userSide))
   }, [game, userSide, setNodes])
 
+  // Recalculate edges on userSide prop update
   useEffect(() => {
-    setEdges(initialEdges(userSide))
+    setEdges(calculateEdges(userSide))
   }, [userSide, setEdges])
 
   return (

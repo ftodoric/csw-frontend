@@ -19,20 +19,19 @@ import {
 } from './utils'
 
 export const GameContainer = ({ gameId }: { gameId: string }) => {
+  const queryClient = useQueryClient()
+
   const { user } = useUserContext()
   const { data: game } = useGame(gameId)
-
-  const [isOwner, setIsOwner] = useState(false)
-  const [userSide, setUserSide] = useState(TeamSide.Blue)
 
   const [socket, setSocket] = useState<any>(null)
   const [time, setTime] = useState<number>(game ? game.turnsRemainingTime : 0)
 
+  const [isOwner, setIsOwner] = useState(false)
+  const [userSide, setUserSide] = useState(TeamSide.Blue)
   const [isWinnerBannerActive, setIsWinnerBannerActive] = useState(true)
 
-  const queryClient = useQueryClient()
-
-  // Initialize socket
+  // Initialize game session socket
   useEffect(() => {
     const socket = io('localhost:8000', {
       // Prevent long polling
@@ -43,7 +42,10 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     })
 
     socket.on('connect', () => {
-      console.log('connected')
+      console.log(
+        '%clog | connected to game session',
+        'color: #0e8dbf; margin-bottom: 5px;'
+      )
     })
 
     socket.on('tick', (data) => {
@@ -53,10 +55,15 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     setSocket(socket)
 
     return () => {
+      console.log(
+        '%clog | disconnected from game session',
+        'color: #0e8dbf; margin-bottom: 5px;'
+      )
       socket.disconnect()
     }
   }, [gameId])
 
+  // Set owner and determine user side
   useEffect(() => {
     if (!user || !game) return
 
@@ -66,7 +73,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     setUserSide(usersSide)
   }, [game, user])
 
-  // Refetch game data after timer timeout (end of a turn)
+  // Refetch game data after the timer timeout (end of a turn)
   useEffect(() => {
     if (time === 0) queryClient.invalidateQueries('game')
   }, [time, queryClient])
@@ -84,6 +91,8 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
   const isGameOver = game.status === GameStatus.Finished
 
+  const hasGameOutcome = game.outcome !== null && game.outcome !== undefined
+
   return (
     <>
       <S.Header>
@@ -96,24 +105,24 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
             </S.UserNavHoverWrapper>
           </Link>
 
-          <div style={{ marginLeft: 10 }}>
-            {isOwner && (
-              <S.UserNavHoverWrapper
-                onClick={() => handleToggleTimer(game.status)}
-              >
-                {!isGameOver &&
-                  (game.status === GameStatus.InProgress ? (
-                    <IconPause width="32px" fill="white" />
-                  ) : (
-                    <IconPlay width="32px" fill="white" />
-                  ))}
-              </S.UserNavHoverWrapper>
-            )}
-          </div>
+          {isOwner && (
+            <S.UserNavHoverWrapper
+              onClick={() => handleToggleTimer(game.status)}
+            >
+              {!isGameOver &&
+                (game.status === GameStatus.InProgress ? (
+                  <IconPause width="32px" fill="white" />
+                ) : (
+                  <IconPlay width="32px" fill="white" />
+                ))}
+            </S.UserNavHoverWrapper>
+          )}
         </S.UserNav>
 
         <S.Counter>
-          {isGameOver ? getWinnerText(game.outcome!) : formatTimer(time)}
+          {isGameOver && hasGameOutcome
+            ? getWinnerText(game.outcome!)
+            : formatTimer(time)}
         </S.Counter>
 
         <S.GamePeriod>{gamePeriodMap[game.activePeriod]}, 2020</S.GamePeriod>
@@ -130,21 +139,20 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
       <Navigation game={game} />
 
-      {game.outcome !== null &&
-        game.outcome !== undefined &&
-        isWinnerBannerActive && (
-          <S.WinnerBanner>
-            <div>{getWinnerText(game.outcome, true)}</div>
+      {/* Winner Banner */}
+      {hasGameOutcome && isWinnerBannerActive && (
+        <S.WinnerBanner>
+          <div>{getWinnerText(game.outcome!, true)}</div>
 
-            <span>
-              <Link href="/lobby">Back to Lobby</Link>
-            </span>
+          <span>
+            <Link href="/lobby">Back to Lobby</Link>
+          </span>
 
-            <span onClick={() => setIsWinnerBannerActive(false)}>
-              See the game
-            </span>
-          </S.WinnerBanner>
-        )}
+          <span onClick={() => setIsWinnerBannerActive(false)}>
+            See the game
+          </span>
+        </S.WinnerBanner>
+      )}
     </>
   )
 }

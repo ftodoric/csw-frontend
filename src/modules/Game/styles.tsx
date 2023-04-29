@@ -22,7 +22,7 @@ export const UserNav = styled.div`
 export const Username = styled.div`
   border-right: solid 2px white;
   padding: 0 20px;
-  margin-right: 20px;
+  margin-right: 10px;
   height: 20;
   display: flex;
   align-items: center;
@@ -31,6 +31,7 @@ export const Username = styled.div`
 export const UserNavHoverWrapper = styled.div`
   border-radius: 100px;
   padding: 2px 2px 0;
+  margin-left: 10px;
 
   :hover {
     background-color: ${secondaryHoverColor};

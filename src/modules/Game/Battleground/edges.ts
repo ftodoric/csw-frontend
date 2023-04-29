@@ -6,7 +6,7 @@ const edgeStyle = {
   stroke: '#888888',
 }
 
-export const initialEdges = (userSide: TeamSide) => [
+export const calculateEdges = (userSide: TeamSide) => [
   // Blue side
   {
     id: 'elec-ukPlc',

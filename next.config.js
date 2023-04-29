@@ -9,8 +9,7 @@ const nextConfig = {
     styledComponents: true,
   },
   publicRuntimeConfig: {
-    apiUrl:
-      process.env.NODE_ENV === 'development' ? productionAPI : developmentAPI,
+    apiUrl: process.env.NODE_ENV === 'development' ? productionAPI : developmentAPI,
   },
 }
 

@@ -2,6 +2,7 @@ import { TeamSide } from '@types'
 
 interface TeamBackgroundProps {
   side: TeamSide
+  // this flag is set on the lower component of the two
   userSide?: boolean
 }
 

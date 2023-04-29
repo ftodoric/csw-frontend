@@ -1,6 +1,6 @@
 import { EntityType, Game, TeamSide } from '@types'
 
-export const getInitialNodes = (game: Game, userSide: TeamSide) => {
+export const calculateNodes = (game: Game, userSide: TeamSide) => {
   const isBlueUserSide = userSide === TeamSide.Blue
 
   // Layout everything inside a given scale and use the `fitView` prop to center everything
