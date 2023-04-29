@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { primaryColor, secondaryColor, secondaryHoverColor } from '@colors'
+import { GameOutcome } from '@types'
 
 export const Header = styled.div`
   background-color: ${primaryColor};
@@ -65,14 +66,14 @@ export const Battleground = styled.div`
   position: relative;
 `
 
-export const WinnerBanner = styled.div`
+export const WinnerBanner = styled.div<{ outcome: GameOutcome }>`
   position: fixed;
   top: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgb(255, 255, 255, 0.4);
   z-index: 100;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,7 +81,15 @@ export const WinnerBanner = styled.div`
   > div {
     display: flex;
     justify-content: center;
-    background-color: #d5d5d5;
+
+    ${(p) => p.outcome === GameOutcome.BlueWins && 'background-color: #acc7db'};
+    ${(p) => p.outcome === GameOutcome.RedWins && 'background-color: #ca9797'};
+    ${(p) => p.outcome === GameOutcome.Tie && 'background-color: #d5d5d5'};
+
+    ${(p) => p.outcome === GameOutcome.BlueWins && 'color: #2e84c5'};
+    ${(p) => p.outcome === GameOutcome.RedWins && 'color: firebrick'};
+    ${(p) => p.outcome === GameOutcome.Tie && 'color: #727272'};
+
     width: 100%;
     height: 200px;
     margin-top: 200px;
@@ -88,7 +97,6 @@ export const WinnerBanner = styled.div`
     font-size: 40px;
     font-style: italic;
     font-weight: bold;
-    color: #727272;
     box-shadow: 0 0 100px grey;
     animation: 0.2s ease-out 0s 1 slideInFromLeft;
   }
@@ -119,9 +127,11 @@ export const WinnerBanner = styled.div`
     animation: 0.2s ease-out 0s 1 slideInFromFarLeft;
 
     :hover {
-      color: firebrick;
       text-decoration: underline;
       cursor: pointer;
+
+      ${(p) => p.outcome === GameOutcome.BlueWins && 'color: #2e84c5'};
+      ${(p) => p.outcome === GameOutcome.RedWins && 'color: firebrick'};
     }
   }
 `

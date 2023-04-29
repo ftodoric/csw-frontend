@@ -121,7 +121,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
       {/* Winner Banner */}
       {hasGameOutcome && isWinnerBannerActive && (
-        <S.WinnerBanner>
+        <S.WinnerBanner outcome={game.outcome!}>
           <div>{getWinnerText(game.outcome!, true)}</div>
 
           <span>
