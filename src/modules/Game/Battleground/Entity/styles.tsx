@@ -55,13 +55,13 @@ export const Footer = styled.div`
   #resource {
     background-color: ${resourceBgColor};
     color: ${resourceColor};
-    border-bottom-left-radius: 5;
+    border-bottom-left-radius: 5px;
   }
 
   #vitality {
     background-color: ${vitalityBgColor};
     color: ${vitalityColor};
-    border-bottom-right-radius: 5;
+    border-bottom-right-radius: 5px;
   }
 `
 
