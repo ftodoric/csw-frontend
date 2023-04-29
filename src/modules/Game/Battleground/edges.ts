@@ -6,124 +6,114 @@ const edgeStyle = {
   stroke: '#888888',
 }
 
+const basicEdgeStyle = {
+  type: 'straight',
+  style: edgeStyle,
+}
+
+const attackEdgeStyle = {
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: edgeStyle.stroke,
+  },
+  animated: true,
+  style: {
+    stroke: 'firebrick',
+  },
+}
+
+// Simple creation of required edge props
+const basicEdgeFrom = (source: string) => {
+  return {
+    to: (target: string) => {
+      return {
+        id: `${source.replace('node-', '')}-${target.replace('node-', '')}`,
+        source,
+        target,
+      }
+    },
+  }
+}
+
 export const calculateEdges = (userSide: TeamSide) => [
   // Blue side
   {
-    id: 'elec-ukPlc',
-    source: 'node-electorate',
-    target: 'node-ukPlc',
+    ...basicEdgeFrom('node-electorate').to('node-ukPlc'),
+    ...basicEdgeStyle,
     markerEnd: {
       type: MarkerType.ArrowClosed,
       color: edgeStyle.stroke,
     },
-    type: 'straight',
-    style: edgeStyle,
   },
 
   {
-    id: 'elec-gov',
-    source: 'node-electorate',
-    target: 'node-ukGovernment',
-    type: 'straight',
-    style: edgeStyle,
+    ...basicEdgeFrom('node-electorate').to('node-ukGovernment'),
+    ...basicEdgeStyle,
   },
 
   {
-    id: 'ukEne-elec',
-    source: 'node-ukEnergy',
-    sourceHandle: 'toElectorate',
-    target: 'node-electorate',
-    targetHandle: userSide === TeamSide.Blue ? 'toTop' : 'toBottom',
-    type: 'straight',
-    style: edgeStyle,
-  },
-
-  {
-    id: 'ukGov-ukPlc',
-    source: 'node-ukGovernment',
-    target: 'node-ukPlc',
-    type: 'straight',
-    style: edgeStyle,
-  },
-
-  {
-    id: 'ukPlc-gchq',
-    source: 'node-ukPlc',
+    ...basicEdgeFrom('node-ukPlc').to('node-gchq'),
     sourceHandle: userSide === TeamSide.Blue ? 'fromTop' : 'fromBottom',
-    target: 'node-gchq',
-    targetHandle: 'fromUkPlc',
+    ...basicEdgeStyle,
     markerEnd: {
       type: MarkerType.ArrowClosed,
       color: edgeStyle.stroke,
     },
-    type: 'straight',
-    style: edgeStyle,
   },
 
   {
-    id: 'ukGov-gchq',
-    source: 'node-ukGovernment',
-    target: 'node-gchq',
-    targetHandle: 'fromGov',
-    type: 'straight',
-    style: edgeStyle,
+    ...basicEdgeFrom('node-ukGovernment').to('node-ukPlc'),
+    ...basicEdgeStyle,
   },
 
   {
-    id: 'ukEne-ukGov',
-    source: 'node-ukEnergy',
-    target: 'node-ukGovernment',
-    type: 'straight',
-    style: edgeStyle,
+    ...basicEdgeFrom('node-ukGovernment').to('node-gchq'),
+    ...basicEdgeStyle,
+  },
+
+  {
+    ...basicEdgeFrom('node-ukEnergy').to('node-electorate'),
+    targetHandle: userSide === TeamSide.Blue ? 'toTop' : 'toBottom',
+    ...basicEdgeStyle,
+  },
+
+  {
+    ...basicEdgeFrom('node-ukEnergy').to('node-ukGovernment'),
+    ...basicEdgeStyle,
   },
 
   // Red Side
   {
-    id: 'rusGov-trolls',
-    source: 'node-russianGovernment',
-    target: 'node-onlineTrolls',
-    type: 'straight',
+    ...basicEdgeFrom('node-energeticBear').to('node-russianGovernment'),
+    ...basicEdgeStyle,
+  },
+
+  {
+    ...basicEdgeFrom('node-russianGovernment').to('node-onlineTrolls'),
+    ...basicEdgeStyle,
     markerEnd: {
       type: MarkerType.ArrowClosed,
       color: edgeStyle.stroke,
     },
-    style: edgeStyle,
   },
 
   {
-    id: 'ukGov-rosenergoatom',
-    source: 'node-russianGovernment',
-    target: 'node-rosenergoatom',
-    type: 'straight',
-    style: edgeStyle,
+    ...basicEdgeFrom('node-russianGovernment').to('node-rosenergoatom'),
+    ...basicEdgeStyle,
   },
 
   {
-    id: 'eneBear-rusGov',
-    source: 'node-energeticBear',
-    target: 'node-russianGovernment',
-    type: 'straight',
-    style: edgeStyle,
-  },
-
-  {
-    id: 'scs-rusGov',
-    source: 'node-scs',
-    target: 'node-russianGovernment',
-    type: 'straight',
-    style: edgeStyle,
-  },
-
-  {
-    id: 'scs-eneBear',
-    source: 'node-scs',
-    target: 'node-energeticBear',
+    ...basicEdgeFrom('node-scs').to('node-energeticBear'),
     targetHandle: userSide === TeamSide.Red ? 'toTop' : 'toBottom',
-    type: 'straight',
-    style: edgeStyle,
+    ...basicEdgeStyle,
     markerEnd: {
       type: MarkerType.ArrowClosed,
       color: edgeStyle.stroke,
     },
+  },
+
+  {
+    ...basicEdgeFrom('node-scs').to('node-russianGovernment'),
+    ...basicEdgeStyle,
   },
 ]

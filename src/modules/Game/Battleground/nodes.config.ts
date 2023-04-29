@@ -1,60 +1,93 @@
 import { EntityType, Game, TeamSide } from '@types'
 
+// Layout everything inside a given scale and use the `fitView` prop to center everything
+
+/**
+ * On x axis there are 5 lanes in which entities lie.
+ * Entities of the same type are faced against each other in the same lane.
+ */
+const xLane = {
+  1: 0,
+  2: 150,
+  3: 450,
+  4: 750,
+  5: 900,
+}
+
+/**
+ * On y axis there are 6 lanes on which entities lie.
+ * Lower three lanes are at the users side,
+ * and upper three lanes are for the opposing team.
+ */
+const yLane = {
+  1: 0,
+  2: 100,
+  3: 150,
+  4: 300,
+  5: 350,
+  6: 450,
+}
+
+const commonEntityNodeConfig = {
+  type: 'entity',
+  draggable: false,
+}
+
 export const calculateNodes = (game: Game, userSide: TeamSide) => {
   const isBlueUserSide = userSide === TeamSide.Blue
 
-  // Layout everything inside a given scale and use the `fitView` prop to center everything
-
   const blueEntityMap = {
     [EntityType.People]: {
-      x: 750,
-      y: isBlueUserSide ? 450 : 0,
+      x: xLane[4],
+      y: isBlueUserSide ? yLane[6] : yLane[1],
     },
     [EntityType.Industry]: {
-      x: 150,
-      y: isBlueUserSide ? 450 : 0,
+      x: xLane[2],
+      y: isBlueUserSide ? yLane[6] : yLane[1],
     },
     [EntityType.Government]: {
-      x: 450,
-      y: isBlueUserSide ? 350 : 100,
+      x: xLane[3],
+      y: isBlueUserSide ? yLane[5] : yLane[2],
     },
     [EntityType.Energy]: {
-      x: 900,
-      y: isBlueUserSide ? 300 : 150,
+      x: xLane[5],
+      y: isBlueUserSide ? yLane[4] : yLane[3],
     },
     [EntityType.Intelligence]: {
-      x: 0,
-      y: isBlueUserSide ? 300 : 150,
+      x: xLane[1],
+      y: isBlueUserSide ? yLane[4] : yLane[3],
     },
   }
 
   const redEntityMap = {
     [EntityType.People]: {
-      x: 750,
-      y: isBlueUserSide ? 0 : 450,
+      x: xLane[4],
+      y: isBlueUserSide ? yLane[1] : yLane[6],
     },
     [EntityType.Industry]: {
-      x: 150,
-      y: isBlueUserSide ? 0 : 450,
+      x: xLane[2],
+      y: isBlueUserSide ? yLane[1] : yLane[6],
     },
     [EntityType.Government]: {
-      x: 450,
-      y: isBlueUserSide ? 100 : 350,
+      x: xLane[3],
+      y: isBlueUserSide ? yLane[2] : yLane[5],
     },
     [EntityType.Energy]: {
-      x: 900,
-      y: isBlueUserSide ? 150 : 300,
+      x: xLane[5],
+      y: isBlueUserSide ? yLane[3] : yLane[4],
     },
     [EntityType.Intelligence]: {
-      x: 0,
-      y: isBlueUserSide ? 150 : 300,
+      x: xLane[1],
+      y: isBlueUserSide ? yLane[3] : yLane[4],
     },
   }
 
   return [
+    // Blue Side
     {
       id: 'node-electorate',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: blueEntityMap[EntityType.People],
       data: {
         type: EntityType.People,
         side: TeamSide.Blue,
@@ -63,12 +96,11 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'peoplePlayer' && game.activeSide === TeamSide.Blue,
       },
-      position: blueEntityMap[EntityType.People],
-      draggable: false,
     },
     {
       id: 'node-ukPlc',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: blueEntityMap[EntityType.Industry],
       data: {
         type: EntityType.Industry,
         side: TeamSide.Blue,
@@ -77,12 +109,11 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'industryPlayer' && game.activeSide === TeamSide.Blue,
       },
-      position: blueEntityMap[EntityType.Industry],
-      draggable: false,
     },
     {
       id: 'node-ukGovernment',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: blueEntityMap[EntityType.Government],
       data: {
         type: EntityType.Government,
         side: TeamSide.Blue,
@@ -91,12 +122,11 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'governmentPlayer' && game.activeSide === TeamSide.Blue,
       },
-      position: blueEntityMap[EntityType.Government],
-      draggable: false,
     },
     {
       id: 'node-ukEnergy',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: blueEntityMap[EntityType.Energy],
       data: {
         type: EntityType.Energy,
         side: TeamSide.Blue,
@@ -105,12 +135,11 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'energyPlayer' && game.activeSide === TeamSide.Blue,
       },
-      position: blueEntityMap[EntityType.Energy],
-      draggable: false,
     },
     {
       id: 'node-gchq',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: blueEntityMap[EntityType.Intelligence],
       data: {
         type: EntityType.Intelligence,
         side: TeamSide.Blue,
@@ -119,14 +148,13 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'intelligencePlayer' && game.activeSide === TeamSide.Blue,
       },
-      position: blueEntityMap[EntityType.Intelligence],
-      draggable: false,
     },
 
-    // Russian side
+    // Red Side
     {
       id: 'node-onlineTrolls',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: redEntityMap[EntityType.People],
       data: {
         type: EntityType.People,
         side: TeamSide.Red,
@@ -135,12 +163,11 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'peoplePlayer' && game.activeSide === TeamSide.Red,
       },
-      position: redEntityMap[EntityType.People],
-      draggable: false,
     },
     {
       id: 'node-energeticBear',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: redEntityMap[EntityType.Industry],
       data: {
         type: EntityType.Industry,
         side: TeamSide.Red,
@@ -149,12 +176,11 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'industryPlayer' && game.activeSide === TeamSide.Red,
       },
-      position: redEntityMap[EntityType.Industry],
-      draggable: false,
     },
     {
       id: 'node-russianGovernment',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: redEntityMap[EntityType.Government],
       data: {
         type: EntityType.Government,
         side: TeamSide.Red,
@@ -163,12 +189,11 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'governmentPlayer' && game.activeSide === TeamSide.Red,
       },
-      position: redEntityMap[EntityType.Government],
-      draggable: false,
     },
     {
       id: 'node-rosenergoatom',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: redEntityMap[EntityType.Energy],
       data: {
         type: EntityType.Energy,
         side: TeamSide.Red,
@@ -177,12 +202,11 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'energyPlayer' && game.activeSide === TeamSide.Red,
       },
-      position: redEntityMap[EntityType.Energy],
-      draggable: false,
     },
     {
       id: 'node-scs',
-      type: 'entity',
+      ...commonEntityNodeConfig,
+      position: redEntityMap[EntityType.Intelligence],
       data: {
         type: EntityType.Intelligence,
         side: TeamSide.Red,
@@ -191,8 +215,6 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
         userSide,
         isActive: game.activePlayer === 'intelligencePlayer' && game.activeSide === TeamSide.Red,
       },
-      position: redEntityMap[EntityType.Intelligence],
-      draggable: false,
     },
   ]
 }

@@ -73,6 +73,9 @@ export const WinnerBanner = styled.div`
   background-color: rgb(255, 255, 255, 0.4);
   z-index: 100;
   backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   > div {
     display: flex;
@@ -99,12 +102,21 @@ export const WinnerBanner = styled.div`
     }
   }
 
+  @keyframes slideInFromFarLeft {
+    0% {
+      transform: translateX(-1000%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
   > span {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     font-size: 14px;
-    animation: 0.2s ease-out 0s 1 slideInFromLeft;
+    animation: 0.2s ease-out 0s 1 slideInFromFarLeft;
 
     :hover {
       color: firebrick;

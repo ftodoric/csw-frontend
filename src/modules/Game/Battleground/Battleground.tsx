@@ -5,7 +5,7 @@ import { Game, TeamSide } from '@types'
 
 import { calculateEdges } from './edges'
 import { EntityContainer } from './Entity'
-import { calculateNodes } from './nodes'
+import { calculateNodes } from './nodes.config'
 import * as S from './styles'
 
 interface BattlegroundProps {
