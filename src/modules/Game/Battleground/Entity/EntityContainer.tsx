@@ -1,10 +1,10 @@
 import Image from 'next/image'
 
+import { IconVictoryPoints } from '@components/Icons'
 import { EntityType, Player, TeamSide } from '@types'
 
 import { HandleDeterminator } from './HandleDeterminator'
 import * as S from './styles'
-import { IconVictoryPoints } from '@components/Icons'
 
 interface EntityProps {
   type: EntityType
