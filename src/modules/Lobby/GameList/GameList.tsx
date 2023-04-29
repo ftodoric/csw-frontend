@@ -26,14 +26,7 @@ export const GameList = ({ gameList }: { gameList: Game[] | undefined }) => {
         gameList.length !== 0 ? (
           <>
             {gameList.map((game, i) => {
-              return (
-                <GameItem
-                  key={game.id}
-                  game={game}
-                  index={i}
-                  listSize={gameList.length}
-                />
-              )
+              return <GameItem key={game.id} game={game} index={i} listSize={gameList.length} />
             })}
           </>
         ) : (

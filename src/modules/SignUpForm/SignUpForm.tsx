@@ -31,48 +31,26 @@ export const SignUpForm = () => {
       <S.StyledForm onSubmit={handleSubmit(onSubmit)}>
         <S.InputContainer>
           <IconUser width="18px" height="18px" />
-          <S.StyledInput
-            type="text"
-            placeholder="Username"
-            {...register('username')}
-          />
+          <S.StyledInput type="text" placeholder="Username" {...register('username')} />
         </S.InputContainer>
-        {errors.username && (
-          <S.ErrorContainer>{errors.username.message}</S.ErrorContainer>
-        )}
+        {errors.username && <S.ErrorContainer>{errors.username.message}</S.ErrorContainer>}
 
         <S.InputContainer style={{ marginTop: 20 }}>
           <IconPassword width="18px" height="18px" />
-          <S.StyledInput
-            type="password"
-            placeholder="Password"
-            {...register('password', { required: true })}
-          />
+          <S.StyledInput type="password" placeholder="Password" {...register('password', { required: true })} />
         </S.InputContainer>
-        {errors.password && (
-          <S.ErrorContainer>{errors.password.message}</S.ErrorContainer>
-        )}
+        {errors.password && <S.ErrorContainer>{errors.password.message}</S.ErrorContainer>}
 
         <S.InputContainer style={{ marginTop: 20 }}>
           <IconPassword width="18px" height="18px" />
-          <S.StyledInput
-            type="password"
-            placeholder="Confirm password"
-            {...register('confirmPassword')}
-          />
+          <S.StyledInput type="password" placeholder="Confirm password" {...register('confirmPassword')} />
         </S.InputContainer>
-        {errors.confirmPassword && (
-          <S.ErrorContainer>{errors.confirmPassword.message}</S.ErrorContainer>
-        )}
+        {errors.confirmPassword && <S.ErrorContainer>{errors.confirmPassword.message}</S.ErrorContainer>}
 
         <S.SubmitButton type="submit" value="Sign up" />
       </S.StyledForm>
 
-      {signUpUser.isError && (
-        <S.ErrorContainer style={{ marginTop: 10 }}>
-          Username already exists.
-        </S.ErrorContainer>
-      )}
+      {signUpUser.isError && <S.ErrorContainer style={{ marginTop: 10 }}>Username already exists.</S.ErrorContainer>}
 
       <S.AlternativeLink>
         <Link href="/">Already have an account? Login</Link>

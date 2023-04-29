@@ -8,11 +8,7 @@ interface HandleDeterminatorProps {
   userSide: TeamSide
 }
 
-export const HandleDeterminator = ({
-  type,
-  side,
-  userSide,
-}: HandleDeterminatorProps) => {
+export const HandleDeterminator = ({ type, side, userSide }: HandleDeterminatorProps) => {
   // Blue side
   if (side === TeamSide.Blue) {
     const isUserSide = userSide === TeamSide.Blue

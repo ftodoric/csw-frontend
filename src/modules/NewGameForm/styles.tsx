@@ -1,11 +1,6 @@
 import styled from 'styled-components'
 
-import {
-  errorRedColor,
-  primaryColor,
-  primaryHoverColor,
-  secondaryColor,
-} from '@colors'
+import { errorRedColor, primaryColor, primaryHoverColor, secondaryColor } from '@colors'
 
 export const FormContainer = styled.form`
   width: 600px;

@@ -10,17 +10,11 @@ interface TeamFormProps {
   formRegister: any
 }
 
-export const TeamForm: React.FC<TeamFormProps> = ({
-  side,
-  users,
-  formRegister,
-}: TeamFormProps) => {
+export const TeamForm: React.FC<TeamFormProps> = ({ side, users, formRegister }: TeamFormProps) => {
   const isBlueTeam = side === TeamSide.Blue
 
   return (
-    <S.TeamFormContainer
-      style={{ alignItems: isBlueTeam ? 'flex-start' : 'flex-end' }}
-    >
+    <S.TeamFormContainer style={{ alignItems: isBlueTeam ? 'flex-start' : 'flex-end' }}>
       <S.Title
         style={{
           color: isBlueTeam ? blueTeamColor : redTeamColor,
@@ -57,9 +51,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({
       <PlayerSelect
         entityName={isBlueTeam ? 'UK Government' : 'Russian Government'}
         formRegister={formRegister}
-        inputName={
-          isBlueTeam ? 'ukGovernmentPlayer' : 'russianGovernmentPlayer'
-        }
+        inputName={isBlueTeam ? 'ukGovernmentPlayer' : 'russianGovernmentPlayer'}
         users={users}
         side={side}
       />

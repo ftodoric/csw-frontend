@@ -11,12 +11,7 @@ import { GameOutcome, GameStatus, TeamSide } from '@types'
 import { Battleground, TeamBackground } from './Battleground'
 import { Navigation } from './Navigation'
 import * as S from './styles'
-import {
-  determineUserSide,
-  formatTimer,
-  gamePeriodMap,
-  getWinnerText,
-} from './utils'
+import { determineUserSide, formatTimer, gamePeriodMap, getWinnerText } from './utils'
 
 export const GameContainer = ({ gameId }: { gameId: string }) => {
   const queryClient = useQueryClient()
@@ -42,10 +37,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     })
 
     socket.on('connect', () => {
-      console.log(
-        '%clog | connected to game session',
-        'color: #0e8dbf; margin-bottom: 5px;'
-      )
+      console.log('%clog | connected to game session', 'color: #0e8dbf; margin-bottom: 5px;')
     })
 
     socket.on('tick', (data) => {
@@ -55,10 +47,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     setSocket(socket)
 
     return () => {
-      console.log(
-        '%clog | disconnected from game session',
-        'color: #0e8dbf; margin-bottom: 5px;'
-      )
+      console.log('%clog | disconnected from game session', 'color: #0e8dbf; margin-bottom: 5px;')
       socket.disconnect()
     }
   }, [gameId])
@@ -80,8 +69,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
   const handleToggleTimer = (gameStatus: GameStatus) => {
     if (socket) {
-      const paused =
-        gameStatus === GameStatus.NotStarted || gameStatus === GameStatus.Paused
+      const paused = gameStatus === GameStatus.NotStarted || gameStatus === GameStatus.Paused
       socket.emit(paused ? 'startTimer' : 'pauseTimer')
       queryClient.invalidateQueries('game')
     }
@@ -106,9 +94,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
           </Link>
 
           {isOwner && (
-            <S.UserNavHoverWrapper
-              onClick={() => handleToggleTimer(game.status)}
-            >
+            <S.UserNavHoverWrapper onClick={() => handleToggleTimer(game.status)}>
               {!isGameOver &&
                 (game.status === GameStatus.InProgress ? (
                   <IconPause width="32px" fill="white" />
@@ -119,19 +105,13 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
           )}
         </S.UserNav>
 
-        <S.Counter>
-          {isGameOver && hasGameOutcome
-            ? getWinnerText(game.outcome!)
-            : formatTimer(time)}
-        </S.Counter>
+        <S.Counter>{isGameOver && hasGameOutcome ? getWinnerText(game.outcome!) : formatTimer(time)}</S.Counter>
 
         <S.GamePeriod>{gamePeriodMap[game.activePeriod]}, 2020</S.GamePeriod>
       </S.Header>
 
       <S.Battleground>
-        <TeamBackground
-          side={userSide === TeamSide.Blue ? TeamSide.Red : TeamSide.Blue}
-        />
+        <TeamBackground side={userSide === TeamSide.Blue ? TeamSide.Red : TeamSide.Blue} />
         <TeamBackground side={userSide} userSide />
 
         <Battleground game={game} userSide={userSide} />
@@ -148,9 +128,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
             <Link href="/lobby">Back to Lobby</Link>
           </span>
 
-          <span onClick={() => setIsWinnerBannerActive(false)}>
-            See the game
-          </span>
+          <span onClick={() => setIsWinnerBannerActive(false)}>See the game</span>
         </S.WinnerBanner>
       )}
     </>

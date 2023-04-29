@@ -11,13 +11,7 @@ interface PlayerSelectProps {
   side: TeamSide
 }
 
-export const PlayerSelect = ({
-  entityName,
-  formRegister,
-  inputName,
-  users,
-  side,
-}: PlayerSelectProps) => {
+export const PlayerSelect = ({ entityName, formRegister, inputName, users, side }: PlayerSelectProps) => {
   const isBlueTeam = side === TeamSide.Blue
 
   return (
@@ -30,10 +24,7 @@ export const PlayerSelect = ({
         {entityName} Player
         <span style={{ color: errorRedColor, marginLeft: '2px' }}>*</span>
       </S.SelectLabel>
-      <S.StyledSelect
-        {...formRegister(inputName)}
-        style={{ textAlign: isBlueTeam ? 'left' : 'right' }}
-      >
+      <S.StyledSelect {...formRegister(inputName)} style={{ textAlign: isBlueTeam ? 'left' : 'right' }}>
         <option value="" hidden>
           Select player
         </option>

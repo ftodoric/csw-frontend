@@ -10,14 +10,7 @@ import { useAllUsers } from '@hooks/auth/useAllUsers'
 import * as S from '@modules/Lobby/styles'
 import { newGameFormSchema, NewGameFormType, TeamSide, User } from '@types'
 
-import {
-  FormContainer,
-  GameDescContainer,
-  ErrorContainer,
-  SubmitButton,
-  TeamsContainer,
-  VersusLabel,
-} from './styles'
+import { FormContainer, GameDescContainer, ErrorContainer, SubmitButton, TeamsContainer, VersusLabel } from './styles'
 import { TeamForm } from './TeamForm'
 
 export const NewGameForm = () => {
@@ -77,11 +70,7 @@ export const NewGameForm = () => {
 
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <TeamsContainer>
-          <TeamForm
-            side={TeamSide.Blue}
-            users={users}
-            formRegister={register}
-          />
+          <TeamForm side={TeamSide.Blue} users={users} formRegister={register} />
 
           <TeamForm side={TeamSide.Red} users={users} formRegister={register} />
 
@@ -89,21 +78,14 @@ export const NewGameForm = () => {
         </TeamsContainer>
 
         <GameDescContainer>
-          <textarea
-            placeholder="Enter description here."
-            {...register('description')}
-          />
+          <textarea placeholder="Enter description here." {...register('description')} />
         </GameDescContainer>
 
         <SubmitButton type="submit" value="Create" />
 
-        {isTeamNameError && (
-          <ErrorContainer>Team names are required.</ErrorContainer>
-        )}
+        {isTeamNameError && <ErrorContainer>Team names are required.</ErrorContainer>}
 
-        {isPlayersError && (
-          <ErrorContainer>All players must be assigned.</ErrorContainer>
-        )}
+        {isPlayersError && <ErrorContainer>All players must be assigned.</ErrorContainer>}
       </FormContainer>
 
       {/* Bottom padding */}

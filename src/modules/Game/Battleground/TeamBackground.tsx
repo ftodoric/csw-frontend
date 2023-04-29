@@ -16,18 +16,10 @@ export const TeamBackground = ({ side, userSide }: TeamBackgroundProps) => {
   const upperTeamBorderPath = 'M100 0 L50 90 L0 0'
 
   return (
-    <svg
-      width="100%"
-      height="50%"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
-      style={{ display: 'block' }}
-    >
+    <svg width="100%" height="50%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ display: 'block' }}>
       <path
         d={userSide ? lowerTeamAreaPath : upperTeamAreaPath}
-        fill={
-          isBlueTeam ? 'rgba(48, 141, 193, 0.18)' : 'rgba(190, 64, 55, 0.4)'
-        }
+        fill={isBlueTeam ? 'rgba(48, 141, 193, 0.18)' : 'rgba(190, 64, 55, 0.4)'}
       />
       <path
         d={userSide ? lowerTeamBorderPath : upperTeamBorderPath}

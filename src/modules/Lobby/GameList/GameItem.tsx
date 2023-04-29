@@ -5,21 +5,9 @@ import { IconClose, IconInfo, IconOpen } from '@components/Icons'
 import { Game, GameStatus } from '@types'
 
 import * as S from './styles'
-import {
-  getStatusText,
-  handleDescriptionClick,
-  handleDescriptionClose,
-} from './utils'
+import { getStatusText, handleDescriptionClick, handleDescriptionClose } from './utils'
 
-export const GameItem = ({
-  game,
-  index,
-  listSize,
-}: {
-  game: Game
-  index: number
-  listSize: number
-}) => {
+export const GameItem = ({ game, index, listSize }: { game: Game; index: number; listSize: number }) => {
   return (
     <>
       <S.ItemWrapper key={game.id}>
@@ -32,10 +20,7 @@ export const GameItem = ({
         <div>{getStatusText(game.status, game.outcome)}</div>
 
         <div id={`game-desc`}>
-          <div
-            id="listener"
-            onClick={(event) => handleDescriptionClick(event, index, listSize)}
-          >
+          <div id="listener" onClick={(event) => handleDescriptionClick(event, index, listSize)}>
             <IconInfo width="20px" height="20px" />
           </div>
         </div>

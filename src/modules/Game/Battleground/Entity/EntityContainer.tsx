@@ -33,11 +33,7 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
 
       <S.Middle>
         <Image
-          src={
-            name !== 'Energetic Bear'
-              ? `/images/entities/${type}.svg`
-              : '/images/entities/espionage.svg'
-          }
+          src={name !== 'Energetic Bear' ? `/images/entities/${type}.svg` : '/images/entities/espionage.svg'}
           width={30}
           height={30}
           alt="gchq"
@@ -68,11 +64,7 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
         </div>
       </S.Footer>
 
-      {isActive && (
-        <S.AnimationContainer
-          color={side === TeamSide.Blue ? '#2e84c5' : '#b22222'}
-        />
-      )}
+      {isActive && <S.AnimationContainer color={side === TeamSide.Blue ? '#2e84c5' : '#b22222'} />}
     </S.CardContainer>
   )
 }

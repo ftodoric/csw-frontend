@@ -46,10 +46,7 @@ export const gamePeriodMap = {
   [GamePeriod.December]: 'December',
 }
 
-export const getWinnerText = (
-  outcome: GameOutcome,
-  showcase?: boolean
-): string => {
+export const getWinnerText = (outcome: GameOutcome, showcase?: boolean): string => {
   switch (outcome) {
     case GameOutcome.BlueWins:
       return 'Blue Team Wins'
