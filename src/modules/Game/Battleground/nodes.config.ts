@@ -33,7 +33,7 @@ const commonEntityNodeConfig = {
   draggable: false,
 }
 
-export const calculateNodes = (game: Game, userSide: TeamSide) => {
+const calculateNodes = (game: Game, userSide: TeamSide) => {
   const isBlueUserSide = userSide === TeamSide.Blue
 
   const blueEntityMap = {
@@ -218,3 +218,5 @@ export const calculateNodes = (game: Game, userSide: TeamSide) => {
     },
   ]
 }
+
+export default calculateNodes

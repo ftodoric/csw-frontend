@@ -35,7 +35,7 @@ const basicEdgeFrom = (source: string) => {
   }
 }
 
-export const calculateEdges = (userSide: TeamSide) => [
+const calculateEdges = (userSide: TeamSide) => [
   // Blue side
   {
     ...basicEdgeFrom('node-electorate').to('node-ukPlc'),
@@ -117,3 +117,5 @@ export const calculateEdges = (userSide: TeamSide) => [
     ...basicEdgeStyle,
   },
 ]
+
+export default calculateEdges

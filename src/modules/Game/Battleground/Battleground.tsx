@@ -3,9 +3,9 @@ import { Connection, Edge, ReactFlow, addEdge, useEdgesState, useNodesState } fr
 
 import { Game, TeamSide } from '@types'
 
-import { calculateEdges } from './edges'
+import calculateEdges from './edges.config'
 import { EntityContainer } from './Entity'
-import { calculateNodes } from './nodes.config'
+import calculateNodes from './nodes.config'
 import * as S from './styles'
 
 interface BattlegroundProps {
