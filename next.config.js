@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 
-const developmentAPI = 'http://localhost:8000/api'
-const productionAPI = developmentAPI
+const DEV_DOMAIN = 'localhost:8000'
+const PROD_DOMAIN = 'www.ftodoric.com'
+
+const DEV_API_BASE_URL = `http://${DEV_DOMAIN}/api`
+const PROD_API_BASE_URL = `https://${PROD_DOMAIN}/api`
+
+const DEV_WS_URL = `ws://${DEV_DOMAIN}`
+const PROD_WS_URL = `ws://${PROD_DOMAIN}`
 
 const nextConfig = {
   reactStrictMode: true,
@@ -9,7 +15,8 @@ const nextConfig = {
     styledComponents: true,
   },
   publicRuntimeConfig: {
-    apiUrl: process.env.NODE_ENV === 'development' ? productionAPI : developmentAPI,
+    apiUrl: process.env.NODE_ENV === 'development' ? DEV_API_BASE_URL : PROD_API_BASE_URL,
+    wsUrl: process.env.NODE_ENV === 'development' ? DEV_WS_URL : PROD_WS_URL,
   },
 }
 

@@ -42,3 +42,18 @@ export interface Game {
   activeSide: TeamSide
   activePeriod: GamePeriod
 }
+
+export enum GameAction {
+  DISTRIBUTE = 'distribute',
+  REVITALISE = 'revitalise',
+  ATTACK = 'attack',
+  ABSTAIN = 'abstain',
+}
+
+export enum PlayerType {
+  People = 'peoplePlayer',
+  Industry = 'industryPlayer',
+  Government = 'governmentPlayer',
+  Energy = 'energyPlayer',
+  Intelligence = 'intelligencePlayer',
+}

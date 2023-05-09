@@ -1,4 +1,4 @@
-import { EntityType, Game, TeamSide } from '@types'
+import { EntityType, Game, GameStatus, TeamSide } from '@types'
 
 // Layout everything inside a given scale and use the `fitView` prop to center everything
 
@@ -94,7 +94,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.blueTeam.peoplePlayer,
         name: 'Electorate',
         userSide,
-        isActive: game.activePlayer === 'peoplePlayer' && game.activeSide === TeamSide.Blue,
+        isActive:
+          game.activePlayer === 'peoplePlayer' &&
+          game.activeSide === TeamSide.Blue &&
+          game.status !== GameStatus.Finished,
       },
     },
     {
@@ -107,7 +110,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.blueTeam.industryPlayer,
         name: 'UK PLC',
         userSide,
-        isActive: game.activePlayer === 'industryPlayer' && game.activeSide === TeamSide.Blue,
+        isActive:
+          game.activePlayer === 'industryPlayer' &&
+          game.activeSide === TeamSide.Blue &&
+          game.status !== GameStatus.Finished,
       },
     },
     {
@@ -120,7 +126,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.blueTeam.governmentPlayer,
         name: 'UK Government',
         userSide,
-        isActive: game.activePlayer === 'governmentPlayer' && game.activeSide === TeamSide.Blue,
+        isActive:
+          game.activePlayer === 'governmentPlayer' &&
+          game.activeSide === TeamSide.Blue &&
+          game.status !== GameStatus.Finished,
       },
     },
     {
@@ -133,7 +142,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.blueTeam.energyPlayer,
         name: 'UK Energy',
         userSide,
-        isActive: game.activePlayer === 'energyPlayer' && game.activeSide === TeamSide.Blue,
+        isActive:
+          game.activePlayer === 'energyPlayer' &&
+          game.activeSide === TeamSide.Blue &&
+          game.status !== GameStatus.Finished,
       },
     },
     {
@@ -146,7 +158,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.blueTeam.intelligencePlayer,
         name: 'GCHQ',
         userSide,
-        isActive: game.activePlayer === 'intelligencePlayer' && game.activeSide === TeamSide.Blue,
+        isActive:
+          game.activePlayer === 'intelligencePlayer' &&
+          game.activeSide === TeamSide.Blue &&
+          game.status !== GameStatus.Finished,
       },
     },
 
@@ -161,7 +176,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.redTeam.peoplePlayer,
         name: 'Online Trolls',
         userSide,
-        isActive: game.activePlayer === 'peoplePlayer' && game.activeSide === TeamSide.Red,
+        isActive:
+          game.activePlayer === 'peoplePlayer' &&
+          game.activeSide === TeamSide.Red &&
+          game.status !== GameStatus.Finished,
       },
     },
     {
@@ -174,7 +192,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.redTeam.industryPlayer,
         name: 'Energetic Bear',
         userSide,
-        isActive: game.activePlayer === 'industryPlayer' && game.activeSide === TeamSide.Red,
+        isActive:
+          game.activePlayer === 'industryPlayer' &&
+          game.activeSide === TeamSide.Red &&
+          game.status !== GameStatus.Finished,
       },
     },
     {
@@ -187,7 +208,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.redTeam.governmentPlayer,
         name: 'Russian Government',
         userSide,
-        isActive: game.activePlayer === 'governmentPlayer' && game.activeSide === TeamSide.Red,
+        isActive:
+          game.activePlayer === 'governmentPlayer' &&
+          game.activeSide === TeamSide.Red &&
+          game.status !== GameStatus.Finished,
       },
     },
     {
@@ -200,7 +224,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.redTeam.energyPlayer,
         name: 'Rosenergoatom',
         userSide,
-        isActive: game.activePlayer === 'energyPlayer' && game.activeSide === TeamSide.Red,
+        isActive:
+          game.activePlayer === 'energyPlayer' &&
+          game.activeSide === TeamSide.Red &&
+          game.status !== GameStatus.Finished,
       },
     },
     {
@@ -213,7 +240,10 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         player: game.redTeam.intelligencePlayer,
         name: 'SCS',
         userSide,
-        isActive: game.activePlayer === 'intelligencePlayer' && game.activeSide === TeamSide.Red,
+        isActive:
+          game.activePlayer === 'intelligencePlayer' &&
+          game.activeSide === TeamSide.Red &&
+          game.status !== GameStatus.Finished,
       },
     },
   ]

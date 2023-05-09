@@ -2,14 +2,12 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 
-import { io } from 'socket.io-client'
-
 import { IconHome, IconPause, IconPlay } from '@components/Icons'
-import { useGame, useUserContext } from '@hooks'
-import { GameOutcome, GameStatus, TeamSide } from '@types'
+import { useConnectSocket, useGame, useUserContext } from '@hooks'
+import { GameStatus, TeamSide } from '@types'
 
 import { Battleground, TeamBackground } from './Battleground'
-import { Navigation } from './Navigation'
+import { GameNavigation } from './GameNavigation'
 import * as S from './styles'
 import { determineUserSide, formatTimer, gamePeriodMap, getWinnerText } from './utils'
 
@@ -19,38 +17,12 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   const { user } = useUserContext()
   const { data: game } = useGame(gameId)
 
-  const [socket, setSocket] = useState<any>(null)
-  const [time, setTime] = useState<number>(game ? game.turnsRemainingTime : 0)
+  // Initialize game session socket
+  const { socket, time } = useConnectSocket(gameId, game?.turnsRemainingTime)
 
   const [isOwner, setIsOwner] = useState(false)
   const [userSide, setUserSide] = useState(TeamSide.Blue)
   const [isWinnerBannerActive, setIsWinnerBannerActive] = useState(true)
-
-  // Initialize game session socket
-  useEffect(() => {
-    const socket = io('localhost:8000', {
-      // Prevent long polling
-      transports: ['websocket'],
-      query: {
-        gameId,
-      },
-    })
-
-    socket.on('connect', () => {
-      console.log('%clog | connected to game session', 'color: #0e8dbf; margin-bottom: 5px;')
-    })
-
-    socket.on('tick', (data) => {
-      setTime(data.time)
-    })
-
-    setSocket(socket)
-
-    return () => {
-      console.log('%clog | disconnected from game session', 'color: #0e8dbf; margin-bottom: 5px;')
-      socket.disconnect()
-    }
-  }, [gameId])
 
   // Set owner and determine user side
   useEffect(() => {
@@ -117,7 +89,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
         <Battleground game={game} userSide={userSide} />
       </S.Battleground>
 
-      <Navigation game={game} />
+      <GameNavigation game={game} />
 
       {/* Winner Banner */}
       {hasGameOutcome && isWinnerBannerActive && (
