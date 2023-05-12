@@ -23,15 +23,22 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   const [isOwner, setIsOwner] = useState(false)
   const [userSide, setUserSide] = useState(TeamSide.Blue)
   const [isWinnerBannerActive, setIsWinnerBannerActive] = useState(true)
+  const [hasOutcome, setHasOutcome] = useState(false)
 
-  // Set owner and determine user side
   useEffect(() => {
     if (!user || !game) return
 
+    // Determine owner
     setIsOwner(game.ownerId === user.id)
 
+    // Determine user side
     const usersSide = determineUserSide(user, game)
     setUserSide(usersSide)
+
+    // Check for outcome
+    if (game.outcome !== undefined && game.outcome !== null) {
+      setHasOutcome(true)
+    }
   }, [game, user])
 
   // Refetch game data after the timer timeout (end of a turn)
@@ -50,8 +57,6 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   if (!user || !game) return null
 
   const isGameOver = game.status === GameStatus.Finished
-
-  const hasGameOutcome = game.outcome !== null && game.outcome !== undefined
 
   return (
     <>
@@ -77,7 +82,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
           )}
         </S.UserNav>
 
-        <S.Counter>{isGameOver && hasGameOutcome ? getWinnerText(game.outcome!) : formatTimer(time)}</S.Counter>
+        <S.Counter>{isGameOver && hasOutcome ? getWinnerText(game.outcome!) : formatTimer(time)}</S.Counter>
 
         <S.GamePeriod>{gamePeriodMap[game.activePeriod]}, 2020</S.GamePeriod>
       </S.Header>
@@ -92,7 +97,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
       <GameNavigation game={game} />
 
       {/* Winner Banner */}
-      {hasGameOutcome && isWinnerBannerActive && (
+      {hasOutcome && isWinnerBannerActive && (
         <S.WinnerBanner outcome={game.outcome!}>
           <div>{getWinnerText(game.outcome!, true)}</div>
 

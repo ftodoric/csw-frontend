@@ -4,6 +4,13 @@ import { useQueryClient } from 'react-query'
 
 import { Socket, io } from 'socket.io-client'
 
+import { TURN_TIME } from '@modules/Game/config'
+
+interface SocketTickData {
+  time: number
+  isFinished: boolean
+}
+
 export const useConnectSocket = (gameId: string, turnsRemainingTime?: number) => {
   const queryClient = useQueryClient()
   const [socket, setSocket] = useState<Socket>()
@@ -22,8 +29,8 @@ export const useConnectSocket = (gameId: string, turnsRemainingTime?: number) =>
       console.log('%clog | connected to game session', 'color: #0e8dbf; margin-bottom: 5px;')
     })
 
-    socket.on('tick', (data) => {
-      if (data.time === 30) {
+    socket.on('tick', (data: SocketTickData) => {
+      if (data.time === TURN_TIME || data.isFinished) {
         queryClient.invalidateQueries('game')
       }
 
