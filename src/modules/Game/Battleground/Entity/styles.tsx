@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { resourceBgColor, resourceColor, victoryPointsColor, vitalityBgColor, vitalityColor } from '@colors'
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.div<{ isClickable: boolean }>`
   width: 200px;
   height: 100px;
   display: flex;
@@ -12,6 +12,10 @@ export const CardContainer = styled.div`
   border-radius: 5px;
   font-family: 'Nunito', sans-serif;
   font-size: 14px;
+
+  :hover {
+    cursor: ${(p) => (p.isClickable ? 'pointer' : 'not-allowed')};
+  }
 `
 
 export const Header = styled.div`

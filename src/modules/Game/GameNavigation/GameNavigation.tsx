@@ -3,9 +3,10 @@ import { useQueryClient } from 'react-query'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
 import { useMakeGameAction, useUserContext } from '@hooks'
-import { Game, GameAction, GameStatus, PlayerType } from '@types'
+import { Game, GameAction, GameStatus, Player, PlayerType, Team } from '@types'
 
 import * as S from './styles'
+import { useEntityState } from '../PlayerContext'
 
 interface NavigationProps {
   game: Game
@@ -16,24 +17,16 @@ export const GameNavigation = ({ game }: NavigationProps) => {
   const queryClient = useQueryClient()
   const makeGameAction = useMakeGameAction(game.id)
 
-  const [isUsersTurn, setUsersTurn] = useState(false)
+  const selectedEntity = useEntityState()
   const [isNavigationDisabled, setNavigationDisabled] = useState(true)
 
   useEffect(() => {
-    if (user && game) {
-      // Set is user active
-      const activeUserId = (game as any)[game.activeSide][game.activePlayer].user.id
-      setUsersTurn(activeUserId === user.id)
+    if (user) {
+      if (selectedEntity) {
+        if (selectedEntity.user.id === user.id) setNavigationDisabled(false)
+      } else setNavigationDisabled(true)
     }
-  }, [game, user, queryClient])
-
-  useEffect(() => {
-    if (!isUsersTurn || game.status === GameStatus.NotStarted || game.status === GameStatus.Paused) {
-      setNavigationDisabled(true)
-    } else {
-      setNavigationDisabled(false)
-    }
-  }, [game.status, isUsersTurn])
+  }, [game, user, selectedEntity, queryClient])
 
   const handleGameAction = (gameAction: GameAction) => {
     switch (gameAction) {
@@ -41,7 +34,7 @@ export const GameNavigation = ({ game }: NavigationProps) => {
       case GameAction.REVITALISE:
       case GameAction.ATTACK:
       case GameAction.ABSTAIN:
-        makeGameAction.mutate({ actionType: gameAction })
+        makeGameAction.mutate({ actionType: gameAction, payload: { entityPlayer: selectedEntity } })
         break
     }
   }
@@ -50,7 +43,7 @@ export const GameNavigation = ({ game }: NavigationProps) => {
     <S.NavigationContainer>
       <div style={{ width: '150px', height: '100%' }}></div>
 
-      <S.NavigationActions>
+      <S.NavigationActions style={{ display: isNavigationDisabled ? 'none' : 'flex' }}>
         <S.ActionButtonWrapper
           bgColor="rgb(240, 234, 175)"
           title="Distribute"

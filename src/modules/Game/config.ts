@@ -1,1 +1,1 @@
-export const TURN_TIME = 3
+export const TURN_TIME = 30

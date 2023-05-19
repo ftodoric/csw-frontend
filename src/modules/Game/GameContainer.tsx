@@ -8,6 +8,7 @@ import { GameStatus, TeamSide } from '@types'
 
 import { Battleground, TeamBackground } from './Battleground'
 import { GameNavigation } from './GameNavigation'
+import { SelectedEntityProvider } from './PlayerContext'
 import * as S from './styles'
 import { determineUserSide, formatTimer, gamePeriodMap, getWinnerText } from './utils'
 
@@ -59,7 +60,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   const isGameOver = game.status === GameStatus.Finished
 
   return (
-    <>
+    <SelectedEntityProvider>
       <S.Header>
         <S.UserNav>
           <S.Username>{user.username}</S.Username>
@@ -108,6 +109,6 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
           <span onClick={() => setIsWinnerBannerActive(false)}>See the game</span>
         </S.WinnerBanner>
       )}
-    </>
+    </SelectedEntityProvider>
   )
 }
