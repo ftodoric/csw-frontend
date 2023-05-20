@@ -89,13 +89,20 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
       </S.Header>
 
       <S.Battleground>
-        <TeamBackground side={userSide === TeamSide.Blue ? TeamSide.Red : TeamSide.Blue} />
-        <TeamBackground side={userSide} userSide />
+        <TeamBackground
+          side={userSide === TeamSide.Blue ? TeamSide.Red : TeamSide.Blue}
+          isActive={userSide === TeamSide.Blue ? game.activeSide === TeamSide.Red : game.activeSide === TeamSide.Blue}
+        />
+        <TeamBackground
+          side={userSide}
+          userSide
+          isActive={userSide === TeamSide.Blue ? game.activeSide === TeamSide.Blue : game.activeSide === TeamSide.Red}
+        />
 
         <Battleground game={game} userSide={userSide} />
       </S.Battleground>
 
-      <GameNavigation game={game} />
+      <GameNavigation game={game} userSide={userSide} />
 
       {/* Winner Banner */}
       {hasOutcome && isWinnerBannerActive && (

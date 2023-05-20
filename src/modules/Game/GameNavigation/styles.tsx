@@ -6,6 +6,7 @@ export const NavigationContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 `
 
 export const NavigationActions = styled.div`
@@ -42,4 +43,25 @@ export const ActionButtonWrapper = styled.button<{ bgColor: string }>`
   :focus-visible {
     outline: none;
   }
+`
+
+export const ActiveSideBanner = styled.div`
+  position: absolute;
+  width: 300px;
+  height: 40px;
+  top: -40px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  clip-path: polygon(0 100%, 100% 100%, 85% 10%, 80% 0, 20% 0, 15% 10%);
+  font-size: 20px;
+  font-family: Nunito;
+  font-weight: bold;
+  font-style: italic;
+  color: #353535;
 `

@@ -3,16 +3,17 @@ import { useQueryClient } from 'react-query'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
 import { useMakeGameAction, useUserContext } from '@hooks'
-import { Game, GameAction, GameStatus, Player, PlayerType, Team } from '@types'
+import { Game, GameAction, TeamSide } from '@types'
 
 import * as S from './styles'
 import { useEntityState } from '../PlayerContext'
 
 interface NavigationProps {
   game: Game
+  userSide: TeamSide
 }
 
-export const GameNavigation = ({ game }: NavigationProps) => {
+export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const { user } = useUserContext()
   const queryClient = useQueryClient()
   const makeGameAction = useMakeGameAction(game.id)
@@ -78,6 +79,11 @@ export const GameNavigation = ({ game }: NavigationProps) => {
       </S.NavigationActions>
 
       <div style={{ width: '150px', height: '100%' }}></div>
+
+      {/* Active side indicator */}
+      <S.ActiveSideBanner>
+        {game.activeSide == TeamSide.Blue && userSide === TeamSide.Blue ? 'Your turn' : "Opponent's turn"}
+      </S.ActiveSideBanner>
     </S.NavigationContainer>
   )
 }

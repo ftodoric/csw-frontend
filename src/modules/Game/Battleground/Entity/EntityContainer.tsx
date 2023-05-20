@@ -44,9 +44,11 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
       <S.Header>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {player.user.username}
-          <span style={{ marginLeft: '5px', display: 'flex', alignItems: 'center' }}>
-            <IconCheck width="16px" height="16px" fill="#4b9241" />
-          </span>
+          {player.hasMadeAction && (
+            <span style={{ marginLeft: '5px', display: 'flex', alignItems: 'center' }}>
+              <IconCheck width="16px" height="16px" fill="#4b9241" />
+            </span>
+          )}
         </div>
 
         <S.VictoryPoints>
