@@ -21,7 +21,6 @@ export const NavigationActions = styled.div`
   }
 
   > span#navigation-info-text {
-    font-size: 20px;
     color: #393939;
   }
 `

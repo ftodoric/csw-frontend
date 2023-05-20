@@ -22,12 +22,18 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const selectedEntity = useEntityState()
   const dispatch = useEntityDispatch()
   const [isNavigationDisabled, setNavigationDisabled] = useState(true)
+  const [areNavigationButtonDisabled, setNavigationButtonsDisabled] = useState(true)
 
   useEffect(() => {
     if (user) {
       if (selectedEntity) {
         console.log('%clog | description\n', 'color: #0e8dbf; margin-bottom: 5px;', selectedEntity)
-        if (selectedEntity.user.id === user.id && !selectedEntity.hasMadeAction) setNavigationDisabled(false)
+        if (selectedEntity.user.id === user.id) {
+          setNavigationDisabled(false)
+        }
+
+        if (!selectedEntity.hasMadeAction) setNavigationButtonsDisabled(false)
+        else setNavigationButtonsDisabled(true)
       } else setNavigationDisabled(true)
     }
   }, [game, user, selectedEntity, queryClient])
@@ -47,6 +53,7 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
 
   return (
     <S.NavigationContainer>
+      {/* Message log */}
       <div style={{ width: '150px', height: '100%' }}></div>
 
       <S.NavigationActions style={{ display: isNavigationDisabled ? 'none' : 'flex' }}>
@@ -54,30 +61,30 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
           bgColor="rgb(240, 234, 175)"
           title="Distribute"
           onClick={() => console.log('clicked')}
-          disabled={isNavigationDisabled}
+          disabled={areNavigationButtonDisabled}
         >
           <IconDistribute height="100%" fill="rgb(135, 119, 37)" />
         </S.ActionButtonWrapper>
 
-        <S.ActionButtonWrapper bgColor="rgb(178, 204, 215)" title="Revitalise" disabled={isNavigationDisabled}>
+        <S.ActionButtonWrapper bgColor="rgb(178, 204, 215)" title="Revitalise" disabled={areNavigationButtonDisabled}>
           <IconRevitalise height="100%" fill="rgb(16, 88, 129)" />
         </S.ActionButtonWrapper>
 
-        <S.ActionButtonWrapper bgColor="rgba(190, 64, 55, 0.4)" title="Attack" disabled={isNavigationDisabled}>
+        <S.ActionButtonWrapper bgColor="rgba(190, 64, 55, 0.4)" title="Attack" disabled={areNavigationButtonDisabled}>
           <IconAttack height="100%" fill="rgb(143, 75, 70)" />
         </S.ActionButtonWrapper>
 
         <S.ActionButtonWrapper
           bgColor="rgb(237, 204, 157)"
           title="Abstain"
-          disabled={isNavigationDisabled}
+          disabled={areNavigationButtonDisabled}
           onClick={() => handleGameAction(GameAction.ABSTAIN)}
         >
           <IconAbstain height="100%" fill="rgb(176, 128, 61)" />
         </S.ActionButtonWrapper>
 
         {true && (
-          <S.ActionButtonWrapper bgColor="rgb(68, 68, 68)" title="Black Market" disabled={isNavigationDisabled}>
+          <S.ActionButtonWrapper bgColor="rgb(68, 68, 68)" title="Black Market" disabled={areNavigationButtonDisabled}>
             <IconBlackMarket height="100%" fill="rgb(183, 183, 183)" />
           </S.ActionButtonWrapper>
         )}
