@@ -24,8 +24,8 @@ export enum GamePeriod {
 }
 
 export enum GameOutcome {
-  BlueWins,
-  RedWins,
+  BlueVictory,
+  RedVictory,
   Tie,
 }
 

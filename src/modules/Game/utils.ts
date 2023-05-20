@@ -48,9 +48,9 @@ export const gamePeriodMap = {
 
 export const getWinnerText = (outcome: GameOutcome, showcase?: boolean): string => {
   switch (outcome) {
-    case GameOutcome.BlueWins:
+    case GameOutcome.BlueVictory:
       return 'Blue Team Wins'
-    case GameOutcome.RedWins:
+    case GameOutcome.RedVictory:
       return 'Red Team Wins'
     case GameOutcome.Tie:
       return showcase ? `It's a TIE` : 'Tie'

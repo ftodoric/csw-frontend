@@ -82,12 +82,12 @@ export const WinnerBanner = styled.div<{ outcome: GameOutcome }>`
     display: flex;
     justify-content: center;
 
-    ${(p) => p.outcome === GameOutcome.BlueWins && 'background-color: #acc7db'};
-    ${(p) => p.outcome === GameOutcome.RedWins && 'background-color: #ca9797'};
+    ${(p) => p.outcome === GameOutcome.BlueVictory && 'background-color: #acc7db'};
+    ${(p) => p.outcome === GameOutcome.RedVictory && 'background-color: #ca9797'};
     ${(p) => p.outcome === GameOutcome.Tie && 'background-color: #d5d5d5'};
 
-    ${(p) => p.outcome === GameOutcome.BlueWins && 'color: #2e84c5'};
-    ${(p) => p.outcome === GameOutcome.RedWins && 'color: firebrick'};
+    ${(p) => p.outcome === GameOutcome.BlueVictory && 'color: #2e84c5'};
+    ${(p) => p.outcome === GameOutcome.RedVictory && 'color: firebrick'};
     ${(p) => p.outcome === GameOutcome.Tie && 'color: #727272'};
 
     width: 100%;
@@ -130,8 +130,8 @@ export const WinnerBanner = styled.div<{ outcome: GameOutcome }>`
       text-decoration: underline;
       cursor: pointer;
 
-      ${(p) => p.outcome === GameOutcome.BlueWins && 'color: #2e84c5'};
-      ${(p) => p.outcome === GameOutcome.RedWins && 'color: firebrick'};
+      ${(p) => p.outcome === GameOutcome.BlueVictory && 'color: #2e84c5'};
+      ${(p) => p.outcome === GameOutcome.RedVictory && 'color: firebrick'};
     }
   }
 `
