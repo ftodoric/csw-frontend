@@ -37,16 +37,16 @@ export const NewGameForm = () => {
   const isTeamNameError = errors.blueTeamName || errors.redTeamName
 
   const isPlayersError =
-    errors.electoratePlayer ||
-    errors.ukPlcPlayer ||
-    errors.ukGovernmentPlayer ||
-    errors.ukEnergyPlayer ||
-    errors.gchqPlayer ||
-    errors.onlineTrollsPlayer ||
-    errors.energeticBearPlayer ||
-    errors.russianGovernmentPlayer ||
-    errors.rosenergoatomPlayer ||
-    errors.scsPlayer
+    errors.electorateUserId ||
+    errors.ukPlcUserId ||
+    errors.ukGovernmentUserId ||
+    errors.ukEnergyUserId ||
+    errors.gchqUserId ||
+    errors.onlineTrollsUserId ||
+    errors.energeticBearUserId ||
+    errors.russianGovernmentUserId ||
+    errors.rosenergoatomUserId ||
+    errors.scsUserId
 
   return (
     <S.LobbyContainer>

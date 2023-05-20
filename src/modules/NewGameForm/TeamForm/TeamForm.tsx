@@ -35,7 +35,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({ side, users, formRegister }:
       <PlayerSelect
         entityName={isBlueTeam ? 'Electorate' : 'Online Trolls'}
         formRegister={formRegister}
-        inputName={isBlueTeam ? 'electoratePlayer' : 'onlineTrollsPlayer'}
+        inputName={isBlueTeam ? 'electorateUserId' : 'onlineTrollsUserId'}
         users={users}
         side={side}
       />
@@ -43,7 +43,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({ side, users, formRegister }:
       <PlayerSelect
         entityName={isBlueTeam ? 'UK PLC' : 'Energetic Bear'}
         formRegister={formRegister}
-        inputName={isBlueTeam ? 'ukPlcPlayer' : 'energeticBearPlayer'}
+        inputName={isBlueTeam ? 'ukPlcUserId' : 'energeticBearUserId'}
         users={users}
         side={side}
       />
@@ -51,7 +51,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({ side, users, formRegister }:
       <PlayerSelect
         entityName={isBlueTeam ? 'UK Government' : 'Russian Government'}
         formRegister={formRegister}
-        inputName={isBlueTeam ? 'ukGovernmentPlayer' : 'russianGovernmentPlayer'}
+        inputName={isBlueTeam ? 'ukGovernmentUserId' : 'russianGovernmentUserId'}
         users={users}
         side={side}
       />
@@ -59,7 +59,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({ side, users, formRegister }:
       <PlayerSelect
         entityName={isBlueTeam ? 'UK Energy' : 'Rosenergoatom'}
         formRegister={formRegister}
-        inputName={isBlueTeam ? 'ukEnergyPlayer' : 'rosenergoatomPlayer'}
+        inputName={isBlueTeam ? 'ukEnergyUserId' : 'rosenergoatomUserId'}
         users={users}
         side={side}
       />
@@ -67,7 +67,7 @@ export const TeamForm: React.FC<TeamFormProps> = ({ side, users, formRegister }:
       <PlayerSelect
         entityName={isBlueTeam ? 'GCHQ' : 'SCS'}
         formRegister={formRegister}
-        inputName={isBlueTeam ? 'gchqPlayer' : 'scsPlayer'}
+        inputName={isBlueTeam ? 'gchqUserId' : 'scsUserId'}
         users={users}
         side={side}
       />
