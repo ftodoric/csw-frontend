@@ -83,7 +83,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
           )}
         </S.UserNav>
 
-        <S.Counter>{isGameOver && hasOutcome ? getWinnerText(game.outcome!) : formatTimer(time)}</S.Counter>
+        <S.Counter>{isGameOver && hasOutcome ? '' : formatTimer(time)}</S.Counter>
 
         <S.GamePeriod>{gamePeriodMap[game.activePeriod]}, 2020</S.GamePeriod>
       </S.Header>

@@ -19,6 +19,11 @@ export const NavigationActions = styled.div`
   > button + button {
     margin-left: 20px;
   }
+
+  > span#navigation-info-text {
+    font-size: 20px;
+    color: #393939;
+  }
 `
 
 export const ActionButtonWrapper = styled.button<{ bgColor: string }>`
@@ -63,5 +68,5 @@ export const ActiveSideBanner = styled.div`
   font-family: Nunito;
   font-weight: bold;
   font-style: italic;
-  color: #353535;
+  color: #444444;
 `

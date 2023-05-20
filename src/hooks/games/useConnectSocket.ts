@@ -8,7 +8,6 @@ import { TURN_TIME } from '@modules/Game/config'
 
 interface SocketTickData {
   time: number
-  isFinished: boolean
 }
 
 export const useConnectSocket = (gameId: string, turnsRemainingTime?: number) => {
@@ -30,7 +29,7 @@ export const useConnectSocket = (gameId: string, turnsRemainingTime?: number) =>
     })
 
     socket.on('tick', (data: SocketTickData) => {
-      if (data.time === TURN_TIME || data.isFinished) {
+      if (data.time === TURN_TIME) {
         queryClient.invalidateQueries('game')
       }
 

@@ -3,10 +3,11 @@ import { useQueryClient } from 'react-query'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
 import { useMakeGameAction, useUserContext } from '@hooks'
-import { Game, GameAction, TeamSide } from '@types'
+import { Game, GameAction, GameStatus, TeamSide } from '@types'
 
 import * as S from './styles'
-import { useEntityState } from '../PlayerContext'
+import { useEntityDispatch, useEntityState } from '../PlayerContext'
+import { getWinnerText } from '../utils'
 
 interface NavigationProps {
   game: Game
@@ -19,12 +20,14 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const makeGameAction = useMakeGameAction(game.id)
 
   const selectedEntity = useEntityState()
+  const dispatch = useEntityDispatch()
   const [isNavigationDisabled, setNavigationDisabled] = useState(true)
 
   useEffect(() => {
     if (user) {
       if (selectedEntity) {
-        if (selectedEntity.user.id === user.id) setNavigationDisabled(false)
+        console.log('%clog | description\n', 'color: #0e8dbf; margin-bottom: 5px;', selectedEntity)
+        if (selectedEntity.user.id === user.id && !selectedEntity.hasMadeAction) setNavigationDisabled(false)
       } else setNavigationDisabled(true)
     }
   }, [game, user, selectedEntity, queryClient])
@@ -36,6 +39,8 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
       case GameAction.ATTACK:
       case GameAction.ABSTAIN:
         makeGameAction.mutate({ actionType: gameAction, payload: { entityPlayer: selectedEntity } })
+        queryClient.invalidateQueries('game')
+        dispatch({ type: 'RESET_ENTITY' })
         break
     }
   }
@@ -78,11 +83,19 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
         )}
       </S.NavigationActions>
 
+      <S.NavigationActions style={{ display: isNavigationDisabled ? 'flex' : 'none' }}>
+        <span id="navigation-info-text">{game.activeSide === userSide ? 'Select one of your entities' : ''}</span>
+      </S.NavigationActions>
+
       <div style={{ width: '150px', height: '100%' }}></div>
 
       {/* Active side indicator */}
       <S.ActiveSideBanner>
-        {game.activeSide == TeamSide.Blue && userSide === TeamSide.Blue ? 'Your turn' : "Opponent's turn"}
+        {game.status === GameStatus.NotStarted && 'Game not started'}
+        {game.status === GameStatus.InProgress &&
+          (game.activeSide == TeamSide.Blue && userSide === TeamSide.Blue ? 'Your turn' : "Opponent's turn")}
+        {game.status === GameStatus.Paused && 'Game paused'}
+        {game.status === GameStatus.Finished && game.outcome && getWinnerText(game.outcome)}
       </S.ActiveSideBanner>
     </S.NavigationContainer>
   )

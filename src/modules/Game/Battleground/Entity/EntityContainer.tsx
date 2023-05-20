@@ -15,6 +15,7 @@ interface EntityProps {
   name: string
   player: Player
   userSide: TeamSide
+  activeSide: TeamSide
   isActive?: boolean
 }
 
@@ -26,18 +27,19 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
   const entityPlayer = useEntityState()
   const dispatch = useEntityDispatch()
 
+  const isEntityClickable = !!isActive && player.user.id === user?.id
+
   return (
     <S.CardContainer
       id={isActive ? 'activePlayer' : undefined}
-      isClickable={player.user.id === user?.id}
+      isClickable={isEntityClickable}
       onClick={() => {
-        if (player.user.id === user?.id) {
+        if (isEntityClickable) {
           dispatch({ type: 'SET_ENTITY', payload: player })
         } else {
           dispatch({ type: 'RESET_ENTITY' })
         }
       }}
-      style={{ boxShadow: entityPlayer?.id === player.id ? '0 0 10px #b45ccd' : undefined }}
     >
       <EdgeHandleDeterminator type={type} side={side} />
 
@@ -74,7 +76,9 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
         <div id="vitality">{player.vitality}</div>
       </S.Footer>
 
-      {/* {isActive && <S.AnimationContainer color={side === TeamSide.Blue ? '#2e84c5' : '#b22222'} />} */}
+      {entityPlayer?.id === player.id && (
+        <S.AnimationContainer color={side === TeamSide.Blue ? '#2e84c5' : '#b22222'} />
+      )}
     </S.CardContainer>
   )
 }

@@ -3,7 +3,8 @@ import React, { createContext, Dispatch, useContext, useReducer } from 'react'
 import { Player } from '@types'
 
 /**
- * This context provides currently selected entity. One user can manage multiple entites (be multiple players) in a single game.
+ * This context provides currently selected entity.
+ * One user can manage multiple entites (be multiple players) in a single game.
  */
 
 const EntityContext = createContext<Player | null>(null)
