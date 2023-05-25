@@ -7,8 +7,9 @@ import { useConnectSocket, useGame, useUserContext } from '@hooks'
 import { GameStatus, TeamSide } from '@types'
 
 import { Battleground, TeamBackground } from './Battleground'
+import { GameActionContextProvider } from './context/GameActionContext'
+import { GameContextProvider, useGameContext } from './context/GameContext'
 import { GameNavigation } from './GameNavigation'
-import { SelectedEntityProvider } from './PlayerContext'
 import * as S from './styles'
 import { determineUserSide, formatTimer, gamePeriodMap, getWinnerText } from './utils'
 
@@ -17,6 +18,8 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
   const { user } = useUserContext()
   const { data: game } = useGame(gameId)
+
+  const { setGame } = useGameContext()
 
   // Initialize game session socket
   const { socket, time } = useConnectSocket(gameId, game?.turnsRemainingTime)
@@ -29,6 +32,9 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   useEffect(() => {
     if (!user || !game) return
 
+    // Set the game state in context
+    setGame(game)
+
     // Determine owner
     setIsOwner(game.ownerId === user.id)
 
@@ -40,7 +46,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     if (game.outcome !== undefined && game.outcome !== null) {
       setHasOutcome(true)
     }
-  }, [game, user])
+  }, [game, user, setGame])
 
   // Refetch game data after the timer timeout (end of a turn)
   useEffect(() => {
@@ -60,62 +66,64 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   const isGameOver = game.status === GameStatus.Finished
 
   return (
-    <SelectedEntityProvider>
-      <S.Header>
-        <S.UserNav>
-          <S.Username>{user.username}</S.Username>
+    <GameContextProvider>
+      <GameActionContextProvider>
+        <S.Header>
+          <S.UserNav>
+            <S.Username>{user.username}</S.Username>
 
-          <Link href="/lobby">
-            <S.UserNavHoverWrapper>
-              <IconHome width="26px" fill="#fff" />
-            </S.UserNavHoverWrapper>
-          </Link>
+            <Link href="/lobby">
+              <S.UserNavHoverWrapper>
+                <IconHome width="26px" fill="#fff" />
+              </S.UserNavHoverWrapper>
+            </Link>
 
-          {isOwner && (
-            <S.UserNavHoverWrapper onClick={() => handleToggleTimer(game.status)}>
-              {!isGameOver &&
-                (game.status === GameStatus.InProgress ? (
-                  <IconPause width="32px" fill="white" />
-                ) : (
-                  <IconPlay width="32px" fill="white" />
-                ))}
-            </S.UserNavHoverWrapper>
-          )}
-        </S.UserNav>
+            {isOwner && (
+              <S.UserNavHoverWrapper onClick={() => handleToggleTimer(game.status)}>
+                {!isGameOver &&
+                  (game.status === GameStatus.InProgress ? (
+                    <IconPause width="32px" fill="white" />
+                  ) : (
+                    <IconPlay width="32px" fill="white" />
+                  ))}
+              </S.UserNavHoverWrapper>
+            )}
+          </S.UserNav>
 
-        <S.Counter>{isGameOver && hasOutcome ? '' : formatTimer(time)}</S.Counter>
+          <S.Counter>{isGameOver && hasOutcome ? '' : formatTimer(time)}</S.Counter>
 
-        <S.GamePeriod>{gamePeriodMap[game.activePeriod]}, 2020</S.GamePeriod>
-      </S.Header>
+          <S.GamePeriod>{gamePeriodMap[game.activePeriod]}, 2020</S.GamePeriod>
+        </S.Header>
 
-      <S.Battleground>
-        <TeamBackground
-          side={userSide === TeamSide.Blue ? TeamSide.Red : TeamSide.Blue}
-          isActive={userSide === TeamSide.Blue ? game.activeSide === TeamSide.Red : game.activeSide === TeamSide.Blue}
-        />
-        <TeamBackground
-          side={userSide}
-          userSide
-          isActive={userSide === TeamSide.Blue ? game.activeSide === TeamSide.Blue : game.activeSide === TeamSide.Red}
-        />
+        <S.Battleground>
+          <TeamBackground
+            side={userSide === TeamSide.Blue ? TeamSide.Red : TeamSide.Blue}
+            isActive={userSide === TeamSide.Blue ? game.activeSide === TeamSide.Red : game.activeSide === TeamSide.Blue}
+          />
+          <TeamBackground
+            side={userSide}
+            userSide
+            isActive={userSide === TeamSide.Blue ? game.activeSide === TeamSide.Blue : game.activeSide === TeamSide.Red}
+          />
 
-        <Battleground game={game} userSide={userSide} />
-      </S.Battleground>
+          <Battleground game={game} userSide={userSide} />
+        </S.Battleground>
 
-      <GameNavigation game={game} userSide={userSide} />
+        <GameNavigation game={game} userSide={userSide} />
 
-      {/* Winner Banner */}
-      {hasOutcome && isWinnerBannerActive && (
-        <S.WinnerBanner outcome={game.outcome!}>
-          <div>{getWinnerText(game.outcome!, true)}</div>
+        {/* Winner Banner */}
+        {hasOutcome && isWinnerBannerActive && (
+          <S.WinnerBanner outcome={game.outcome!}>
+            <div>{getWinnerText(game.outcome!, true)}</div>
 
-          <span>
-            <Link href="/lobby">Back to Lobby</Link>
-          </span>
+            <span>
+              <Link href="/lobby">Back to Lobby</Link>
+            </span>
 
-          <span onClick={() => setIsWinnerBannerActive(false)}>See the game</span>
-        </S.WinnerBanner>
-      )}
-    </SelectedEntityProvider>
+            <span onClick={() => setIsWinnerBannerActive(false)}>See the game</span>
+          </S.WinnerBanner>
+        )}
+      </GameActionContextProvider>
+    </GameContextProvider>
   )
 }

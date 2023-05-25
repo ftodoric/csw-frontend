@@ -3,8 +3,9 @@ import Image from 'next/image'
 import { victoryPointsColor } from '@colors'
 import { IconCheck, IconVictoryPoints } from '@components/Icons'
 import { useUserContext } from '@hooks'
-import { useEntityDispatch, useEntityState } from '@modules/Game/PlayerContext'
-import { EntityType, Player, TeamSide } from '@types'
+import { removePlayer, setPlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
+import { useGameContext } from '@modules/Game/context/GameContext'
+import { EntityType, GameStatus, Player, TeamSide } from '@types'
 
 import { EdgeHandleDeterminator } from './EdgeHandleDeterminator'
 import * as S from './styles'
@@ -20,14 +21,19 @@ interface EntityProps {
 }
 
 export const EntityContainer = ({ data }: { data: EntityProps }) => {
-  const { user } = useUserContext()
-
   const { type, side, name, player, userSide, isActive } = data
 
-  const entityPlayer = useEntityState()
-  const dispatch = useEntityDispatch()
+  // Game container component doesn't render children if user or game is null
+  const { user } = useUserContext()
+  const { id: userId } = user!
 
-  const isEntityClickable = !!isActive && player.user.id === user?.id
+  const { game } = useGameContext()
+  const { status } = game!
+
+  const { state, dispatch } = useGameActionContext()
+  const { selectedPlayer } = state
+
+  const isEntityClickable = !!isActive && player.user.id === userId && status === GameStatus.InProgress
 
   return (
     <S.CardContainer
@@ -35,9 +41,9 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
       isClickable={isEntityClickable}
       onClick={() => {
         if (isEntityClickable) {
-          dispatch({ type: 'SET_ENTITY', payload: player })
+          dispatch(setPlayer(player))
         } else {
-          dispatch({ type: 'RESET_ENTITY' })
+          dispatch(removePlayer())
         }
       }}
     >
@@ -76,7 +82,7 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
         <div id="vitality">{player.vitality}</div>
       </S.Footer>
 
-      {entityPlayer?.id === player.id && (
+      {selectedPlayer?.id === player.id && (
         <S.AnimationContainer color={side === TeamSide.Blue ? '#2e84c5' : '#b22222'} />
       )}
     </S.CardContainer>

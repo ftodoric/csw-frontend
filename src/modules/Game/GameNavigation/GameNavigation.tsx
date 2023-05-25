@@ -6,7 +6,7 @@ import { useMakeGameAction, useUserContext } from '@hooks'
 import { Game, GameAction, GameStatus, TeamSide } from '@types'
 
 import * as S from './styles'
-import { useEntityDispatch, useEntityState } from '../PlayerContext'
+import { removePlayer, useGameActionContext } from '../context/GameActionContext'
 import { getWinnerText } from '../utils'
 
 interface NavigationProps {
@@ -19,24 +19,24 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const queryClient = useQueryClient()
   const makeGameAction = useMakeGameAction(game.id)
 
-  const selectedEntity = useEntityState()
-  const dispatch = useEntityDispatch()
+  const { state, dispatch } = useGameActionContext()
+  const { selectedPlayer } = state
+
   const [isNavigationDisabled, setNavigationDisabled] = useState(true)
   const [areNavigationButtonDisabled, setNavigationButtonsDisabled] = useState(true)
 
   useEffect(() => {
     if (user) {
-      if (selectedEntity) {
-        console.log('%clog | description\n', 'color: #0e8dbf; margin-bottom: 5px;', selectedEntity)
-        if (selectedEntity.user.id === user.id) {
+      if (selectedPlayer) {
+        if (selectedPlayer.user.id === user.id) {
           setNavigationDisabled(false)
         }
 
-        if (!selectedEntity.hasMadeAction) setNavigationButtonsDisabled(false)
+        if (!selectedPlayer.hasMadeAction) setNavigationButtonsDisabled(false)
         else setNavigationButtonsDisabled(true)
       } else setNavigationDisabled(true)
     }
-  }, [game, user, selectedEntity, queryClient])
+  }, [game, user, selectedPlayer, queryClient])
 
   const handleGameAction = (gameAction: GameAction) => {
     switch (gameAction) {
@@ -44,9 +44,9 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
       case GameAction.REVITALISE:
       case GameAction.ATTACK:
       case GameAction.ABSTAIN:
-        makeGameAction.mutate({ actionType: gameAction, payload: { entityPlayer: selectedEntity } })
+        makeGameAction.mutate({ actionType: gameAction, payload: { entityPlayer: selectedPlayer } })
         queryClient.invalidateQueries('game')
-        dispatch({ type: 'RESET_ENTITY' })
+        dispatch(removePlayer())
         break
     }
   }
