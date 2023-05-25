@@ -3,7 +3,7 @@ import { useQueryClient } from 'react-query'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
 import { useMakeGameAction, useUserContext } from '@hooks'
-import { Game, GameAction, GameStatus, TeamSide } from '@types'
+import { Game, GameAction, GameOutcome, GameStatus, TeamSide } from '@types'
 
 import * as S from './styles'
 import { removePlayer, useGameActionContext } from '../context/GameActionContext'
@@ -16,6 +16,8 @@ interface NavigationProps {
 
 export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const { user } = useUserContext()
+  const { id: userId } = user!
+
   const queryClient = useQueryClient()
   const makeGameAction = useMakeGameAction(game.id)
 
@@ -26,17 +28,15 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const [areNavigationButtonDisabled, setNavigationButtonsDisabled] = useState(true)
 
   useEffect(() => {
-    if (user) {
-      if (selectedPlayer) {
-        if (selectedPlayer.user.id === user.id) {
-          setNavigationDisabled(false)
-        }
+    if (selectedPlayer) {
+      if (selectedPlayer.user.id === userId) {
+        setNavigationDisabled(false)
+      }
 
-        if (!selectedPlayer.hasMadeAction) setNavigationButtonsDisabled(false)
-        else setNavigationButtonsDisabled(true)
-      } else setNavigationDisabled(true)
-    }
-  }, [game, user, selectedPlayer, queryClient])
+      if (!selectedPlayer.hasMadeAction) setNavigationButtonsDisabled(false)
+      else setNavigationButtonsDisabled(true)
+    } else setNavigationDisabled(true)
+  }, [userId, game, queryClient, selectedPlayer])
 
   const handleGameAction = (gameAction: GameAction) => {
     switch (gameAction) {
@@ -50,6 +50,8 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
         break
     }
   }
+
+  const isYourTurn = userSide === TeamSide.Blue ? game.activeSide === TeamSide.Blue : game.activeSide === TeamSide.Red
 
   return (
     <S.NavigationContainer>
@@ -91,7 +93,9 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
       </S.NavigationActions>
 
       <S.NavigationActions style={{ display: isNavigationDisabled ? 'flex' : 'none' }}>
-        <span id="navigation-info-text">{game.activeSide === userSide ? 'Select one of your entities' : ''}</span>
+        <span id="navigation-info-text">
+          {game.activeSide === userSide && game.status !== GameStatus.Finished ? 'Select one of your entities' : ''}
+        </span>
       </S.NavigationActions>
 
       <div style={{ width: '150px', height: '100%' }}></div>
@@ -99,10 +103,11 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
       {/* Active side indicator */}
       <S.ActiveSideBanner>
         {game.status === GameStatus.NotStarted && 'Game not started'}
-        {game.status === GameStatus.InProgress &&
-          (game.activeSide == TeamSide.Blue && userSide === TeamSide.Blue ? 'Your turn' : "Opponent's turn")}
+        {game.status === GameStatus.InProgress && (isYourTurn ? 'Your turn' : "Opponent's turn")}
         {game.status === GameStatus.Paused && 'Game paused'}
-        {game.status === GameStatus.Finished && game.outcome && getWinnerText(game.outcome)}
+        {game.status === GameStatus.Finished && game.outcome && (
+          <S.WinnerTextWrapper outcome={game.outcome}>{getWinnerText(game.outcome)}</S.WinnerTextWrapper>
+        )}
       </S.ActiveSideBanner>
     </S.NavigationContainer>
   )

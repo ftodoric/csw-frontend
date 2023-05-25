@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { GameOutcome } from '@types'
+
 export const NavigationContainer = styled.div`
   height: 100px;
   box-shadow: 0 0 10px #c7c7c7;
@@ -68,4 +70,10 @@ export const ActiveSideBanner = styled.div`
   font-weight: bold;
   font-style: italic;
   color: #444444;
+`
+
+export const WinnerTextWrapper = styled.div<{ outcome: GameOutcome }>`
+  ${(p) => p.outcome === GameOutcome.BlueVictory && 'color: #2e84c5'};
+  ${(p) => p.outcome === GameOutcome.RedVictory && 'color: firebrick'};
+  ${(p) => p.outcome === GameOutcome.Tie && 'color: #727272'};
 `

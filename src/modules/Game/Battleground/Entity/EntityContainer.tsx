@@ -23,10 +23,11 @@ interface EntityProps {
 export const EntityContainer = ({ data }: { data: EntityProps }) => {
   const { type, side, name, player, userSide, isActive } = data
 
-  // Game container component doesn't render children if user or game is null
+  // withAuth component provides user check
   const { user } = useUserContext()
   const { id: userId } = user!
 
+  // GameContainer component provides game data check
   const { game } = useGameContext()
   const { status } = game!
 

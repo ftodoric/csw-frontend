@@ -3,6 +3,8 @@ import { NextPageContext } from 'next'
 import Head from 'next/head'
 
 import { withAuth } from '@components/withAuth'
+import { GameActionContextProvider } from '@modules/Game/context/GameActionContext'
+import { GameContextProvider } from '@modules/Game/context/GameContext'
 import { GameContainer } from '@modules/Game/GameContainer'
 
 type GamePageParams = {
@@ -25,7 +27,11 @@ const GamePage = ({ gameId }: GamePageProps) => {
         <title>CS Wargame | Play</title>
       </Head>
 
-      <GameContainer gameId={gameId} />
+      <GameContextProvider>
+        <GameActionContextProvider>
+          <GameContainer gameId={gameId} />
+        </GameActionContextProvider>
+      </GameContextProvider>
     </>
   )
 }

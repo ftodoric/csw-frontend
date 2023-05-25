@@ -56,6 +56,9 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         fitView
         panOnDrag={false}
         zoomOnScroll={false}
+        zoomOnDoubleClick={false}
+        zoomOnPinch={false}
+        preventScrolling={true}
         proOptions={{ hideAttribution: true }}
       />
     </S.BattlegroundContainer>
