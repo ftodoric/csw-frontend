@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { errorRedColor } from '@colors'
+
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -13,16 +15,28 @@ export const FormContainer = styled.form`
 export const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 200px;
 `
 
 export const Field = styled.div`
+  display: flex;
+  align-items: center;
   margin-top: 7px;
+
+  > input {
+    width: 50px;
+    margin-right: 10px;
+  }
+`
+
+export const ErrorContainer = styled.div`
+  height: 15px;
+  margin-top: 5px;
+  color: ${errorRedColor};
 `
 
 export const SendButton = styled.input`
-  background-color: rgb(240, 234, 175);
-  color: rgb(135, 119, 37);
+  background-color: rgb(178, 204, 215);
+  color: rgb(16, 88, 129);
   border: none;
   border-radius: 10px;
   height: 40px;
@@ -34,6 +48,10 @@ export const SendButton = styled.input`
 
   :hover {
     cursor: pointer;
-    background-color: #e6df9c;
+    background-color: #a3c5d4;
+  }
+
+  :disabled {
+    opacity: 0.4;
   }
 `

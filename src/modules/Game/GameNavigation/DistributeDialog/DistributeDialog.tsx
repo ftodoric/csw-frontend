@@ -4,7 +4,6 @@ import { useQueryClient } from 'react-query'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { IconClose } from '@components/Icons'
 import { useMakeGameAction } from '@hooks'
 import { removePlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
 import { useGameContext } from '@modules/Game/context/GameContext'
@@ -33,11 +32,7 @@ export const DistributeDialog = ({ onClose }: DistributeDialogProps) => {
 
   const actionModalRef = useRef<any>(null)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<DistributeFormInputs>({ resolver: zodResolver(distributeFormSchema) })
+  const { register, handleSubmit } = useForm<DistributeFormInputs>({ resolver: zodResolver(distributeFormSchema) })
 
   const onSubmit = (data: DistributeFormInputs) => {
     makeGameAction.mutate({ actionType: GameAction.DISTRIBUTE, payload: { entityPlayer: selectedPlayer, ...data } })
@@ -88,9 +83,11 @@ export const DistributeDialog = ({ onClose }: DistributeDialogProps) => {
           <S.Field>
             <input
               type="number"
+              min={0}
               max={Math.min(selectedPlayer.resource, 5)}
               {...register('resourceAmount', { valueAsNumber: true })}
             />
+            <span style={{ marginLeft: 10 }}>resource</span>
           </S.Field>
         </S.InputsContainer>
 

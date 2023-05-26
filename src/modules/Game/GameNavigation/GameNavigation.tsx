@@ -6,21 +6,26 @@ import { useMakeGameAction, useUserContext } from '@hooks'
 import { Game, GameAction, GameStatus, PlayerType, TeamSide } from '@types'
 
 import { DistributeDialog } from './DistributeDialog'
+import { RevitaliseDialog } from './RevitaliseDialog'
 import * as S from './styles'
 import { removePlayer, useGameActionContext } from '../context/GameActionContext'
+import { useGameContext } from '../context/GameContext'
 import { getWinnerText } from '../utils'
 
 interface NavigationProps {
-  game: Game
   userSide: TeamSide
+  isOwner: boolean
 }
 
-export const GameNavigation = ({ game, userSide }: NavigationProps) => {
+export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const { user } = useUserContext()
   const { id: userId } = user!
 
+  const { game } = useGameContext()
+  const { id: gameId, status: gameStatus, activeSide, outcome } = game!
+
   const queryClient = useQueryClient()
-  const makeGameAction = useMakeGameAction(game.id)
+  const makeGameAction = useMakeGameAction(gameId)
 
   const { state, dispatch } = useGameActionContext()
   const { selectedPlayer } = state
@@ -29,6 +34,7 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const [areNavigationButtonDisabled, setNavigationButtonsDisabled] = useState(true)
 
   const [isDistributeDialogOpen, setDistributeDialogOpen] = useState(false)
+  const [isRevitaliseDialogOpen, setRevitaliseDialogOpen] = useState(false)
 
   useEffect(() => {
     if (selectedPlayer) {
@@ -48,6 +54,7 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
         break
 
       case GameAction.REVITALISE:
+        setRevitaliseDialogOpen(true)
         break
 
       case GameAction.ATTACK:
@@ -64,7 +71,7 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   }
 
   const isOnlineTrolls = selectedPlayer?.side === TeamSide.Red && selectedPlayer?.type === PlayerType.People
-  const isYourTurn = userSide === TeamSide.Blue ? game.activeSide === TeamSide.Blue : game.activeSide === TeamSide.Red
+  const isYourTurn = userSide === TeamSide.Blue ? activeSide === TeamSide.Blue : activeSide === TeamSide.Red
 
   return (
     <S.NavigationContainer>
@@ -84,9 +91,15 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
         )}
         {isDistributeDialogOpen && <DistributeDialog onClose={() => setDistributeDialogOpen(false)} />}
 
-        <S.ActionButtonWrapper bgColor="rgb(178, 204, 215)" title="Revitalise" disabled={areNavigationButtonDisabled}>
+        <S.ActionButtonWrapper
+          bgColor="rgb(178, 204, 215)"
+          title="Revitalise"
+          disabled={areNavigationButtonDisabled}
+          onClick={() => handleGameAction(GameAction.REVITALISE)}
+        >
           <IconRevitalise height="100%" fill="rgb(16, 88, 129)" />
         </S.ActionButtonWrapper>
+        {isRevitaliseDialogOpen && <RevitaliseDialog onClose={() => setRevitaliseDialogOpen(false)} />}
 
         <S.ActionButtonWrapper bgColor="rgba(190, 64, 55, 0.4)" title="Attack" disabled={areNavigationButtonDisabled}>
           <IconAttack height="100%" fill="rgb(143, 75, 70)" />
@@ -110,7 +123,9 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
 
       <S.NavigationActions style={{ display: isNavigationDisabled ? 'flex' : 'none' }}>
         <span id="navigation-info-text">
-          {game.activeSide === userSide && game.status !== GameStatus.Finished ? 'Select one of your entities' : ''}
+          {gameStatus === GameStatus.NotStarted && isOwner && 'Press play to start the game'}
+          {gameStatus === GameStatus.InProgress && activeSide === userSide && 'Select one of your entities'}
+          {gameStatus === GameStatus.Paused && isOwner && 'Press play to continue the game'}
         </span>
       </S.NavigationActions>
 
@@ -118,11 +133,11 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
 
       {/* Active side indicator */}
       <S.ActiveSideBanner>
-        {game.status === GameStatus.NotStarted && 'Game not started'}
-        {game.status === GameStatus.InProgress && (isYourTurn ? 'Your turn' : "Opponent's turn")}
-        {game.status === GameStatus.Paused && 'Game paused'}
-        {game.status === GameStatus.Finished && game.outcome && (
-          <S.WinnerTextWrapper outcome={game.outcome}>{getWinnerText(game.outcome)}</S.WinnerTextWrapper>
+        {gameStatus === GameStatus.NotStarted && 'Game not started'}
+        {gameStatus === GameStatus.InProgress && (isYourTurn ? 'Your turn' : "Opponent's turn")}
+        {gameStatus === GameStatus.Paused && 'Game paused'}
+        {gameStatus === GameStatus.Finished && outcome && (
+          <S.WinnerTextWrapper outcome={outcome}>{getWinnerText(outcome)}</S.WinnerTextWrapper>
         )}
       </S.ActiveSideBanner>
     </S.NavigationContainer>

@@ -73,8 +73,8 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
   useEffect(() => {
     if (game && socket && isTimerActionLoading) {
-      socket.emit(isPauseButtonVisible ? 'startTimer' : 'pauseTimer')
-      queryClient.invalidateQueries('game')
+      const ack = socket.emitWithAck(isPauseButtonVisible ? 'startTimer' : 'pauseTimer')
+      ack.then(() => queryClient.invalidateQueries('game'))
       setTimerActionLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,7 +126,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
         <Battleground game={game} userSide={usersSide} />
       </S.Battleground>
 
-      <GameNavigation game={game} userSide={usersSide} />
+      <GameNavigation userSide={usersSide} isOwner={isOwner} />
 
       {/* Winner Banner */}
       {game.status === GameStatus.Finished && isWinnerBannerActive && (
