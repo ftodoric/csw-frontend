@@ -1,4 +1,4 @@
-import { Game, GameOutcome, GamePeriod, Player, TeamSide, User } from '@types'
+import { Game, GameOutcome, GamePeriod, PlayerType, TeamSide, User } from '@types'
 
 /**
  * Determines users's team. If the user plays on both sides, the blue team is set by default.
@@ -53,4 +53,21 @@ export const getWinnerText = (outcome: GameOutcome, showcase?: boolean): string 
     case GameOutcome.Tie:
       return showcase ? `It's a TIE` : 'Tie'
   }
+}
+
+export const entityNames = {
+  [TeamSide.Blue]: {
+    [PlayerType.People]: 'Electorate',
+    [PlayerType.Industry]: 'UK PLC',
+    [PlayerType.Government]: 'UK Government',
+    [PlayerType.Energy]: 'UK Energy',
+    [PlayerType.Intelligence]: 'GCHQ',
+  },
+  [TeamSide.Red]: {
+    [PlayerType.People]: 'Online Trolls',
+    [PlayerType.Industry]: 'Energetic Bear',
+    [PlayerType.Government]: 'Russian Government',
+    [PlayerType.Energy]: 'Rosenergoatom',
+    [PlayerType.Intelligence]: 'SCS',
+  },
 }

@@ -22,6 +22,10 @@ export const NavigationActions = styled.div`
     margin-left: 20px;
   }
 
+  > div + button {
+    margin-left: 20px;
+  }
+
   > span#navigation-info-text {
     color: #393939;
   }
@@ -35,6 +39,7 @@ export const ActionButtonWrapper = styled.button<{ bgColor: string }>`
   border-radius: 10px;
   transition: height 0.2s;
   border: none;
+  position: relative;
 
   :hover {
     cursor: pointer;

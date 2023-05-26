@@ -18,6 +18,7 @@ export const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>({ resolver: zodResolver(loginFormSchema) })
+
   const onSubmit = (data: LoginFormInputs) => {
     loginUser.mutate(data)
   }

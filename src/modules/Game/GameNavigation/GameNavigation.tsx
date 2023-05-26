@@ -3,8 +3,9 @@ import { useQueryClient } from 'react-query'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
 import { useMakeGameAction, useUserContext } from '@hooks'
-import { Game, GameAction, GameOutcome, GameStatus, TeamSide } from '@types'
+import { Game, GameAction, GameStatus, PlayerType, TeamSide } from '@types'
 
+import { DistributeDialog } from './DistributeDialog'
 import * as S from './styles'
 import { removePlayer, useGameActionContext } from '../context/GameActionContext'
 import { getWinnerText } from '../utils'
@@ -27,6 +28,8 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const [isNavigationDisabled, setNavigationDisabled] = useState(true)
   const [areNavigationButtonDisabled, setNavigationButtonsDisabled] = useState(true)
 
+  const [isDistributeDialogOpen, setDistributeDialogOpen] = useState(false)
+
   useEffect(() => {
     if (selectedPlayer) {
       if (selectedPlayer.user.id === userId) {
@@ -41,16 +44,26 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
   const handleGameAction = (gameAction: GameAction) => {
     switch (gameAction) {
       case GameAction.DISTRIBUTE:
+        setDistributeDialogOpen(true)
+        break
+
       case GameAction.REVITALISE:
+        break
+
       case GameAction.ATTACK:
+        break
+
       case GameAction.ABSTAIN:
         makeGameAction.mutate({ actionType: gameAction, payload: { entityPlayer: selectedPlayer } })
-        queryClient.invalidateQueries('game')
         dispatch(removePlayer())
+        queryClient.invalidateQueries('game')
+
+      default:
         break
     }
   }
 
+  const isOnlineTrolls = selectedPlayer?.side === TeamSide.Red && selectedPlayer?.type === PlayerType.People
   const isYourTurn = userSide === TeamSide.Blue ? game.activeSide === TeamSide.Blue : game.activeSide === TeamSide.Red
 
   return (
@@ -59,14 +72,17 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
       <div style={{ width: '150px', height: '100%' }}></div>
 
       <S.NavigationActions style={{ display: isNavigationDisabled ? 'none' : 'flex' }}>
-        <S.ActionButtonWrapper
-          bgColor="rgb(240, 234, 175)"
-          title="Distribute"
-          onClick={() => console.log('clicked')}
-          disabled={areNavigationButtonDisabled}
-        >
-          <IconDistribute height="100%" fill="rgb(135, 119, 37)" />
-        </S.ActionButtonWrapper>
+        {!isOnlineTrolls && (
+          <S.ActionButtonWrapper
+            bgColor="rgb(240, 234, 175)"
+            title="Distribute"
+            onClick={() => handleGameAction(GameAction.DISTRIBUTE)}
+            disabled={areNavigationButtonDisabled}
+          >
+            <IconDistribute height="100%" fill="rgb(135, 119, 37)" />
+          </S.ActionButtonWrapper>
+        )}
+        {isDistributeDialogOpen && <DistributeDialog onClose={() => setDistributeDialogOpen(false)} />}
 
         <S.ActionButtonWrapper bgColor="rgb(178, 204, 215)" title="Revitalise" disabled={areNavigationButtonDisabled}>
           <IconRevitalise height="100%" fill="rgb(16, 88, 129)" />
@@ -76,6 +92,12 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
           <IconAttack height="100%" fill="rgb(143, 75, 70)" />
         </S.ActionButtonWrapper>
 
+        {selectedPlayer?.type === PlayerType.Intelligence && (
+          <S.ActionButtonWrapper bgColor="rgb(68, 68, 68)" title="Black Market" disabled={areNavigationButtonDisabled}>
+            <IconBlackMarket height="100%" fill="rgb(183, 183, 183)" />
+          </S.ActionButtonWrapper>
+        )}
+
         <S.ActionButtonWrapper
           bgColor="rgb(237, 204, 157)"
           title="Abstain"
@@ -84,12 +106,6 @@ export const GameNavigation = ({ game, userSide }: NavigationProps) => {
         >
           <IconAbstain height="100%" fill="rgb(176, 128, 61)" />
         </S.ActionButtonWrapper>
-
-        {true && (
-          <S.ActionButtonWrapper bgColor="rgb(68, 68, 68)" title="Black Market" disabled={areNavigationButtonDisabled}>
-            <IconBlackMarket height="100%" fill="rgb(183, 183, 183)" />
-          </S.ActionButtonWrapper>
-        )}
       </S.NavigationActions>
 
       <S.NavigationActions style={{ display: isNavigationDisabled ? 'flex' : 'none' }}>

@@ -106,8 +106,8 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
         {game.status !== GameStatus.Finished && (
           <>
-            <S.Counter>formatTimer(time)</S.Counter>
-            <S.GamePeriod>{(gamePeriodMap[game.activePeriod], 2020)}</S.GamePeriod>
+            <S.Counter>{formatTimer(time)}</S.Counter>
+            <S.GamePeriod>{gamePeriodMap[game.activePeriod]}, 2020</S.GamePeriod>
           </>
         )}
       </S.Header>
