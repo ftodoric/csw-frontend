@@ -20,14 +20,25 @@ const markerEnd = {
   },
 }
 
-const attackEdgeStyle = {
+const russiaAttackEdgeStyle = {
   markerEnd: {
     type: MarkerType.ArrowClosed,
-    color: 'firebrick',
+    color: 'orange',
   },
   animated: true,
   style: {
-    stroke: 'firebrick',
+    stroke: 'orange',
+  },
+}
+
+const ukAttackEdgeStyle = {
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: 'purple',
+  },
+  animated: true,
+  style: {
+    stroke: 'purple',
   },
 }
 
@@ -88,7 +99,7 @@ const calculateEdges = (userSide: TeamSide) => [
     ...basicEdgeFrom('node-ukGovernment').to('node-russianGovernment'),
     sourceHandle: userSide === TeamSide.Blue ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Blue ? 'toBottom' : 'toTop',
-    ...attackEdgeStyle,
+    ...ukAttackEdgeStyle,
   },
 
   {
@@ -118,7 +129,7 @@ const calculateEdges = (userSide: TeamSide) => [
     ...basicEdgeFrom('node-energeticBear').to('node-ukPlc'),
     sourceHandle: userSide === TeamSide.Red ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Red ? 'toBottom' : 'toTop',
-    ...attackEdgeStyle,
+    ...russiaAttackEdgeStyle,
   },
 
   {
@@ -134,7 +145,7 @@ const calculateEdges = (userSide: TeamSide) => [
     ...basicEdgeFrom('node-onlineTrolls').to('node-electorate'),
     sourceHandle: userSide === TeamSide.Red ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Red ? 'toBottom' : 'toTop',
-    ...attackEdgeStyle,
+    ...russiaAttackEdgeStyle,
   },
 
   {

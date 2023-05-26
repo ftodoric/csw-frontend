@@ -42,6 +42,14 @@ export interface Game {
   activePeriod: GamePeriod
 }
 
+export enum GameNavigationClick {
+  DISTRIBUTE = 'distribute',
+  REVITALISE = 'revitalise',
+  ATTACK = 'attack',
+  ACCESS_BLACK_MARKET = 'accessBlackMarket',
+  ABSTAIN = 'abstain',
+}
+
 export enum GameAction {
   DISTRIBUTE = 'distribute',
   REVITALISE = 'revitalise',

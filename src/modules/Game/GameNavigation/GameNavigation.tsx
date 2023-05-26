@@ -3,9 +3,10 @@ import { useQueryClient } from 'react-query'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
 import { useMakeGameAction, useUserContext } from '@hooks'
-import { Game, GameAction, GameStatus, PlayerType, TeamSide } from '@types'
+import { GameAction, GameNavigationClick, GameStatus, PlayerType, TeamSide } from '@types'
 
 import { DistributeDialog } from './DistributeDialog'
+import { HelpDialog, HelpDialogButton } from './HelpDialog'
 import { RevitaliseDialog } from './RevitaliseDialog'
 import * as S from './styles'
 import { removePlayer, useGameActionContext } from '../context/GameActionContext'
@@ -30,8 +31,10 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const { state, dispatch } = useGameActionContext()
   const { selectedPlayer } = state
 
-  const [isNavigationDisabled, setNavigationDisabled] = useState(true)
-  const [areNavigationButtonDisabled, setNavigationButtonsDisabled] = useState(true)
+  const [areActionsAvailable, setActionsAvailable] = useState(true)
+  const [areNavigationButtonsDisabled, setNavigationButtonsDisabled] = useState(true)
+
+  const [isHelpDialogOpen, setHelpDialogOpen] = useState(false)
 
   const [isDistributeDialogOpen, setDistributeDialogOpen] = useState(false)
   const [isRevitaliseDialogOpen, setRevitaliseDialogOpen] = useState(false)
@@ -39,29 +42,32 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   useEffect(() => {
     if (selectedPlayer) {
       if (selectedPlayer.user.id === userId) {
-        setNavigationDisabled(false)
+        setActionsAvailable(false)
       }
 
       if (!selectedPlayer.hasMadeAction) setNavigationButtonsDisabled(false)
       else setNavigationButtonsDisabled(true)
-    } else setNavigationDisabled(true)
+    } else setActionsAvailable(true)
   }, [userId, game, queryClient, selectedPlayer])
 
-  const handleGameAction = (gameAction: GameAction) => {
+  const handleGameAction = (gameAction: GameNavigationClick) => {
     switch (gameAction) {
-      case GameAction.DISTRIBUTE:
+      case GameNavigationClick.DISTRIBUTE:
         setDistributeDialogOpen(true)
         break
 
-      case GameAction.REVITALISE:
+      case GameNavigationClick.REVITALISE:
         setRevitaliseDialogOpen(true)
         break
 
-      case GameAction.ATTACK:
+      case GameNavigationClick.ATTACK:
         break
 
-      case GameAction.ABSTAIN:
-        makeGameAction.mutate({ actionType: gameAction, payload: { entityPlayer: selectedPlayer } })
+      case GameNavigationClick.ACCESS_BLACK_MARKET:
+        break
+
+      case GameNavigationClick.ABSTAIN:
+        makeGameAction.mutate({ actionType: GameAction.ABSTAIN, payload: { entityPlayer: selectedPlayer } })
         dispatch(removePlayer())
         queryClient.invalidateQueries('game')
 
@@ -78,50 +84,62 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
       {/* Message log */}
       <div style={{ width: '150px', height: '100%' }}></div>
 
-      <S.NavigationActions style={{ display: isNavigationDisabled ? 'none' : 'flex' }}>
+      {/* Display if actions are available */}
+      <S.NavigationActions style={{ display: areActionsAvailable ? 'none' : 'flex' }}>
+        {/* DISTRIBUTE */}
         {!isOnlineTrolls && (
           <S.ActionButtonWrapper
             bgColor="rgb(240, 234, 175)"
             title="Distribute"
-            onClick={() => handleGameAction(GameAction.DISTRIBUTE)}
-            disabled={areNavigationButtonDisabled}
+            onClick={() => handleGameAction(GameNavigationClick.DISTRIBUTE)}
+            disabled={areNavigationButtonsDisabled}
           >
             <IconDistribute height="100%" fill="rgb(135, 119, 37)" />
           </S.ActionButtonWrapper>
         )}
         {isDistributeDialogOpen && <DistributeDialog onClose={() => setDistributeDialogOpen(false)} />}
 
+        {/* REVITALISE */}
         <S.ActionButtonWrapper
           bgColor="rgb(178, 204, 215)"
           title="Revitalise"
-          disabled={areNavigationButtonDisabled}
-          onClick={() => handleGameAction(GameAction.REVITALISE)}
+          disabled={areNavigationButtonsDisabled}
+          onClick={() => handleGameAction(GameNavigationClick.REVITALISE)}
         >
           <IconRevitalise height="100%" fill="rgb(16, 88, 129)" />
         </S.ActionButtonWrapper>
         {isRevitaliseDialogOpen && <RevitaliseDialog onClose={() => setRevitaliseDialogOpen(false)} />}
 
-        <S.ActionButtonWrapper bgColor="rgba(190, 64, 55, 0.4)" title="Attack" disabled={areNavigationButtonDisabled}>
+        {/* ATTACK */}
+        <S.ActionButtonWrapper
+          bgColor="rgba(190, 64, 55, 0.4)"
+          title="Attack"
+          disabled={areNavigationButtonsDisabled}
+          onClick={() => handleGameAction(GameNavigationClick.ATTACK)}
+        >
           <IconAttack height="100%" fill="rgb(143, 75, 70)" />
         </S.ActionButtonWrapper>
 
+        {/* ACCESS BLACK MARKET */}
         {selectedPlayer?.type === PlayerType.Intelligence && (
-          <S.ActionButtonWrapper bgColor="rgb(68, 68, 68)" title="Black Market" disabled={areNavigationButtonDisabled}>
+          <S.ActionButtonWrapper bgColor="rgb(68, 68, 68)" title="Black Market" disabled={areNavigationButtonsDisabled}>
             <IconBlackMarket height="100%" fill="rgb(183, 183, 183)" />
           </S.ActionButtonWrapper>
         )}
 
+        {/* ABSTAIN */}
         <S.ActionButtonWrapper
           bgColor="rgb(237, 204, 157)"
           title="Abstain"
-          disabled={areNavigationButtonDisabled}
-          onClick={() => handleGameAction(GameAction.ABSTAIN)}
+          disabled={areNavigationButtonsDisabled}
+          onClick={() => handleGameAction(GameNavigationClick.ABSTAIN)}
         >
           <IconAbstain height="100%" fill="rgb(176, 128, 61)" />
         </S.ActionButtonWrapper>
       </S.NavigationActions>
 
-      <S.NavigationActions style={{ display: isNavigationDisabled ? 'flex' : 'none' }}>
+      {/* Display if actions are not available */}
+      <S.NavigationActions style={{ display: areActionsAvailable ? 'flex' : 'none' }}>
         <span id="navigation-info-text">
           {gameStatus === GameStatus.NotStarted && isOwner && 'Press play to start the game'}
           {gameStatus === GameStatus.InProgress && activeSide === userSide && 'Select one of your entities'}
@@ -129,7 +147,10 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         </span>
       </S.NavigationActions>
 
-      <div style={{ width: '150px', height: '100%' }}></div>
+      <div style={{ width: '150px', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <HelpDialogButton onClose={() => setHelpDialogOpen(true)} />
+        {isHelpDialogOpen && <HelpDialog onClose={() => setHelpDialogOpen(false)} />}
+      </div>
 
       {/* Active side indicator */}
       <S.ActiveSideBanner>
