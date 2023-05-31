@@ -41,7 +41,6 @@ export const RevitaliseDialog = ({ onClose }: DistributeDialogProps) => {
   const onSubmit = (data: RevitaliseFormInputs) => {
     makeGameAction.mutate({ actionType: GameAction.REVITALISE, payload: { entityPlayer: selectedPlayer, ...data } })
     dispatch(removePlayer())
-    queryClient.invalidateQueries('game')
     onClose()
   }
 

@@ -5,6 +5,7 @@ import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalis
 import { useMakeGameAction, useUserContext } from '@hooks'
 import { GameAction, GameNavigationClick, GameStatus, PlayerType, TeamSide } from '@types'
 
+import { AttackDialog } from './AttackDialog'
 import { DistributeDialog } from './DistributeDialog'
 import { HelpDialog, HelpDialogButton } from './HelpDialog'
 import { RevitaliseDialog } from './RevitaliseDialog'
@@ -23,7 +24,15 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const { id: userId } = user!
 
   const { game } = useGameContext()
-  const { id: gameId, status: gameStatus, activeSide, outcome } = game!
+  const {
+    id: gameId,
+    status: gameStatus,
+    activeSide,
+    outcome,
+    isRussianGovernmentAttacked,
+    isRosenergoatomAttacked,
+    isUkEnergyAttacked,
+  } = game!
 
   const queryClient = useQueryClient()
   const makeGameAction = useMakeGameAction(gameId)
@@ -38,6 +47,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
 
   const [isDistributeDialogOpen, setDistributeDialogOpen] = useState(false)
   const [isRevitaliseDialogOpen, setRevitaliseDialogOpen] = useState(false)
+  const [isAttackDialogOpen, setAttackDialogOpen] = useState(false)
 
   useEffect(() => {
     if (selectedPlayer) {
@@ -61,6 +71,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         break
 
       case GameNavigationClick.ATTACK:
+        setAttackDialogOpen(true)
         break
 
       case GameNavigationClick.ACCESS_BLACK_MARKET:
@@ -69,7 +80,6 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
       case GameNavigationClick.ABSTAIN:
         makeGameAction.mutate({ actionType: GameAction.ABSTAIN, payload: { entityPlayer: selectedPlayer } })
         dispatch(removePlayer())
-        queryClient.invalidateQueries('game')
 
       default:
         break
@@ -78,6 +88,26 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
 
   const isOnlineTrolls = selectedPlayer?.side === TeamSide.Red && selectedPlayer?.type === PlayerType.People
   const isYourTurn = userSide === TeamSide.Blue ? activeSide === TeamSide.Blue : activeSide === TeamSide.Red
+
+  // List of entities that have a possibility of an attack
+  const isAttackPossible =
+    (selectedPlayer?.side === TeamSide.Blue && selectedPlayer.type === PlayerType.Government) ||
+    (selectedPlayer?.side === TeamSide.Blue && selectedPlayer.type === PlayerType.Intelligence) ||
+    (selectedPlayer?.side === TeamSide.Red && selectedPlayer.type === PlayerType.People) ||
+    (selectedPlayer?.side === TeamSide.Red && selectedPlayer.type === PlayerType.Industry) ||
+    (selectedPlayer?.side === TeamSide.Red && selectedPlayer.type === PlayerType.Intelligence)
+
+  // List of open vectors
+  const isAttackAvailable =
+    (selectedPlayer?.side === TeamSide.Blue &&
+      selectedPlayer.type === PlayerType.Government &&
+      isRussianGovernmentAttacked) ||
+    (selectedPlayer?.side === TeamSide.Blue &&
+      selectedPlayer.type === PlayerType.Intelligence &&
+      isRosenergoatomAttacked) ||
+    (selectedPlayer?.side === TeamSide.Red && selectedPlayer.type === PlayerType.People) ||
+    (selectedPlayer?.side === TeamSide.Red && selectedPlayer.type === PlayerType.Industry) ||
+    (selectedPlayer?.side === TeamSide.Red && selectedPlayer.type === PlayerType.Intelligence && isUkEnergyAttacked)
 
   return (
     <S.NavigationContainer>
@@ -111,14 +141,17 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         {isRevitaliseDialogOpen && <RevitaliseDialog onClose={() => setRevitaliseDialogOpen(false)} />}
 
         {/* ATTACK */}
-        <S.ActionButtonWrapper
-          bgColor="rgba(190, 64, 55, 0.4)"
-          title="Attack"
-          disabled={areNavigationButtonsDisabled}
-          onClick={() => handleGameAction(GameNavigationClick.ATTACK)}
-        >
-          <IconAttack height="100%" fill="rgb(143, 75, 70)" />
-        </S.ActionButtonWrapper>
+        {isAttackPossible && (
+          <S.ActionButtonWrapper
+            bgColor="rgba(190, 64, 55, 0.4)"
+            title="Attack"
+            disabled={areNavigationButtonsDisabled || !isAttackAvailable}
+            onClick={() => handleGameAction(GameNavigationClick.ATTACK)}
+          >
+            <IconAttack height="100%" fill="rgb(143, 75, 70)" />
+          </S.ActionButtonWrapper>
+        )}
+        {isAttackDialogOpen && <AttackDialog onClose={() => setAttackDialogOpen(false)} />}
 
         {/* ACCESS BLACK MARKET */}
         {selectedPlayer?.type === PlayerType.Intelligence && (
