@@ -1,6 +1,6 @@
 import { MarkerType } from 'reactflow'
 
-import { TeamSide } from '@types'
+import { Game, TeamSide } from '@types'
 
 const edgeStyle = {
   stroke: '#888888',
@@ -20,26 +20,32 @@ const markerEnd = {
   },
 }
 
-const russiaAttackEdgeStyle = {
-  markerEnd: {
-    type: MarkerType.ArrowClosed,
-    color: 'orange',
-  },
-  animated: true,
-  style: {
-    stroke: 'orange',
-  },
+const russiaAttackEdgeStyle = (isVectorOpen: boolean) => {
+  return {
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: 'orange',
+    },
+    animated: true,
+    style: {
+      stroke: 'orange',
+      strokeWidth: isVectorOpen ? '1' : '0',
+    },
+  }
 }
 
-const ukAttackEdgeStyle = {
-  markerEnd: {
-    type: MarkerType.ArrowClosed,
-    color: 'purple',
-  },
-  animated: true,
-  style: {
-    stroke: 'purple',
-  },
+const ukAttackEdgeStyle = (isVectorOpen: boolean) => {
+  return {
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: 'purple',
+    },
+    animated: true,
+    style: {
+      stroke: 'purple',
+      strokeWidth: isVectorOpen ? '1' : '0',
+    },
+  }
 }
 
 // Simple creation of required edge props
@@ -55,7 +61,7 @@ const basicEdgeFrom = (source: string) => {
   }
 }
 
-const calculateEdges = (userSide: TeamSide) => [
+const calculateEdges = (game: Game, userSide: TeamSide) => [
   // Blue side
   {
     ...basicEdgeFrom('node-electorate').to('node-ukPlc'),
@@ -99,7 +105,7 @@ const calculateEdges = (userSide: TeamSide) => [
     ...basicEdgeFrom('node-ukGovernment').to('node-russianGovernment'),
     sourceHandle: userSide === TeamSide.Blue ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Blue ? 'toBottom' : 'toTop',
-    ...ukAttackEdgeStyle,
+    ...ukAttackEdgeStyle(game.isRussianGovernmentAttacked),
   },
 
   {
@@ -116,6 +122,15 @@ const calculateEdges = (userSide: TeamSide) => [
     ...basicEdgeStyle,
   },
 
+  // GCHQ - Rosenergoatom attack vector
+  {
+    ...basicEdgeFrom('node-gchq').to('node-rosenergoatom'),
+    sourceHandle: userSide === TeamSide.Blue ? 'fromTop' : 'fromBottom',
+    targetHandle: userSide === TeamSide.Blue ? 'toBottom' : 'toTop',
+    ...basicEdgeStyle,
+    ...ukAttackEdgeStyle(game.isRosenergoatomAttacked),
+  },
+
   // Red Side
   {
     ...basicEdgeFrom('node-energeticBear').to('node-russianGovernment'),
@@ -129,7 +144,7 @@ const calculateEdges = (userSide: TeamSide) => [
     ...basicEdgeFrom('node-energeticBear').to('node-ukPlc'),
     sourceHandle: userSide === TeamSide.Red ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Red ? 'toBottom' : 'toTop',
-    ...russiaAttackEdgeStyle,
+    ...russiaAttackEdgeStyle(true),
   },
 
   {
@@ -145,7 +160,7 @@ const calculateEdges = (userSide: TeamSide) => [
     ...basicEdgeFrom('node-onlineTrolls').to('node-electorate'),
     sourceHandle: userSide === TeamSide.Red ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Red ? 'toBottom' : 'toTop',
-    ...russiaAttackEdgeStyle,
+    ...russiaAttackEdgeStyle(true),
   },
 
   {
@@ -168,6 +183,15 @@ const calculateEdges = (userSide: TeamSide) => [
     sourceHandle: 'fromRight',
     targetHandle: 'toLeft',
     ...basicEdgeStyle,
+  },
+
+  // SCS - UK Energy attack vector
+  {
+    ...basicEdgeFrom('node-scs').to('node-ukEnergy'),
+    sourceHandle: userSide === TeamSide.Blue ? 'fromBottom' : 'fromTop',
+    targetHandle: userSide === TeamSide.Blue ? 'toTop' : 'toBottom',
+    ...basicEdgeStyle,
+    ...russiaAttackEdgeStyle(game.isUkEnergyAttacked),
   },
 ]
 

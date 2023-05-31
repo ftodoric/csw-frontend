@@ -27,22 +27,18 @@ const nodeTypes: any = {
  */
 export const Battleground = ({ game, userSide }: BattlegroundProps) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(calculateNodes(game, userSide))
-  const [edges, setEdges, onEdgesChange] = useEdgesState(calculateEdges(userSide))
+  const [edges, setEdges, onEdgesChange] = useEdgesState(calculateEdges(game, userSide))
 
   const onConnect = useCallback(
     (params: Connection | Edge) => setEdges((eds: Edge[]) => addEdge(params, eds)),
     [setEdges]
   )
 
-  // Recalculate nodes on any prop update
+  // Recalculate nodes and edges on any prop update
   useEffect(() => {
     setNodes(calculateNodes(game, userSide))
-  }, [game, userSide, setNodes])
-
-  // Recalculate edges on userSide prop update
-  useEffect(() => {
-    setEdges(calculateEdges(userSide))
-  }, [userSide, setEdges])
+    setEdges(calculateEdges(game, userSide))
+  }, [game, userSide, setNodes, setEdges])
 
   return (
     <S.BattlegroundContainer>

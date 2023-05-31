@@ -40,6 +40,9 @@ export interface Game {
   turnsRemainingTime: number
   activeSide: TeamSide
   activePeriod: GamePeriod
+  isRussianGovernmentAttacked: boolean
+  isUkEnergyAttacked: boolean
+  isRosenergoatomAttacked: boolean
 }
 
 export enum GameNavigationClick {
