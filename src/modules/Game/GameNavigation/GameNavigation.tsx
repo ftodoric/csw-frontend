@@ -3,9 +3,10 @@ import { useQueryClient } from 'react-query'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
 import { useMakeGameAction, useUserContext } from '@hooks'
-import { GameAction, GameNavigationClick, GameStatus, PlayerType, TeamSide } from '@types'
+import { GameAction, GameNavigationClick, GamePeriod, GameStatus, PlayerType, TeamSide } from '@types'
 
 import { AttackDialog } from './AttackDialog'
+import { BlackMarket } from './BlackMarket'
 import { DistributeDialog } from './DistributeDialog'
 import { HelpDialog, HelpDialogButton } from './HelpDialog'
 import { RevitaliseDialog } from './RevitaliseDialog'
@@ -32,6 +33,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
     isRussianGovernmentAttacked,
     isRosenergoatomAttacked,
     isUkEnergyAttacked,
+    activePeriod,
   } = game!
 
   const queryClient = useQueryClient()
@@ -42,12 +44,14 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
 
   const [areActionsAvailable, setActionsAvailable] = useState(true)
   const [areNavigationButtonsDisabled, setNavigationButtonsDisabled] = useState(true)
+  const [hasMadeBid, setHasMadeBid] = useState(false)
 
   const [isHelpDialogOpen, setHelpDialogOpen] = useState(false)
 
   const [isDistributeDialogOpen, setDistributeDialogOpen] = useState(false)
   const [isRevitaliseDialogOpen, setRevitaliseDialogOpen] = useState(false)
   const [isAttackDialogOpen, setAttackDialogOpen] = useState(false)
+  const [isBlackMarketOpen, setBlackMarketOpen] = useState(false)
 
   useEffect(() => {
     if (selectedPlayer) {
@@ -55,10 +59,13 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         setActionsAvailable(false)
       }
 
-      if (!selectedPlayer.hasMadeAction) setNavigationButtonsDisabled(false)
-      else setNavigationButtonsDisabled(true)
+      if (!selectedPlayer.hasMadeAction) {
+        setNavigationButtonsDisabled(false)
+      } else setNavigationButtonsDisabled(true)
+
+      setHasMadeBid(selectedPlayer.hasMadeBid)
     } else setActionsAvailable(true)
-  }, [userId, game, queryClient, selectedPlayer])
+  }, [userId, game, selectedPlayer])
 
   const handleGameAction = (gameAction: GameNavigationClick) => {
     switch (gameAction) {
@@ -75,6 +82,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         break
 
       case GameNavigationClick.ACCESS_BLACK_MARKET:
+        setBlackMarketOpen(true)
         break
 
       case GameNavigationClick.ABSTAIN:
@@ -122,7 +130,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
             bgColor="rgb(240, 234, 175)"
             title="Distribute"
             onClick={() => handleGameAction(GameNavigationClick.DISTRIBUTE)}
-            disabled={areNavigationButtonsDisabled}
+            disabled={areNavigationButtonsDisabled || hasMadeBid}
           >
             <IconDistribute height="100%" fill="rgb(135, 119, 37)" />
           </S.ActionButtonWrapper>
@@ -133,7 +141,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         <S.ActionButtonWrapper
           bgColor="rgb(178, 204, 215)"
           title="Revitalise"
-          disabled={areNavigationButtonsDisabled}
+          disabled={areNavigationButtonsDisabled || hasMadeBid}
           onClick={() => handleGameAction(GameNavigationClick.REVITALISE)}
         >
           <IconRevitalise height="100%" fill="rgb(16, 88, 129)" />
@@ -145,7 +153,9 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
           <S.ActionButtonWrapper
             bgColor="rgba(190, 64, 55, 0.4)"
             title="Attack"
-            disabled={areNavigationButtonsDisabled || !isAttackAvailable}
+            disabled={
+              areNavigationButtonsDisabled || !isAttackAvailable || hasMadeBid || activePeriod === GamePeriod.January
+            }
             onClick={() => handleGameAction(GameNavigationClick.ATTACK)}
           >
             <IconAttack height="100%" fill="rgb(143, 75, 70)" />
@@ -155,16 +165,30 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
 
         {/* ACCESS BLACK MARKET */}
         {selectedPlayer?.type === PlayerType.Intelligence && (
-          <S.ActionButtonWrapper bgColor="rgb(68, 68, 68)" title="Black Market" disabled={areNavigationButtonsDisabled}>
+          <S.ActionButtonWrapper
+            bgColor="rgb(68, 68, 68)"
+            title="Black Market"
+            disabled={areNavigationButtonsDisabled}
+            onClick={() => handleGameAction(GameNavigationClick.ACCESS_BLACK_MARKET)}
+          >
             <IconBlackMarket height="100%" fill="rgb(183, 183, 183)" />
           </S.ActionButtonWrapper>
+        )}
+        {isBlackMarketOpen && (
+          <BlackMarket
+            onClose={() => {
+              setBlackMarketOpen(false)
+              // Dont rerender everything on bidding, but when exiting the black market
+              queryClient.invalidateQueries('game')
+            }}
+          />
         )}
 
         {/* ABSTAIN */}
         <S.ActionButtonWrapper
           bgColor="rgb(237, 204, 157)"
           title="Abstain"
-          disabled={areNavigationButtonsDisabled}
+          disabled={areNavigationButtonsDisabled || hasMadeBid}
           onClick={() => handleGameAction(GameNavigationClick.ABSTAIN)}
         >
           <IconAbstain height="100%" fill="rgb(176, 128, 61)" />

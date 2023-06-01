@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { useQueryClient } from 'react-query'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -20,7 +19,6 @@ interface DistributeDialogProps {
 }
 
 export const DistributeDialog = ({ onClose }: DistributeDialogProps) => {
-  const queryClient = useQueryClient()
   const { state, dispatch } = useGameActionContext()
 
   const { selectedPlayer } = state

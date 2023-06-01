@@ -11,4 +11,5 @@ export interface Player {
   vitality: number
   victoryPoints: number
   hasMadeAction: boolean
+  hasMadeBid: boolean
 }

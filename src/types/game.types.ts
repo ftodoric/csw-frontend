@@ -58,6 +58,7 @@ export enum GameAction {
   REVITALISE = 'revitalise',
   ATTACK = 'attack',
   ABSTAIN = 'abstain',
+  ACCESS_BLACK_MARKET = 'accessBlackMarket',
 }
 
 export enum PlayerType {
