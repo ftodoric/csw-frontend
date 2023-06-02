@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import { AssetType } from '@types'
-
 export const AssetContainer = styled.div`
   border: solid 1px black;
   outline: solid #76c376;
@@ -26,13 +24,9 @@ export const Name = styled.div`
   font-size: 22px;
 `
 
-export const Type = styled.div<{ type: AssetType }>`
+export const Type = styled.div`
   text-transform: capitalize;
-  margin-left: 10px;
-  font-size: 17px;
-
-  color: ${(p) => (p.type === AssetType.Attack ? 'firebrick' : 'green')};
-  text-transform: uppercase;
+  font-size: 18px;
 `
 
 export const Effect = styled.div`
@@ -45,28 +39,16 @@ export const Effect = styled.div`
   text-align: justify;
 `
 
-export const MinimumBid = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-`
-
-export const TeamBids = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-`
-
 export const Rule = styled.hr`
   color: red;
   width: 100%;
 `
 
-export const BidForm = styled.form`
+export const ActivateAssetForm = styled.form`
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
   align-items: center;
+  margin-top: 10px;
 `
 
 export const BidInput = styled.input`
@@ -75,7 +57,7 @@ export const BidInput = styled.input`
 `
 
 export const BidSubmit = styled.input`
-  background-color: #37ad37;
+  background-color: #76c376;
   border: none;
   color: white;
   border-radius: 5px;
@@ -91,11 +73,4 @@ export const BidSubmit = styled.input`
   :disabled {
     opacity: 0.5;
   }
-`
-
-export const Error = styled.div`
-  height: 20px;
-  color: red;
-  display: flex;
-  align-items: center;
 `

@@ -9,7 +9,7 @@ interface HelpDialogButtonProps {
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: rgba(48, 141, 193, 0.2);
+  background-color: rgba(166, 198, 217, 0.8);
   padding: 10px 15px 10px 10px;
   border-radius: 100px;
   width: 25px;

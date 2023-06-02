@@ -37,7 +37,7 @@ export const BlackMarketAsset = ({ asset }: BlackMarketAssetProps) => {
     <S.AssetContainer>
       <S.Header>
         <S.Name>{asset.name}</S.Name>
-        <S.Type>{asset.type}</S.Type>
+        <S.Type type={asset.type}>{asset.type}</S.Type>
       </S.Header>
 
       <S.Effect>{asset.effectDescription}</S.Effect>

@@ -8,9 +8,9 @@ import { GameAction, GameNavigationClick, GamePeriod, GameStatus, PlayerType, Te
 import { AttackDialog } from './AttackDialog'
 import { BlackMarket } from './BlackMarket'
 import { DistributeDialog } from './DistributeDialog'
-import { HelpDialog, HelpDialogButton } from './HelpDialog'
 import { RevitaliseDialog } from './RevitaliseDialog'
 import * as S from './styles'
+import { InventoryButton, TeamInventory } from './TeamInventory'
 import { removePlayer, useGameActionContext } from '../context/GameActionContext'
 import { useGameContext } from '../context/GameContext'
 import { getWinnerText } from '../utils'
@@ -46,12 +46,11 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const [areNavigationButtonsDisabled, setNavigationButtonsDisabled] = useState(true)
   const [hasMadeBid, setHasMadeBid] = useState(false)
 
-  const [isHelpDialogOpen, setHelpDialogOpen] = useState(false)
-
   const [isDistributeDialogOpen, setDistributeDialogOpen] = useState(false)
   const [isRevitaliseDialogOpen, setRevitaliseDialogOpen] = useState(false)
   const [isAttackDialogOpen, setAttackDialogOpen] = useState(false)
   const [isBlackMarketOpen, setBlackMarketOpen] = useState(false)
+  const [isInventoryOpen, setInventoryOpen] = useState(false)
 
   useEffect(() => {
     if (selectedPlayer) {
@@ -205,8 +204,8 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
       </S.NavigationActions>
 
       <div style={{ width: '150px', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <HelpDialogButton onClose={() => setHelpDialogOpen(true)} />
-        {isHelpDialogOpen && <HelpDialog onClose={() => setHelpDialogOpen(false)} />}
+        <InventoryButton onClose={() => setInventoryOpen(true)} />
+        {isInventoryOpen && <TeamInventory onClose={() => setInventoryOpen(false)} teamSide={userSide} />}
       </div>
 
       {/* Active side indicator */}

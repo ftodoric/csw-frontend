@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const BlackMarketModal = styled.div`
+export const InventoryModal = styled.div`
   position: fixed;
   top: 50px;
   left: 0;
@@ -20,7 +20,6 @@ export const MarketTitle = styled.div`
   display: flex;
   font-size: 26px;
   font-weight: bold;
-  text-shadow: 0 0 2px lime;
   text-transform: uppercase;
 `
 
@@ -58,26 +57,6 @@ export const CloseButton = styled.div`
 
   :hover {
     background-color: #efefef;
-    cursor: pointer;
-  }
-`
-
-export const ConcludeBidding = styled.div`
-  position: fixed;
-  bottom: 20px;
-  right: 40px;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  height: 50px;
-  background-color: rgb(68, 68, 68);
-  color: rgb(200, 200, 200);
-  font-size: 18px;
-
-  :hover {
-    background-color: #333;
     cursor: pointer;
   }
 `

@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
-
 import { IconClose } from '@components/Icons'
 import { Loader } from '@components/Loader'
 import { useMakeGameAction } from '@hooks'
@@ -11,11 +9,11 @@ import { BlackMarketAsset } from './BlackMarketAsset'
 import * as S from './styles'
 import { useBlackMarket } from './useBlackMarket'
 
-interface HelpDialogProps {
+interface BlackMarketProps {
   onClose: () => void
 }
 
-export const BlackMarket = ({ onClose }: HelpDialogProps) => {
+export const BlackMarket = ({ onClose }: BlackMarketProps) => {
   const { game } = useGameContext()
   const { id: gameId } = game!
 
@@ -48,9 +46,19 @@ export const BlackMarket = ({ onClose }: HelpDialogProps) => {
 
   return (
     <S.BlackMarketModal>
-      {data.map((asset) => {
-        return <BlackMarketAsset key={asset.id} asset={asset} />
-      })}
+      <S.MarketTitle>Black Market</S.MarketTitle>
+
+      <S.Rule />
+
+      <S.MarketList>
+        {data.length !== 0 ? (
+          data.map((asset) => {
+            return <BlackMarketAsset key={asset.id} asset={asset} />
+          })
+        ) : (
+          <S.EmptyState>There are currently no assets on the market.</S.EmptyState>
+        )}
+      </S.MarketList>
 
       <S.ConcludeBidding onClick={handleGameAction}>Conclude bidding</S.ConcludeBidding>
 

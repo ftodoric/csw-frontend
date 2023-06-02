@@ -1,10 +1,11 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Connection, Edge, ReactFlow, addEdge, useEdgesState, useNodesState } from 'reactflow'
 
 import { Game, TeamSide } from '@types'
 
 import calculateEdges from './edges.config'
 import { EntityContainer } from './Entity'
+import { HelpDialog, HelpDialogButton } from './HelpDialog'
 import calculateNodes from './nodes.config'
 import * as S from './styles'
 
@@ -28,6 +29,8 @@ const nodeTypes: any = {
 export const Battleground = ({ game, userSide }: BattlegroundProps) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(calculateNodes(game, userSide))
   const [edges, setEdges, onEdgesChange] = useEdgesState(calculateEdges(game, userSide))
+
+  const [isHelpDialogOpen, setHelpDialogOpen] = useState(false)
 
   const onConnect = useCallback(
     (params: Connection | Edge) => setEdges((eds: Edge[]) => addEdge(params, eds)),
@@ -57,6 +60,11 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         preventScrolling={true}
         proOptions={{ hideAttribution: true }}
       />
+
+      <div style={{ position: 'absolute', top: 20, left: 20 }}>
+        <HelpDialogButton onClose={() => setHelpDialogOpen(true)} />
+        {isHelpDialogOpen && <HelpDialog onClose={() => setHelpDialogOpen(false)} />}
+      </div>
     </S.BattlegroundContainer>
   )
 }
