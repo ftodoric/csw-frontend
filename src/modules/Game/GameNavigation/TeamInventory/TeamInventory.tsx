@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { IconClose } from '@components/Icons'
 import { Loader } from '@components/Loader'
 import { useGameContext } from '@modules/Game/context/GameContext'
@@ -17,6 +19,21 @@ export const TeamInventory = ({ onClose, teamSide }: TeamInventoryProps) => {
   const { id: gameId } = game!
 
   const { data, isLoading, isError } = useTeamAssets(gameId, teamSide)
+
+  // Detect ESC keypress
+  useEffect(() => {
+    function handleEscape(event: any) {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [onClose])
 
   if (isLoading) {
     return (

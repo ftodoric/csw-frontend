@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { IconClose } from '@components/Icons'
 import { Loader } from '@components/Loader'
 import { useMakeGameAction } from '@hooks'
@@ -29,6 +31,21 @@ export const BlackMarket = ({ onClose }: BlackMarketProps) => {
     dispatch(removePlayer())
     onClose()
   }
+
+  // Detect ESC keypress
+  useEffect(() => {
+    function handleEscape(event: any) {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [onClose])
 
   if (isLoading) {
     return (

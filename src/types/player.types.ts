@@ -11,5 +11,8 @@ export interface Player {
   vitality: number
   victoryPoints: number
   hasMadeAction: boolean
+  biddingBanRemainingTurns: number
   hasMadeBid: boolean
+  attackBanRemainingTurns: number
+  paralysisRemainingTurns: number
 }

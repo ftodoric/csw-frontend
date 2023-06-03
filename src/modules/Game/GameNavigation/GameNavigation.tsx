@@ -45,6 +45,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const [areActionsAvailable, setActionsAvailable] = useState(true)
   const [areNavigationButtonsDisabled, setNavigationButtonsDisabled] = useState(true)
   const [hasMadeBid, setHasMadeBid] = useState(false)
+  const [isParalyzed, setParalyzed] = useState(false)
 
   const [isDistributeDialogOpen, setDistributeDialogOpen] = useState(false)
   const [isRevitaliseDialogOpen, setRevitaliseDialogOpen] = useState(false)
@@ -61,6 +62,12 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
       if (!selectedPlayer.hasMadeAction) {
         setNavigationButtonsDisabled(false)
       } else setNavigationButtonsDisabled(true)
+
+      if (selectedPlayer.paralysisRemainingTurns > 0) {
+        setParalyzed(true)
+      } else {
+        setParalyzed(false)
+      }
 
       setHasMadeBid(selectedPlayer.hasMadeBid)
     } else setActionsAvailable(true)
@@ -129,7 +136,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
             bgColor="rgb(240, 234, 175)"
             title="Distribute"
             onClick={() => handleGameAction(GameNavigationClick.DISTRIBUTE)}
-            disabled={areNavigationButtonsDisabled || hasMadeBid}
+            disabled={areNavigationButtonsDisabled || hasMadeBid || isParalyzed}
           >
             <IconDistribute height="100%" fill="rgb(135, 119, 37)" />
           </S.ActionButtonWrapper>
@@ -140,7 +147,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         <S.ActionButtonWrapper
           bgColor="rgb(178, 204, 215)"
           title="Revitalise"
-          disabled={areNavigationButtonsDisabled || hasMadeBid}
+          disabled={areNavigationButtonsDisabled || hasMadeBid || isParalyzed}
           onClick={() => handleGameAction(GameNavigationClick.REVITALISE)}
         >
           <IconRevitalise height="100%" fill="rgb(16, 88, 129)" />
@@ -153,7 +160,12 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
             bgColor="rgba(190, 64, 55, 0.4)"
             title="Attack"
             disabled={
-              areNavigationButtonsDisabled || !isAttackAvailable || hasMadeBid || activePeriod === GamePeriod.January
+              areNavigationButtonsDisabled ||
+              !isAttackAvailable ||
+              selectedPlayer.attackBanRemainingTurns > 0 ||
+              hasMadeBid ||
+              isParalyzed ||
+              activePeriod === GamePeriod.January
             }
             onClick={() => handleGameAction(GameNavigationClick.ATTACK)}
           >
@@ -167,7 +179,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
           <S.ActionButtonWrapper
             bgColor="rgb(68, 68, 68)"
             title="Black Market"
-            disabled={areNavigationButtonsDisabled}
+            disabled={areNavigationButtonsDisabled || selectedPlayer.biddingBanRemainingTurns > 0 || isParalyzed}
             onClick={() => handleGameAction(GameNavigationClick.ACCESS_BLACK_MARKET)}
           >
             <IconBlackMarket height="100%" fill="rgb(183, 183, 183)" />
