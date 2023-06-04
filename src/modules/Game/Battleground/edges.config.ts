@@ -1,6 +1,6 @@
 import { MarkerType } from 'reactflow'
 
-import { Game, TeamSide } from '@types'
+import { Game, TeamSide, GameEntity } from '@types'
 
 const edgeStyle = {
   stroke: '#888888',
@@ -20,7 +20,9 @@ const markerEnd = {
   },
 }
 
-const russiaAttackEdgeStyle = (isVectorOpen: boolean) => {
+const russiaAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | undefined) => {
+  const isAttackSuccessful = attackStrength !== undefined && attackStrength >= 0
+
   return {
     markerEnd: {
       type: MarkerType.ArrowClosed,
@@ -31,10 +33,18 @@ const russiaAttackEdgeStyle = (isVectorOpen: boolean) => {
       stroke: 'orange',
       strokeWidth: isVectorOpen ? '1' : '0',
     },
+    labelStyle: {
+      fill: isAttackSuccessful ? 'orange' : 'purple',
+      fontSize: 18,
+    },
+    labelBgStyle: { fillOpacity: 0.75 },
+    labelBgBorderRadius: 4,
   }
 }
 
-const ukAttackEdgeStyle = (isVectorOpen: boolean) => {
+const ukAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | undefined) => {
+  const isAttackSuccessful = attackStrength !== undefined && attackStrength >= 0
+
   return {
     markerEnd: {
       type: MarkerType.ArrowClosed,
@@ -45,6 +55,12 @@ const ukAttackEdgeStyle = (isVectorOpen: boolean) => {
       stroke: 'purple',
       strokeWidth: isVectorOpen ? '1' : '0',
     },
+    labelStyle: {
+      fill: isAttackSuccessful ? 'purple' : 'orange',
+      fontSize: 18,
+    },
+    labelBgStyle: { fillOpacity: 0.75 },
+    labelBgBorderRadius: 4,
   }
 }
 
@@ -105,7 +121,8 @@ const calculateEdges = (game: Game, userSide: TeamSide) => [
     ...basicEdgeFrom('node-ukGovernment').to('node-russianGovernment'),
     sourceHandle: userSide === TeamSide.Blue ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Blue ? 'toBottom' : 'toTop',
-    ...ukAttackEdgeStyle(game.isRussianGovernmentAttacked),
+    ...ukAttackEdgeStyle(game.isRussianGovernmentAttacked, game.lastAttackStrength),
+    label: game.lastAttacker === GameEntity.UKGovernment ? `${game.lastAttackStrength}` : undefined,
   },
 
   {
@@ -128,7 +145,8 @@ const calculateEdges = (game: Game, userSide: TeamSide) => [
     sourceHandle: userSide === TeamSide.Blue ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Blue ? 'toBottom' : 'toTop',
     ...basicEdgeStyle,
-    ...ukAttackEdgeStyle(game.isRosenergoatomAttacked),
+    ...ukAttackEdgeStyle(game.isRosenergoatomAttacked, game.lastAttackStrength),
+    label: game.lastAttacker === GameEntity.GCHQ ? `${game.lastAttackStrength}` : undefined,
   },
 
   // Red Side
@@ -144,7 +162,8 @@ const calculateEdges = (game: Game, userSide: TeamSide) => [
     ...basicEdgeFrom('node-energeticBear').to('node-ukPlc'),
     sourceHandle: userSide === TeamSide.Red ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Red ? 'toBottom' : 'toTop',
-    ...russiaAttackEdgeStyle(true),
+    ...russiaAttackEdgeStyle(true, game.lastAttackStrength),
+    label: game.lastAttacker === GameEntity.EnergeticBear ? `${game.lastAttackStrength}` : undefined,
   },
 
   {
@@ -160,7 +179,8 @@ const calculateEdges = (game: Game, userSide: TeamSide) => [
     ...basicEdgeFrom('node-onlineTrolls').to('node-electorate'),
     sourceHandle: userSide === TeamSide.Red ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Red ? 'toBottom' : 'toTop',
-    ...russiaAttackEdgeStyle(true),
+    ...russiaAttackEdgeStyle(true, game.lastAttackStrength),
+    label: game.lastAttacker === GameEntity.OnlineTrolls ? `${game.lastAttackStrength}` : undefined,
   },
 
   {
@@ -191,7 +211,8 @@ const calculateEdges = (game: Game, userSide: TeamSide) => [
     sourceHandle: userSide === TeamSide.Blue ? 'fromBottom' : 'fromTop',
     targetHandle: userSide === TeamSide.Blue ? 'toTop' : 'toBottom',
     ...basicEdgeStyle,
-    ...russiaAttackEdgeStyle(game.isUkEnergyAttacked),
+    ...russiaAttackEdgeStyle(game.isUkEnergyAttacked, game.lastAttackStrength),
+    label: game.lastAttacker === GameEntity.SCS ? `${game.lastAttackStrength}` : undefined,
   },
 ]
 

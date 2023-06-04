@@ -43,7 +43,7 @@ export const AttackDialog = ({ onClose }: DistributeDialogProps) => {
     setTimeout(() => {
       makeGameAction.mutate({
         actionType: GameAction.ATTACK,
-        payload: { entityPlayer: selectedPlayer, ...data, diceRoll: 1 },
+        payload: { entityPlayer: selectedPlayer, ...data, diceRoll: result },
       })
       dispatch(removePlayer())
       onClose()

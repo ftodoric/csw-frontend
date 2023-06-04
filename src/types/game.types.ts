@@ -43,6 +43,8 @@ export interface Game {
   isRussianGovernmentAttacked: boolean
   isUkEnergyAttacked: boolean
   isRosenergoatomAttacked: boolean
+  lastAttacker?: GameEntity
+  lastAttackStrength?: number
 }
 
 export enum GameNavigationClick {
@@ -67,4 +69,20 @@ export enum PlayerType {
   Government = 'governmentPlayer',
   Energy = 'energyPlayer',
   Intelligence = 'intelligencePlayer',
+}
+
+export enum GameEntity {
+  // Blue Team
+  UKGovernment = 'ukGovernment',
+  Electorate = 'electorate',
+  UKPLC = 'ukPlc',
+  UKEnergy = 'ukEnergy',
+  GCHQ = 'gchq',
+
+  // Red Team
+  RussianGovernment = 'russianGovernment',
+  OnlineTrolls = 'onlineTrolls',
+  EnergeticBear = 'energeticBear',
+  Rosenergoatom = 'rosenergoatom',
+  SCS = 'scs',
 }

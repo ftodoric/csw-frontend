@@ -45,6 +45,7 @@ export const gamePeriodMap = {
 }
 
 export const getWinnerText = (outcome: GameOutcome, showcase?: boolean): string => {
+  console.log('%clog | description\n', 'color: #0e8dbf; margin-bottom: 5px;', outcome)
   switch (outcome) {
     case GameOutcome.BlueVictory:
       return 'Blue Team Wins'

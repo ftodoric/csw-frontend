@@ -225,7 +225,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         {gameStatus === GameStatus.NotStarted && 'Game not started'}
         {gameStatus === GameStatus.InProgress && (isYourTurn ? 'Your turn' : "Opponent's turn")}
         {gameStatus === GameStatus.Paused && 'Game paused'}
-        {gameStatus === GameStatus.Finished && outcome && (
+        {gameStatus === GameStatus.Finished && outcome !== undefined && (
           <S.WinnerTextWrapper outcome={outcome}>{getWinnerText(outcome)}</S.WinnerTextWrapper>
         )}
       </S.ActiveSideBanner>
