@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { AssetType } from '@types'
+
 export const AssetContainer = styled.div`
   border: solid 1px black;
   outline: solid #76c376;
@@ -24,9 +26,13 @@ export const Name = styled.div`
   font-size: 22px;
 `
 
-export const Type = styled.div`
+export const Type = styled.div<{ type: AssetType }>`
   text-transform: capitalize;
-  font-size: 18px;
+  margin-left: 10px;
+  font-size: 17px;
+
+  color: ${(p) => (p.type === AssetType.Attack ? 'firebrick' : 'green')};
+  text-transform: uppercase;
 `
 
 export const Effect = styled.div`

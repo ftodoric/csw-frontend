@@ -51,14 +51,14 @@ export const TeamInventory = ({ onClose, teamSide }: TeamInventoryProps) => {
 
   return (
     <S.InventoryModal>
-      <S.MarketTitle>Inventory</S.MarketTitle>
+      <S.MarketTitle>Assets</S.MarketTitle>
 
       <S.Rule />
 
       <S.MarketList>
         {data.length !== 0 ? (
           data.map((asset) => {
-            return <TeamAsset key={asset.id} asset={asset} />
+            return <TeamAsset key={asset.id} asset={asset} teamSide={teamSide} />
           })
         ) : (
           <S.EmptyState>Your team does not posses any assets.</S.EmptyState>

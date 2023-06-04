@@ -20,7 +20,7 @@ const markerEnd = {
   },
 }
 
-const russiaAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | undefined) => {
+const russiaAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | undefined, x?: number, y?: number) => {
   const isAttackSuccessful = attackStrength !== undefined && attackStrength >= 0
 
   return {
@@ -36,13 +36,18 @@ const russiaAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | u
     labelStyle: {
       fill: isAttackSuccessful ? 'orange' : 'purple',
       fontSize: 18,
+      transform: `translate(${x}px, ${y}px)`,
     },
-    labelBgStyle: { fillOpacity: 0.75 },
+    labelBgStyle: {
+      fill: isAttackSuccessful ? '#f5ebdf' : '#e8dff0',
+      fillOpacity: 0.9,
+      transform: `translate(${x}px, ${y}px)`,
+    },
     labelBgBorderRadius: 4,
   }
 }
 
-const ukAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | undefined) => {
+const ukAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | undefined, x?: number, y?: number) => {
   const isAttackSuccessful = attackStrength !== undefined && attackStrength >= 0
 
   return {
@@ -58,9 +63,14 @@ const ukAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | undef
     labelStyle: {
       fill: isAttackSuccessful ? 'purple' : 'orange',
       fontSize: 18,
+      transform: `translate(${x}px, ${y}px)`,
     },
-    labelBgStyle: { fillOpacity: 0.75 },
-    labelBgBorderRadius: 4,
+    labelBgStyle: {
+      fill: isAttackSuccessful ? '#e8dff0' : '#f5ebdf',
+      fillOpacity: 0.9,
+      transform: `translate(${x}px, ${y}px)`,
+    },
+    labelBgBorderRadius: 50,
   }
 }
 
@@ -121,7 +131,12 @@ const calculateEdges = (game: Game, userSide: TeamSide) => [
     ...basicEdgeFrom('node-ukGovernment').to('node-russianGovernment'),
     sourceHandle: userSide === TeamSide.Blue ? 'fromTop' : 'fromBottom',
     targetHandle: userSide === TeamSide.Blue ? 'toBottom' : 'toTop',
-    ...ukAttackEdgeStyle(game.isRussianGovernmentAttacked, game.lastAttackStrength),
+    ...ukAttackEdgeStyle(
+      game.isRussianGovernmentAttacked,
+      game.lastAttackStrength,
+      0,
+      userSide === TeamSide.Blue ? 50 : -50
+    ),
     label: game.lastAttacker === GameEntity.UKGovernment ? `${game.lastAttackStrength}` : undefined,
   },
 
@@ -142,10 +157,15 @@ const calculateEdges = (game: Game, userSide: TeamSide) => [
   // GCHQ - Rosenergoatom attack vector
   {
     ...basicEdgeFrom('node-gchq').to('node-rosenergoatom'),
-    sourceHandle: userSide === TeamSide.Blue ? 'fromTop' : 'fromBottom',
-    targetHandle: userSide === TeamSide.Blue ? 'toBottom' : 'toTop',
+    sourceHandle: 'fromRight',
+    targetHandle: 'toLeft',
     ...basicEdgeStyle,
-    ...ukAttackEdgeStyle(game.isRosenergoatomAttacked, game.lastAttackStrength),
+    ...ukAttackEdgeStyle(
+      game.isRosenergoatomAttacked,
+      game.lastAttackStrength,
+      -200,
+      userSide === TeamSide.Blue ? 45 : -45
+    ),
     label: game.lastAttacker === GameEntity.GCHQ ? `${game.lastAttackStrength}` : undefined,
   },
 
@@ -208,10 +228,15 @@ const calculateEdges = (game: Game, userSide: TeamSide) => [
   // SCS - UK Energy attack vector
   {
     ...basicEdgeFrom('node-scs').to('node-ukEnergy'),
-    sourceHandle: userSide === TeamSide.Blue ? 'fromBottom' : 'fromTop',
-    targetHandle: userSide === TeamSide.Blue ? 'toTop' : 'toBottom',
+    sourceHandle: 'fromRight',
+    targetHandle: 'toLeft',
     ...basicEdgeStyle,
-    ...russiaAttackEdgeStyle(game.isUkEnergyAttacked, game.lastAttackStrength),
+    ...russiaAttackEdgeStyle(
+      game.isUkEnergyAttacked,
+      game.lastAttackStrength,
+      -200,
+      userSide === TeamSide.Red ? 45 : -45
+    ),
     label: game.lastAttacker === GameEntity.SCS ? `${game.lastAttackStrength}` : undefined,
   },
 ]
