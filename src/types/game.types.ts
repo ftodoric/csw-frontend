@@ -1,3 +1,4 @@
+import { EventCardName } from './event-card.types'
 import { TeamSide } from './team.types'
 import { Team } from './team.types'
 
@@ -45,6 +46,7 @@ export interface Game {
   isRosenergoatomAttacked: boolean
   lastAttacker?: GameEntity
   lastAttackStrength?: number
+  drawnEventCard: EventCardName
 }
 
 export enum GameNavigationClick {

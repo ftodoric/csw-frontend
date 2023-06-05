@@ -9,6 +9,7 @@ import { GameStatus, TeamSide } from '@types'
 import { Battleground, TeamBackground } from './Battleground'
 import { removePlayer, useGameActionContext } from './context/GameActionContext'
 import { useGameContext } from './context/GameContext'
+import { EventCardModal } from './EventCardModal'
 import { GameNavigation } from './GameNavigation'
 import * as S from './styles'
 import { determineUserSide, formatTimer, gamePeriodMap, getWinnerText } from './utils'
@@ -139,6 +140,11 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
           <span onClick={() => setIsWinnerBannerActive(false)}>See the game</span>
         </S.WinnerBanner>
+      )}
+
+      {/* Event Card Modal */}
+      {game.status !== GameStatus.NotStarted && !game[usersSide].isEventCardRead && (
+        <EventCardModal drawnCard={game.drawnEventCard} gameId={gameId} teamSide={usersSide} />
       )}
     </>
   )

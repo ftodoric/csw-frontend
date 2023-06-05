@@ -8,6 +8,7 @@ import { GameAction, GameNavigationClick, GamePeriod, GameStatus, PlayerType, Te
 import { AttackDialog } from './AttackDialog'
 import { BlackMarket } from './BlackMarket'
 import { DistributeDialog } from './DistributeDialog'
+import { RansomwareDialog } from './RansomwareDialog'
 import { RevitaliseDialog } from './RevitaliseDialog'
 import * as S from './styles'
 import { InventoryButton, TeamInventory } from './TeamInventory'
@@ -34,6 +35,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
     isRosenergoatomAttacked,
     isUkEnergyAttacked,
     activePeriod,
+    redTeam,
   } = game!
 
   const queryClient = useQueryClient()
@@ -42,7 +44,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const { state, dispatch } = useGameActionContext()
   const { selectedPlayer } = state
 
-  const [areActionsAvailable, setActionsAvailable] = useState(true)
+  const [areActionsDisabled, setActionsDisabled] = useState(true)
   const [areNavigationButtonsDisabled, setNavigationButtonsDisabled] = useState(true)
   const [hasMadeBid, setHasMadeBid] = useState(false)
   const [isParalyzed, setParalyzed] = useState(false)
@@ -54,9 +56,9 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const [isInventoryOpen, setInventoryOpen] = useState(false)
 
   useEffect(() => {
-    if (selectedPlayer) {
+    if (selectedPlayer && !selectedPlayer.wasRansomwareAttacked) {
       if (selectedPlayer.user.id === userId) {
-        setActionsAvailable(false)
+        setActionsDisabled(false)
       }
 
       if (!selectedPlayer.hasMadeAction) {
@@ -70,7 +72,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
       }
 
       setHasMadeBid(selectedPlayer.hasMadeBid)
-    } else setActionsAvailable(true)
+    } else setActionsDisabled(true)
   }, [userId, game, selectedPlayer])
 
   const handleGameAction = (gameAction: GameNavigationClick) => {
@@ -123,13 +125,16 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
     (selectedPlayer?.side === TeamSide.Red && selectedPlayer.type === PlayerType.Industry) ||
     (selectedPlayer?.side === TeamSide.Red && selectedPlayer.type === PlayerType.Intelligence && isUkEnergyAttacked)
 
+  const ransomwareAttackerId = selectedPlayer && redTeam[selectedPlayer?.type].id
+  const ransomwareVictimId = selectedPlayer && selectedPlayer.id
+
   return (
     <S.NavigationContainer>
       {/* Message log */}
       <div style={{ width: '150px', height: '100%' }}></div>
 
       {/* Display if actions are available */}
-      <S.NavigationActions style={{ display: areActionsAvailable ? 'none' : 'flex' }}>
+      <S.NavigationActions style={{ display: areActionsDisabled ? 'none' : 'flex' }}>
         {/* DISTRIBUTE */}
         {!isOnlineTrolls && (
           <S.ActionButtonWrapper
@@ -207,11 +212,21 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
       </S.NavigationActions>
 
       {/* Display if actions are not available */}
-      <S.NavigationActions style={{ display: areActionsAvailable ? 'flex' : 'none' }}>
+      <S.NavigationActions style={{ display: areActionsDisabled ? 'flex' : 'none' }}>
         <span id="navigation-info-text">
-          {gameStatus === GameStatus.NotStarted && isOwner && 'Press play to start the game'}
-          {gameStatus === GameStatus.InProgress && activeSide === userSide && 'Select one of your entities'}
-          {gameStatus === GameStatus.Paused && isOwner && 'Press play to continue the game'}
+          {selectedPlayer?.wasRansomwareAttacked ? (
+            <RansomwareDialog
+              attackerId={ransomwareAttackerId!}
+              victimId={ransomwareVictimId!}
+              hasVictimEnoughResource={selectedPlayer.resource > 2}
+            />
+          ) : (
+            <>
+              {gameStatus === GameStatus.NotStarted && isOwner && 'Press play to start the game'}
+              {gameStatus === GameStatus.InProgress && activeSide === userSide && 'Select one of your entities'}
+              {gameStatus === GameStatus.Paused && isOwner && 'Press play to continue the game'}
+            </>
+          )}
         </span>
       </S.NavigationActions>
 

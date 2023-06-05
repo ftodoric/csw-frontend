@@ -61,6 +61,8 @@ export const RevitaliseDialog = ({ onClose }: DistributeDialogProps) => {
 
   if (!selectedPlayer) return null
 
+  const cyberInvestmentProgrammeModifier = selectedPlayer.hasCyberInvestmentProgramme ? 1 : 0
+
   return (
     <GameActionModal onClose={onClose}>
       <S.FormContainer onSubmit={handleSubmit(onSubmit)}>
@@ -86,19 +88,23 @@ export const RevitaliseDialog = ({ onClose }: DistributeDialogProps) => {
 
           <label style={{ marginTop: 15 }}>
             with the cost of
-            <span
-              style={{ color: 'rgb(135, 119, 37)', marginLeft: 4 }}
-            >{`${revitalisationConversionRate[vitalityAmount]} resource`}</span>
+            <span style={{ color: 'rgb(135, 119, 37)', marginLeft: 4 }}>{`${
+              vitalityAmount === 0 ? 0 : revitalisationConversionRate[vitalityAmount] - cyberInvestmentProgrammeModifier
+            } resource`}</span>
           </label>
           <S.ErrorContainer>
-            {revitalisationConversionRate[vitalityAmount] > selectedPlayer.resource && 'Not enough resources'}
+            {revitalisationConversionRate[vitalityAmount] >
+              selectedPlayer.resource - cyberInvestmentProgrammeModifier && 'Not enough resources'}
           </S.ErrorContainer>
         </S.InputsContainer>
 
         <S.SendButton
           type="submit"
           value="Revitalise"
-          disabled={vitalityAmount === 0 || revitalisationConversionRate[vitalityAmount] > selectedPlayer.resource}
+          disabled={
+            vitalityAmount === 0 ||
+            revitalisationConversionRate[vitalityAmount] > selectedPlayer.resource - cyberInvestmentProgrammeModifier
+          }
         />
       </S.FormContainer>
     </GameActionModal>

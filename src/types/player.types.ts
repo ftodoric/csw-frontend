@@ -15,4 +15,7 @@ export interface Player {
   hasMadeBid: boolean
   attackBanRemainingTurns: number
   paralysisRemainingTurns: number
+  isSplashImmune: boolean
+  hasCyberInvestmentProgramme: boolean
+  wasRansomwareAttacked: boolean
 }

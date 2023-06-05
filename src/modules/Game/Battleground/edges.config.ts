@@ -70,7 +70,7 @@ const ukAttackEdgeStyle = (isVectorOpen: boolean, attackStrength: number | undef
       fillOpacity: 0.9,
       transform: `translate(${x}px, ${y}px)`,
     },
-    labelBgBorderRadius: 50,
+    labelBgBorderRadius: 4,
   }
 }
 

@@ -16,4 +16,5 @@ export interface Team {
   energyPlayer: Player
   intelligencePlayer: Player
   game: Game
+  isEventCardRead: boolean
 }

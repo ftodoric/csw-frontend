@@ -38,10 +38,9 @@ export const TeamAsset = ({ asset, teamSide }: TeamAssetProps) => {
 
       <S.Effect>{asset.effectDescription}</S.Effect>
 
-      <S.Rule />
-
       <S.ActivateAssetForm onSubmit={handleSubmit(onSubmit)}>
         <div>
+          {/* ATTACK VECTOR */}
           {asset.name === AssetName.AttackVector && (
             <select {...register('attackVectorTarget')}>
               {teamSide === TeamSide.Blue ? (
@@ -52,6 +51,54 @@ export const TeamAsset = ({ asset, teamSide }: TeamAssetProps) => {
               ) : (
                 <option value={PlayerType.Energy}>{entityNames.blueTeam.energyPlayer}</option>
               )}
+            </select>
+          )}
+
+          {/* SOFTWARE UPDATE */}
+          {asset.name === AssetName.SoftwareUpdate && (
+            <select {...register('softwareUpdateTarget')}>
+              {teamSide === TeamSide.Blue ? (
+                <>
+                  <option value={PlayerType.Industry}>{entityNames.blueTeam.industryPlayer}</option>
+                  <option value={PlayerType.Energy}>{entityNames.blueTeam.energyPlayer}</option>
+                </>
+              ) : (
+                <option value={PlayerType.Energy}>{entityNames.redTeam.energyPlayer}</option>
+              )}
+            </select>
+          )}
+
+          {/* NETWORK POLICY */}
+          {asset.name === AssetName.NetworkPolicy && (
+            <select {...register('networkPolicyTarget')}>
+              {Object.values(PlayerType).map((type) => {
+                return (
+                  <option key={type} value={type}>
+                    {entityNames[teamSide][type]}
+                  </option>
+                )
+              })}
+            </select>
+          )}
+
+          {/* CYBER INVESTMENT PROGRAMME */}
+          {asset.name === AssetName.CyberInvestmentProgramme && (
+            <select {...register('cyberInvestmentProgrammeTarget')}>
+              {Object.values(PlayerType).map((type) => {
+                return (
+                  <option key={type} value={type}>
+                    {entityNames[teamSide][type]}
+                  </option>
+                )
+              })}
+            </select>
+          )}
+
+          {/* RANSOMWARE */}
+          {asset.name === AssetName.Ransomware && (
+            <select {...register('ransomwareAttacker')}>
+              <option value={PlayerType.People}>{entityNames.redTeam.peoplePlayer}</option>
+              <option value={PlayerType.Industry}>{entityNames.redTeam.industryPlayer}</option>
             </select>
           )}
         </div>
