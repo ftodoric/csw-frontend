@@ -21,7 +21,7 @@ export const CenterContainer = styled.div`
   /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
   .flip-card {
     background-color: transparent;
-    width: 330px;
+    width: 350px;
     height: 500px;
     perspective: 1000px; /* Remove this if you don't want the 3D effect */
   }
@@ -74,7 +74,7 @@ export const CenterContainer = styled.div`
 `
 
 export const EventCard = styled.img`
-  width: 330px;
+  width: 350px;
   height: 500px;
 `
 

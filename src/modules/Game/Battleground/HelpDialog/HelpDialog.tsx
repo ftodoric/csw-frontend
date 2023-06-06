@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { IconClose } from '@components/Icons'
 
 import * as S from './styles'
@@ -7,6 +9,21 @@ interface HelpDialogProps {
 }
 
 export const HelpDialog = ({ onClose }: HelpDialogProps) => {
+  // Detect ESC keypress
+  useEffect(() => {
+    function handleEscape(event: any) {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [onClose])
+
   return (
     <S.HelpDialogModal>
       <S.Title>Rules of the game</S.Title>

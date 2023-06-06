@@ -130,7 +130,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
       <GameNavigation userSide={usersSide} isOwner={isOwner} />
 
       {/* Winner Banner */}
-      {game.status === GameStatus.Finished && isWinnerBannerActive && (
+      {game[usersSide].isEventCardRead && game.status === GameStatus.Finished && isWinnerBannerActive && (
         <S.WinnerBanner outcome={game.outcome!}>
           <div>{getWinnerText(game.outcome!, true)}</div>
 

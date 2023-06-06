@@ -6,7 +6,7 @@ export const eventCardAssetMapping = {
   [EventCardName.ClumsyCivilServant]: 'clumsyCivilServant',
   [EventCardName.Embargoed]: 'embargoed',
   [EventCardName.LaxOpSec]: 'laxOpSec',
-  [EventCardName.NuclearMeltdown]: 'muclearMeltdown',
+  [EventCardName.NuclearMeltdown]: 'nuclearMeltdown',
   [EventCardName.PeoplesRevolt]: 'peoplesRevolt',
   [EventCardName.QuantumBreakthrough]: 'quantumBreakthrough',
   [EventCardName.SoftwareUpdate]: 'softwareUpdate',

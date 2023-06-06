@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { IconClose } from '@components/Icons'
 import { useReadEventCard } from '@hooks'
@@ -18,6 +18,27 @@ export const EventCardModal = ({ drawnCard, gameId, teamSide }: EventCardModalPr
 
   const readEventCard = useReadEventCard(gameId, teamSide)
 
+  const handleClose = () => {
+    setClosed(true)
+    readEventCard.mutate()
+  }
+
+  // Detect ESC keypress
+  useEffect(() => {
+    function handleEscape(event: any) {
+      if (event.key === 'Escape') {
+        handleClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <S.ModalContainer style={{ display: isClosed ? 'none' : 'flex' }}>
       <S.CenterContainer>
@@ -29,13 +50,7 @@ export const EventCardModal = ({ drawnCard, gameId, teamSide }: EventCardModalPr
 
             <div className="flip-card-back" />
 
-            <S.CloseButton
-              className="closeButton"
-              onClick={() => {
-                setClosed(true)
-                readEventCard.mutate()
-              }}
-            >
+            <S.CloseButton className="closeButton" onClick={handleClose}>
               <IconClose width="30px" height="30px" />
             </S.CloseButton>
           </div>

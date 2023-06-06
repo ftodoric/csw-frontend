@@ -25,3 +25,7 @@ $ yarn dev
 ```
 
 The app is then available at [http://localhost:3000](http://localhost:3000) in your browser.
+
+## TODO
+
+- fix game refetching between-state when entering from lobby
