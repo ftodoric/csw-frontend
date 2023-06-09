@@ -54,7 +54,8 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
 
   // Refetch game data after timer timeout (end of a turn)
   useEffect(() => {
-    if (time === 0) queryClient.invalidateQueries('game')
+    const refreshEvery = 3
+    if (time % refreshEvery === 0) queryClient.invalidateQueries('game')
   }, [time, queryClient])
 
   /**
