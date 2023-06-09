@@ -5,6 +5,7 @@ import { Game, TeamSide } from '@types'
 
 import calculateEdges from './edges.config'
 import { EntityContainer } from './Entity'
+import { ObjectivesModal } from './Entity/ObjectivesModal'
 import { HelpDialog, HelpDialogButton } from './HelpDialog'
 import calculateNodes from './nodes.config'
 import * as S from './styles'
@@ -27,7 +28,9 @@ const nodeTypes: any = {
  * or in case of adding additional props to Entity container.
  */
 export const Battleground = ({ game, userSide }: BattlegroundProps) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(calculateNodes(game, userSide))
+  const [objectivesModalEntity, setObjectivesModalEntity] = useState<string | null>(null)
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(calculateNodes(game, userSide, setObjectivesModalEntity))
   const [edges, setEdges, onEdgesChange] = useEdgesState(calculateEdges(game, userSide))
 
   const [isHelpDialogOpen, setHelpDialogOpen] = useState(false)
@@ -39,7 +42,7 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
 
   // Recalculate nodes and edges on any prop update
   useEffect(() => {
-    setNodes(calculateNodes(game, userSide))
+    setNodes(calculateNodes(game, userSide, setObjectivesModalEntity))
     setEdges(calculateEdges(game, userSide))
   }, [game, userSide, setNodes, setEdges])
 
@@ -65,6 +68,10 @@ export const Battleground = ({ game, userSide }: BattlegroundProps) => {
         <HelpDialogButton onClose={() => setHelpDialogOpen(true)} />
         {isHelpDialogOpen && <HelpDialog onClose={() => setHelpDialogOpen(false)} />}
       </div>
+
+      {objectivesModalEntity && (
+        <ObjectivesModal onClose={() => setObjectivesModalEntity(null)} entityName={objectivesModalEntity} />
+      )}
     </S.BattlegroundContainer>
   )
 }

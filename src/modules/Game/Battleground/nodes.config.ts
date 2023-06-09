@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react'
+
 import { EntityType, Game, TeamSide } from '@types'
 
 // Layout everything inside a given scale and use the `fitView` prop to center everything
@@ -33,7 +35,11 @@ const commonEntityNodeConfig = {
   draggable: false,
 }
 
-const calculateNodes = (game: Game, userSide: TeamSide) => {
+const calculateNodes = (
+  game: Game,
+  userSide: TeamSide,
+  setObjectivesModalEntity: Dispatch<SetStateAction<string | null>>
+) => {
   const isBlueUserSide = userSide === TeamSide.Blue
 
   const blueEntityMap = {
@@ -95,6 +101,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'Electorate',
         userSide,
         isActive: game.activeSide === TeamSide.Blue && game.blueTeam.peoplePlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
     {
@@ -108,6 +115,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'UK PLC',
         userSide,
         isActive: game.activeSide === TeamSide.Blue && game.blueTeam.industryPlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
     {
@@ -121,6 +129,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'UK Government',
         userSide,
         isActive: game.activeSide === TeamSide.Blue && game.blueTeam.governmentPlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
     {
@@ -134,6 +143,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'UK Energy',
         userSide,
         isActive: game.activeSide === TeamSide.Blue && game.blueTeam.energyPlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
     {
@@ -147,6 +157,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'GCHQ',
         userSide,
         isActive: game.activeSide === TeamSide.Blue && game.blueTeam.intelligencePlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
 
@@ -162,6 +173,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'Online Trolls',
         userSide,
         isActive: game.activeSide === TeamSide.Red && game.redTeam.peoplePlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
     {
@@ -175,6 +187,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'Energetic Bear',
         userSide,
         isActive: game.activeSide === TeamSide.Red && game.redTeam.industryPlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
     {
@@ -188,6 +201,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'Russian Government',
         userSide,
         isActive: game.activeSide === TeamSide.Red && game.redTeam.governmentPlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
     {
@@ -201,6 +215,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'Rosenergoatom',
         userSide,
         isActive: game.activeSide === TeamSide.Red && game.redTeam.energyPlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
     {
@@ -214,6 +229,7 @@ const calculateNodes = (game: Game, userSide: TeamSide) => {
         name: 'SCS',
         userSide,
         isActive: game.activeSide === TeamSide.Red && game.redTeam.intelligencePlayer,
+        setObjectivesModalEntity: setObjectivesModalEntity,
       },
     },
   ]

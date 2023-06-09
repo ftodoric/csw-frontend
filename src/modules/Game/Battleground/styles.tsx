@@ -12,6 +12,7 @@ export const BattlegroundContainer = styled.div`
 
   .react-flow__node {
     cursor: default;
+    z-index: -1;
   }
 
   .react-flow__handle {

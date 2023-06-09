@@ -1,10 +1,12 @@
 import Image from 'next/image'
+import { Dispatch, SetStateAction } from 'react'
 
 import { victoryPointsColor } from '@colors'
 import { IconCheck, IconVictoryPoints } from '@components/Icons'
 import { useUserContext } from '@hooks'
 import { removePlayer, setPlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
 import { useGameContext } from '@modules/Game/context/GameContext'
+import { entityNames } from '@modules/Game/utils'
 import { EntityType, GameStatus, Player, TeamSide } from '@types'
 
 import { EdgeHandleDeterminator } from './EdgeHandleDeterminator'
@@ -18,6 +20,7 @@ interface EntityProps {
   userSide: TeamSide
   activeSide: TeamSide
   isActive?: boolean
+  setObjectivesModalEntity: Dispatch<SetStateAction<string | null>>
 }
 
 export const EntityContainer = ({ data }: { data: EntityProps }) => {
@@ -60,7 +63,12 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
           )}
         </div>
 
-        <S.VictoryPoints>
+        <S.VictoryPoints
+          onClick={(e) => {
+            e.stopPropagation()
+            data.setObjectivesModalEntity(entityNames[side as TeamSide][player.type])
+          }}
+        >
           <IconVictoryPoints width="17px" height="17px" fill={victoryPointsColor} />
           {player.victoryPoints}
         </S.VictoryPoints>

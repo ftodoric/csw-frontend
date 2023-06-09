@@ -23,7 +23,7 @@ export const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 25px;
-  padding: 0 10px;
+  padding: 0 5px 0 10px;
   box-shadow: 0 0 2px #afafaf;
 `
 
@@ -31,6 +31,14 @@ export const VictoryPoints = styled.div`
   display: flex;
   align-items: center;
   color: ${victoryPointsColor};
+  border-radius: 10px;
+  padding: 2px 5px 2px 2px;
+  z-index: 10;
+
+  :hover {
+    cursor: pointer;
+    background-color: ${victoryPointsColor}22;
+  }
 `
 
 export const Middle = styled.div`
