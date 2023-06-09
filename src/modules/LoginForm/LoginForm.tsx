@@ -29,13 +29,17 @@ export const LoginForm = () => {
 
       <S.StyledForm onSubmit={handleSubmit(onSubmit)}>
         <S.InputContainer>
-          <IconUser width="18px" height="18px" />
+          <S.InputIcon>
+            <IconUser width="18px" height="18px" />
+          </S.InputIcon>
           <S.StyledInput type="text" placeholder="Username" {...register('username')} />
         </S.InputContainer>
         {errors.username && <S.ErrorContainer>{errors.username.message}</S.ErrorContainer>}
 
         <S.InputContainer style={{ marginTop: 20 }}>
-          <IconPassword width="18px" height="18px" />
+          <S.InputIcon>
+            <IconPassword width="18px" height="18px" />
+          </S.InputIcon>
           <S.StyledInput type="password" placeholder="Password" {...register('password', { required: true })} />
         </S.InputContainer>
         {errors.password && <S.ErrorContainer>{errors.password.message}</S.ErrorContainer>}
