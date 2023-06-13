@@ -2,8 +2,7 @@ import { useEffect } from 'react'
 
 import { IconClose } from '@components/Icons'
 import { Loader } from '@components/Loader'
-import { useMakeGameAction } from '@hooks'
-import { removePlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
+import { removePlayer, setGameAction, useGameActionContext } from '@modules/Game/context/GameActionContext'
 import { useGameContext } from '@modules/Game/context/GameContext'
 import { GameAction } from '@types'
 
@@ -21,14 +20,14 @@ export const BlackMarket = ({ onClose }: BlackMarketProps) => {
 
   const { data, isLoading, isError } = useBlackMarket(gameId)
 
-  const makeGameAction = useMakeGameAction(gameId)
-
   const { state, dispatch } = useGameActionContext()
   const { selectedPlayer } = state
 
   const handleGameAction = () => {
-    makeGameAction.mutate({ actionType: GameAction.ACCESS_BLACK_MARKET, payload: { entityPlayer: selectedPlayer } })
-    dispatch(removePlayer())
+    if (selectedPlayer) {
+      dispatch(setGameAction(selectedPlayer, GameAction.ACCESS_BLACK_MARKET, {}))
+      dispatch(removePlayer())
+    }
     onClose()
   }
 

@@ -82,3 +82,27 @@ export const WinnerTextWrapper = styled.div<{ outcome: GameOutcome }>`
   ${(p) => p.outcome === GameOutcome.RedVictory && 'color: firebrick'};
   ${(p) => p.outcome === GameOutcome.Tie && 'color: #727272'};
 `
+
+export const FinishTurnButton = styled.div`
+  position: absolute;
+  background-color: #53a0a4;
+  width: 150px;
+  height: 50px;
+  top: -70px;
+  right: 40px;
+  border-radius: 10px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 20px #777;
+  text-transform: capitalize;
+  transition: top 0.15s;
+
+  :hover {
+    cursor: pointer;
+    background-color: #5daeb2;
+    top: -75px;
+  }
+`

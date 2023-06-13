@@ -27,10 +27,10 @@ export const SendButton = styled.input`
   border-radius: 10px;
   height: 40px;
   font-size: 18px;
-  width: 220px;
+  width: 170px;
   position: relative;
-  left: 25px;
-  top: 50px;
+  left: 170px;
+  top: 5px;
 
   :hover {
     cursor: pointer;

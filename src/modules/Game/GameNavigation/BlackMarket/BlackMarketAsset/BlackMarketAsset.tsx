@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useBid } from '@hooks'
+import { useBid, usePostAction } from '@hooks'
 import { useGameActionContext } from '@modules/Game/context/GameActionContext'
-import { Asset, TeamSide } from '@types'
+import { Asset, GameAction, TeamSide } from '@types'
 
 import { BidFormInputs, bidFormSchema } from './bid-form.types'
 import * as S from './styles'
@@ -19,6 +19,7 @@ export const BlackMarketAsset = ({ asset }: BlackMarketAssetProps) => {
   const { selectedPlayer } = state
 
   const makeBid = useBid(asset.id)
+  const makeAction = usePostAction()
 
   const playerBid = selectedPlayer?.side === TeamSide.Blue ? asset.blueTeamBid : asset.redTeamBid
   const opponentsBid = selectedPlayer?.side === TeamSide.Blue ? asset.redTeamBid : asset.blueTeamBid
@@ -28,7 +29,10 @@ export const BlackMarketAsset = ({ asset }: BlackMarketAssetProps) => {
   const [bid, setBid] = useState(0)
 
   const onSubmit = (data: BidFormInputs) => {
-    makeBid.mutate({ ...data, teamSide: selectedPlayer!.side, entityPlayer: selectedPlayer! })
+    if (selectedPlayer) {
+      makeBid.mutate({ ...data, teamSide: selectedPlayer.side, entityPlayer: selectedPlayer })
+      makeAction.mutate({ actionType: GameAction.ACCESS_BLACK_MARKET, playerId: selectedPlayer.id })
+    }
   }
 
   if (!selectedPlayer) return null

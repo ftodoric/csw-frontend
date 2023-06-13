@@ -1,6 +1,6 @@
 import React, { createContext, Dispatch, useContext, useReducer } from 'react'
 
-import { Player } from '@types'
+import { GameAction, Player } from '@types'
 
 import { reducer } from './reducer'
 
@@ -11,6 +11,13 @@ import { reducer } from './reducer'
 
 export interface GameActionState {
   selectedPlayer: Player | null
+  madeActions: {
+    [playerId: string]: {
+      entityPlayer: Player
+      gameAction: GameAction
+      gameActionPayload: any
+    }
+  }
 }
 
 export type GameActionStateDispatch = Dispatch<{ type: string; payload: any }>
@@ -22,6 +29,7 @@ interface GameActionContextData {
 
 const initialState: GameActionState = {
   selectedPlayer: null,
+  madeActions: {},
 }
 
 const GameActionContext = createContext<GameActionContextData>({ state: initialState, dispatch: () => {} })

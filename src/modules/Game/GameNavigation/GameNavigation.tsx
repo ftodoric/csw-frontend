@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
-import { useMakeGameAction, useUserContext } from '@hooks'
+import { useFinishTurn, usePostAction, useUserContext } from '@hooks'
 import { GameAction, GameNavigationClick, GamePeriod, GameStatus, PlayerType, TeamSide } from '@types'
 
 import { AttackDialog } from './AttackDialog'
@@ -12,7 +12,7 @@ import { RansomwareDialog } from './RansomwareDialog'
 import { RevitaliseDialog } from './RevitaliseDialog'
 import * as S from './styles'
 import { InventoryButton, TeamInventory } from './TeamInventory'
-import { removePlayer, useGameActionContext } from '../context/GameActionContext'
+import { removePlayer, setGameAction, useGameActionContext } from '../context/GameActionContext'
 import { useGameContext } from '../context/GameContext'
 import { getWinnerText } from '../utils'
 
@@ -24,6 +24,8 @@ interface NavigationProps {
 export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const { user } = useUserContext()
   const { id: userId } = user!
+
+  const makeAction = usePostAction()
 
   const { game } = useGameContext()
   const {
@@ -39,13 +41,13 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   } = game!
 
   const queryClient = useQueryClient()
-  const makeGameAction = useMakeGameAction(gameId)
+  const finishTurn = useFinishTurn(gameId)
 
   const { state, dispatch } = useGameActionContext()
   const { selectedPlayer } = state
 
   const [areActionsDisabled, setActionsDisabled] = useState(true)
-  const [areNavigationButtonsDisabled, setNavigationButtonsDisabled] = useState(true)
+  const [areNavigationButtonsDisabled, setNavigationButtonsDisabled] = useState(false)
   const [hasMadeBid, setHasMadeBid] = useState(false)
   const [isParalyzed, setParalyzed] = useState(false)
 
@@ -60,10 +62,6 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
       if (selectedPlayer.user.id === userId) {
         setActionsDisabled(false)
       }
-
-      if (!selectedPlayer.hasMadeAction) {
-        setNavigationButtonsDisabled(false)
-      } else setNavigationButtonsDisabled(true)
 
       if (selectedPlayer.paralysisRemainingTurns > 0) {
         setParalyzed(true)
@@ -94,12 +92,19 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         break
 
       case GameNavigationClick.ABSTAIN:
-        makeGameAction.mutate({ actionType: GameAction.ABSTAIN, payload: { entityPlayer: selectedPlayer } })
-        dispatch(removePlayer())
+        if (selectedPlayer) {
+          makeAction.mutate({ actionType: GameAction.ABSTAIN, playerId: selectedPlayer.id })
+          dispatch(setGameAction(selectedPlayer, GameAction.ABSTAIN))
+          dispatch(removePlayer())
+        }
 
       default:
         break
     }
+  }
+
+  const handleFinishTurn = () => {
+    finishTurn.mutate(state.madeActions)
   }
 
   const isOnlineTrolls = selectedPlayer?.side === TeamSide.Red && selectedPlayer?.type === PlayerType.People
@@ -244,6 +249,10 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
           <S.WinnerTextWrapper outcome={outcome}>{getWinnerText(outcome)}</S.WinnerTextWrapper>
         )}
       </S.ActiveSideBanner>
+
+      <S.FinishTurnButton>
+        <div onClick={handleFinishTurn}>Finish turn</div>
+      </S.FinishTurnButton>
     </S.NavigationContainer>
   )
 }

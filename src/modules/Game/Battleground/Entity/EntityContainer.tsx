@@ -2,12 +2,19 @@ import Image from 'next/image'
 import { Dispatch, SetStateAction } from 'react'
 
 import { victoryPointsColor } from '@colors'
-import { IconCheck, IconVictoryPoints } from '@components/Icons'
+import {
+  IconAbstain,
+  IconAttack,
+  IconBlackMarket,
+  IconDistribute,
+  IconRevitalise,
+  IconVictoryPoints,
+} from '@components/Icons'
 import { useUserContext } from '@hooks'
 import { removePlayer, setPlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
 import { useGameContext } from '@modules/Game/context/GameContext'
 import { entityNames } from '@modules/Game/utils'
-import { EntityType, GameStatus, Player, TeamSide } from '@types'
+import { EntityType, GameAction, GameStatus, Player, TeamSide } from '@types'
 
 import { EdgeHandleDeterminator } from './EdgeHandleDeterminator'
 import * as S from './styles'
@@ -56,11 +63,23 @@ export const EntityContainer = ({ data }: { data: EntityProps }) => {
       <S.Header>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {player.user.username}
-          {player.hasMadeAction && (
-            <span style={{ marginLeft: '5px', display: 'flex', alignItems: 'center' }}>
-              <IconCheck width="16px" height="16px" fill="#4b9241" />
-            </span>
-          )}
+          <span style={{ marginLeft: '5px', display: 'flex', alignItems: 'center' }}>
+            {player.madeAction === GameAction.DISTRIBUTE && (
+              <IconDistribute width="16px" height="16px" fill="rgb(135, 119, 37)" />
+            )}
+            {player.madeAction === GameAction.REVITALISE && (
+              <IconRevitalise width="16px" height="16px" fill="rgb(16, 88, 129)" />
+            )}
+            {player.madeAction === GameAction.ABSTAIN && (
+              <IconAbstain width="16px" height="16px" fill="rgb(176, 128, 61)" />
+            )}
+            {player.madeAction === GameAction.ATTACK && (
+              <IconAttack width="16px" height="16px" fill="rgb(143, 75, 70)" />
+            )}
+            {player.madeAction === GameAction.ACCESS_BLACK_MARKET && (
+              <IconBlackMarket width="16px" height="16px" fill="rgb(68, 68, 68)" />
+            )}
+          </span>
         </div>
 
         <S.VictoryPoints

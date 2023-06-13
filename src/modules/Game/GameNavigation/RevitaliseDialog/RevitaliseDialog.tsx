@@ -4,9 +4,9 @@ import { useQueryClient } from 'react-query'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useMakeGameAction } from '@hooks'
+import { usePostAction } from '@hooks'
 import { MAX_AMOUNT_OF_REVITALISATION } from '@modules/Game/config'
-import { removePlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
+import { removePlayer, setGameAction, useGameActionContext } from '@modules/Game/context/GameActionContext'
 import { useGameContext } from '@modules/Game/context/GameContext'
 import { GameAction } from '@types'
 
@@ -26,9 +26,8 @@ export const RevitaliseDialog = ({ onClose }: DistributeDialogProps) => {
   const { selectedPlayer } = state
 
   const { game } = useGameContext()
-  const { id: gameId } = game!
 
-  const makeGameAction = useMakeGameAction(gameId)
+  const makeAction = usePostAction()
 
   const actionModalRef = useRef<any>(null)
 
@@ -39,8 +38,11 @@ export const RevitaliseDialog = ({ onClose }: DistributeDialogProps) => {
   })
 
   const onSubmit = (data: RevitaliseFormInputs) => {
-    makeGameAction.mutate({ actionType: GameAction.REVITALISE, payload: { entityPlayer: selectedPlayer, ...data } })
-    dispatch(removePlayer())
+    if (selectedPlayer) {
+      makeAction.mutate({ actionType: GameAction.REVITALISE, playerId: selectedPlayer.id })
+      dispatch(setGameAction(selectedPlayer, GameAction.REVITALISE, data))
+      dispatch(removePlayer())
+    }
     onClose()
   }
 

@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useMakeGameAction } from '@hooks'
-import { removePlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
+import { usePostAction } from '@hooks'
+import { removePlayer, setGameAction, useGameActionContext } from '@modules/Game/context/GameActionContext'
 import { useGameContext } from '@modules/Game/context/GameContext'
 import { entityNames } from '@modules/Game/utils'
 import { GameAction, Player } from '@types'
@@ -26,17 +26,20 @@ export const DistributeDialog = ({ onClose }: DistributeDialogProps) => {
   const { game } = useGameContext()
   const { id: gameId, blueTeam, redTeam } = game!
 
-  const makeGameAction = useMakeGameAction(gameId)
-
   const actionModalRef = useRef<any>(null)
+
+  const makeAction = usePostAction()
 
   const { register, handleSubmit } = useForm<DistributeFormInputs>({ resolver: zodResolver(distributeFormSchema) })
 
   const [isTargetSplashImmune, setIsTargetSplashImmune] = useState(false)
 
   const onSubmit = (data: DistributeFormInputs) => {
-    makeGameAction.mutate({ actionType: GameAction.DISTRIBUTE, payload: { entityPlayer: selectedPlayer, ...data } })
-    dispatch(removePlayer())
+    if (selectedPlayer) {
+      makeAction.mutate({ actionType: GameAction.DISTRIBUTE, playerId: selectedPlayer.id })
+      dispatch(setGameAction(selectedPlayer, GameAction.DISTRIBUTE, data))
+      dispatch(removePlayer())
+    }
     onClose()
   }
 

@@ -1,4 +1,4 @@
-import { PlayerType } from './game.types'
+import { GameAction, PlayerType } from './game.types'
 import { TeamSide } from './team.types'
 import { User } from './user.types'
 
@@ -10,7 +10,7 @@ export interface Player {
   resource: number
   vitality: number
   victoryPoints: number
-  hasMadeAction: boolean
+  madeAction: GameAction
   biddingBanRemainingTurns: number
   hasMadeBid: boolean
   attackBanRemainingTurns: number
