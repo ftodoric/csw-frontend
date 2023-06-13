@@ -19,5 +19,6 @@ export const useGames = () => {
     onError: (error) => {
       console.log(error)
     },
+    refetchInterval: 1000,
   })
 }

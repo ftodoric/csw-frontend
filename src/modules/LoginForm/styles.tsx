@@ -39,9 +39,14 @@ export const InputContainer = styled.div`
   align-items: center;
 `
 
+export const InputIcon = styled.div`
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+`
+
 export const StyledInput = styled.input`
   border: none;
-  margin-left: 5px;
 
   &:focus {
     outline: none;
