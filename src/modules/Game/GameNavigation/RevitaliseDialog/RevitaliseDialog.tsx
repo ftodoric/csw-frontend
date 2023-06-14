@@ -84,6 +84,7 @@ export const RevitaliseDialog = ({ onClose }: DistributeDialogProps) => {
               onChange={(e: any) => {
                 setVitalityAmount(Number(e.target.value))
               }}
+              style={{ border: '1px solid rgb(118, 118, 118)', padding: '2px 4px', borderRadius: 5 }}
             />
             <span>vitality</span>
           </S.Field>

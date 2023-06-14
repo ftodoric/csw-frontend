@@ -82,7 +82,11 @@ export const DistributeDialog = ({ onClose }: DistributeDialogProps) => {
             <span style={{ color: 'rgb(135, 119, 37)' }}>Distribute</span> to
           </label>
           <S.Field>
-            <select {...register('targetPlayerId')} onChange={handleSelect}>
+            <select
+              {...register('targetPlayerId')}
+              onChange={handleSelect}
+              style={{ border: '1px solid rgb(118, 118, 118)', padding: '2px 4px', borderRadius: 5 }}
+            >
               {distributeNetworkMap[selectedPlayer.side][selectedPlayer.type].map((player) => {
                 return (
                   <option key={player} value={(game as any)[selectedPlayer.side][player].id}>
@@ -102,6 +106,7 @@ export const DistributeDialog = ({ onClose }: DistributeDialogProps) => {
               min={0}
               max={Math.min(selectedPlayer.resource, isAnyoneSplashImmune ? 2 : 5)}
               {...register('resourceAmount', { valueAsNumber: true })}
+              style={{ border: '1px solid rgb(118, 118, 118)', padding: '2px 4px', borderRadius: 5 }}
             />
             <span style={{ marginLeft: 10 }}>resource</span>
           </S.Field>

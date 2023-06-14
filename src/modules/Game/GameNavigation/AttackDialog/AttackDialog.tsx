@@ -69,6 +69,7 @@ export const AttackDialog = ({ onClose }: DistributeDialogProps) => {
               min={1}
               max={Math.min(selectedPlayer.resource, MAX_AMOUNT_OF_RESOURCE_FOR_ATTACK)}
               {...register('resourceAmount', { valueAsNumber: true })}
+              style={{ border: '1px solid rgb(118, 118, 118)', padding: '2px 4px', borderRadius: 5 }}
             />
             <span style={{ marginLeft: 10, color: 'rgb(135, 119, 37)' }}>resource</span>
           </S.Field>
