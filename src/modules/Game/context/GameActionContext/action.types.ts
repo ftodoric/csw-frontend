@@ -31,3 +31,12 @@ export const setGameAction = (entityPlayer: Player, gameAction: GameAction, game
     },
   }
 }
+
+export const RESET_GAME_ACTION = 'SET_GARESET_GAME_ACTIONME_ACTION'
+
+export const resetState = () => {
+  return {
+    type: RESET_GAME_ACTION,
+    payload: null,
+  }
+}

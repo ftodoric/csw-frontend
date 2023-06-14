@@ -83,7 +83,7 @@ export const WinnerTextWrapper = styled.div<{ outcome: GameOutcome }>`
   ${(p) => p.outcome === GameOutcome.Tie && 'color: #727272'};
 `
 
-export const FinishTurnButton = styled.div`
+export const FinishTurnButton = styled.button`
   position: absolute;
   background-color: #53a0a4;
   width: 150px;
@@ -99,10 +99,17 @@ export const FinishTurnButton = styled.div`
   box-shadow: 0 0 20px #777;
   text-transform: capitalize;
   transition: top 0.15s;
+  border: none;
 
   :hover {
     cursor: pointer;
     background-color: #5daeb2;
     top: -75px;
+  }
+
+  :disabled {
+    background-color: #afc9cd;
+    color: grey;
+    cursor: not-allowed;
   }
 `

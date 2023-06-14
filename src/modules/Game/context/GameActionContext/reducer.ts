@@ -1,4 +1,4 @@
-import { SET_PLAYER, REMOVE_PLAYER, SET_GAME_ACTION } from './action.types'
+import { SET_PLAYER, REMOVE_PLAYER, SET_GAME_ACTION, RESET_GAME_ACTION } from './action.types'
 import { GameActionState } from './GameActionContext'
 
 export const reducer = (state: GameActionState, action: { type: string; payload: any }): GameActionState => {
@@ -21,6 +21,9 @@ export const reducer = (state: GameActionState, action: { type: string; payload:
           },
         },
       }
+
+    case RESET_GAME_ACTION:
+      return { selectedPlayer: null, madeActions: {} }
 
     default:
       return state

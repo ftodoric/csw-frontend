@@ -7,7 +7,8 @@ import { useConnectSocket, useGame, useUserContext } from '@hooks'
 import { GameStatus, TeamSide } from '@types'
 
 import { Battleground, TeamBackground } from './Battleground'
-import { removePlayer, useGameActionContext } from './context/GameActionContext'
+import { TURN_TIME } from './config'
+import { removePlayer, resetState, useGameActionContext } from './context/GameActionContext'
 import { useGameContext } from './context/GameContext'
 import { EventCardModal } from './EventCardModal'
 import { GameNavigation } from './GameNavigation'
@@ -41,22 +42,29 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     // Set the game state in the global context
     setGame(game)
 
-    // Refresh the game action state
-    dispatch(removePlayer())
-
     // Determine is the user owner
     setIsOwner(game.ownerId === userId)
 
     // Determine user's side
     const usersSide = determineUserSide(userId, game)
     setUsersSide(usersSide)
+
+    // Refresh the game action state if not the users turn anymore
+    if (game.activeSide !== usersSide) {
+      dispatch(removePlayer())
+    }
   }, [game, userId, setGame, dispatch])
 
   // Refetch game data after timer timeout (end of a turn)
   useEffect(() => {
     const refreshEvery = 3
     if (time % refreshEvery === 0) queryClient.invalidateQueries('game')
-  }, [time, queryClient])
+
+    // If the timer is restarted reset all game action state
+    if (time === TURN_TIME) {
+      dispatch(resetState())
+    }
+  }, [time, queryClient, dispatch])
 
   /**
    * Timer action needs to be waited for completion,
