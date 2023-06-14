@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { removePlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
 
 import * as S from './styles'
 import { usePayRansomwareAttacker } from './usePayRansomwareAttacker'
@@ -12,12 +12,16 @@ interface RansomwareDialogProps {
 export const RansomwareDialog = ({ attackerId, victimId, hasVictimEnoughResource }: RansomwareDialogProps) => {
   const payRansomwareAttacker = usePayRansomwareAttacker(attackerId, victimId)
 
+  const { dispatch } = useGameActionContext()
+
   const onYesSubmit = () => {
     payRansomwareAttacker.mutate('yes')
+    dispatch(removePlayer())
   }
 
   const onNoSubmit = () => {
     payRansomwareAttacker.mutate('no')
+    dispatch(removePlayer())
   }
 
   return (

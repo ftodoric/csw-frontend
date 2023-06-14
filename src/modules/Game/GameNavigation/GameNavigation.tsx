@@ -47,6 +47,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const [areActionsDisabled, setActionsDisabled] = useState(true)
   const [hasMadeBid, setHasMadeBid] = useState(false)
   const [isParalyzed, setParalyzed] = useState(false)
+  const [canTransferResource, setCanTransferResource] = useState(true)
 
   const [isDistributeDialogOpen, setDistributeDialogOpen] = useState(false)
   const [isRevitaliseDialogOpen, setRevitaliseDialogOpen] = useState(false)
@@ -66,9 +67,15 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         setParalyzed(false)
       }
 
+      if (!game![userSide].canTransferResource) {
+        setCanTransferResource(false)
+      } else {
+        setCanTransferResource(true)
+      }
+
       setHasMadeBid(selectedPlayer.hasMadeBid)
     } else setActionsDisabled(true)
-  }, [userId, game, selectedPlayer])
+  }, [userId, game, selectedPlayer, userSide])
 
   const handleGameAction = (gameAction: GameNavigationClick) => {
     switch (gameAction) {
@@ -143,7 +150,7 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
             bgColor="rgb(240, 234, 175)"
             title="Distribute"
             onClick={() => handleGameAction(GameNavigationClick.DISTRIBUTE)}
-            disabled={hasMadeBid || isParalyzed}
+            disabled={!canTransferResource || hasMadeBid || isParalyzed}
           >
             <IconDistribute height="100%" fill="rgb(135, 119, 37)" />
           </S.ActionButtonWrapper>

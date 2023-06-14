@@ -17,4 +17,5 @@ export interface Team {
   intelligencePlayer: Player
   game: Game
   isEventCardRead: boolean
+  canTransferResource: boolean
 }
