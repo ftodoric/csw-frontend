@@ -10,8 +10,6 @@ interface ObjectivesModalProps {
 }
 
 export const ObjectivesModal = ({ onClose, entityName }: ObjectivesModalProps) => {
-  console.log('%clog | description\n', 'color: #0e8dbf; margin-bottom: 5px;', entityName)
-
   // Detect ESC keypress
   useEffect(() => {
     function handleEscape(event: any) {
