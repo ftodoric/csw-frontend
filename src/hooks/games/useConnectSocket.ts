@@ -10,10 +10,15 @@ interface SocketTickData {
   time: number
 }
 
+interface SocketLogData {
+  record: string
+}
+
 export const useConnectSocket = (gameId: string, turnsRemainingTime?: number) => {
   const queryClient = useQueryClient()
   const [socket, setSocket] = useState<Socket>()
   const [time, setTime] = useState<number>(turnsRemainingTime ? turnsRemainingTime : 0)
+  const [record, setRecord] = useState('')
 
   useEffect(() => {
     const socket = io(getConfig().publicRuntimeConfig.wsUrl, {
@@ -36,6 +41,10 @@ export const useConnectSocket = (gameId: string, turnsRemainingTime?: number) =>
       setTime(data.time)
     })
 
+    socket.on('log', (data: SocketLogData) => {
+      setRecord(data.record)
+    })
+
     setSocket(socket)
 
     return () => {
@@ -44,5 +53,5 @@ export const useConnectSocket = (gameId: string, turnsRemainingTime?: number) =>
     }
   }, [queryClient, gameId])
 
-  return { socket, time }
+  return { socket, time, record }
 }

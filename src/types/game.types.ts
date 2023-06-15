@@ -47,6 +47,7 @@ export interface Game {
   lastAttacker?: GameEntity
   lastAttackStrength?: number
   drawnEventCard: EventCardName
+  recordKeepingSheet: string
 }
 
 export enum GameNavigationClick {

@@ -10,6 +10,7 @@ import { Battleground, TeamBackground } from './Battleground'
 import { TURN_TIME } from './config'
 import { removePlayer, resetState, useGameActionContext } from './context/GameActionContext'
 import { useGameContext } from './context/GameContext'
+import { useMessageLogContext } from './context/MessageLogContext'
 import { EventCardModal } from './EventCardModal'
 import { GameNavigation } from './GameNavigation'
 import * as S from './styles'
@@ -28,13 +29,15 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   const { dispatch } = useGameActionContext()
 
   // Initialize game session socket
-  const { socket, time } = useConnectSocket(gameId, game?.turnsRemainingTime)
+  const { socket, time, record } = useConnectSocket(gameId, game?.turnsRemainingTime)
 
   const [isOwner, setIsOwner] = useState(false)
   const [isTimerActionLoading, setTimerActionLoading] = useState(false)
   const [isPauseButtonVisible, setPauseButtonVisible] = useState(game?.status === GameStatus.InProgress)
   const [usersSide, setUsersSide] = useState(TeamSide.Blue)
   const [isWinnerBannerActive, setIsWinnerBannerActive] = useState(true)
+
+  const { log, setLog } = useMessageLogContext()
 
   useEffect(() => {
     if (!game) return
@@ -89,6 +92,13 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game, socket, queryClient, isPauseButtonVisible])
+
+  useEffect(() => {
+    if (log !== null) {
+      setLog(log + record)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [record])
 
   // Data guard
   if (!game || !gameState) return null

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { IconAbstain, IconAttack, IconBlackMarket, IconDistribute, IconRevitalise } from '@components/Icons'
 import { useFinishTurn, usePostAction, useUserContext } from '@hooks'
@@ -13,6 +13,7 @@ import * as S from './styles'
 import { InventoryButton, TeamInventory } from './TeamInventory'
 import { removePlayer, setGameAction, useGameActionContext } from '../context/GameActionContext'
 import { useGameContext } from '../context/GameContext'
+import { useMessageLogContext } from '../context/MessageLogContext'
 import { getWinnerText } from '../utils'
 
 interface NavigationProps {
@@ -54,6 +55,22 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
   const [isAttackDialogOpen, setAttackDialogOpen] = useState(false)
   const [isBlackMarketOpen, setBlackMarketOpen] = useState(false)
   const [isInventoryOpen, setInventoryOpen] = useState(false)
+
+  const { log, setLog } = useMessageLogContext()
+  const logRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (logRef) {
+      const logElement = (logRef as any).current
+      logElement.scrollTo(0, logElement.scrollHeight)
+    }
+  }, [log])
+
+  useEffect(() => {
+    if (log === null) {
+      setLog(game!.recordKeepingSheet)
+    }
+  }, [game, log, setLog])
 
   useEffect(() => {
     if (selectedPlayer && !selectedPlayer.wasRansomwareAttacked) {
@@ -139,8 +156,25 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
 
   return (
     <S.NavigationContainer>
-      {/* Message log */}
+      {/* This div keeps center actions aligned, and message log is absolutely positioned */}
       <div style={{ width: '150px', height: '100%' }}></div>
+
+      {/* Message log */}
+      <S.MessageLogContainer>
+        <S.MessageLogTitle>Log</S.MessageLogTitle>
+
+        <S.Messages ref={logRef}>
+          <S.RichFormatMessages
+            dangerouslySetInnerHTML={{
+              __html: log ? log : '',
+            }}
+          />
+
+          <S.DepthMarker />
+
+          <S.DepthMarkerLeftCorner />
+        </S.Messages>
+      </S.MessageLogContainer>
 
       {/* Display if actions are available */}
       <S.NavigationActions style={{ display: areActionsDisabled ? 'none' : 'flex' }}>
@@ -251,7 +285,10 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         )}
       </S.ActiveSideBanner>
 
-      <S.FinishTurnButton onClick={handleFinishTurn} disabled={activeSide !== userSide}>
+      <S.FinishTurnButton
+        onClick={handleFinishTurn}
+        disabled={activeSide !== userSide || gameStatus !== GameStatus.InProgress}
+      >
         <div>Finish turn</div>
       </S.FinishTurnButton>
     </S.NavigationContainer>

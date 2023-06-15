@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { resourceColor, victoryPointsColor } from '@colors'
 import { GameOutcome } from '@types'
 
 export const NavigationContainer = styled.div`
@@ -9,6 +10,127 @@ export const NavigationContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
+`
+
+export const MessageLogContainer = styled.div`
+  width: 30vw;
+  height: 120px;
+  background-color: white;
+  border-top-right-radius: 10px;
+  box-shadow: 0 0 10px #ccc;
+  position: absolute;
+  align-self: flex-end;
+  box-sizing: border-box;
+`
+export const MessageLogTitle = styled.div`
+  position: absolute;
+  width: 70px;
+  height: 30px;
+  top: -30px;
+  left: 0;
+  display: flex;
+  padding-left: 20px;
+  align-items: center;
+  background-color: #ddd;
+  clip-path: polygon(0 100%, 100% 100%, 85% 10%, 80% 0, 0 0);
+  font-size: 20px;
+  font-family: Nunito;
+  font-weight: bold;
+  color: #444444;
+`
+
+export const Messages = styled.div`
+  padding: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: relative;
+`
+
+export const DepthMarker = styled.div`
+  background-color: white;
+  width: calc(30vw - 15px - 10px);
+  height: 5px;
+  position: fixed;
+  bottom: 0;
+  left: 10px;
+  box-shadow: -15px 0px 10px #666;
+`
+
+export const DepthMarkerLeftCorner = styled.div`
+  width: 10px;
+  height: 50px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+`
+
+export const RichFormatMessages = styled.div`
+  > h1 {
+    margin-bottom: 5px;
+    font-size: 18px;
+
+    &::before {
+      content: '--- ';
+    }
+
+    &::after {
+      content: ' ---';
+    }
+  }
+
+  > p + h1 {
+    margin-top: 10px;
+  }
+
+  > p {
+    font-style: italic;
+  }
+
+  p + p {
+    margin-top: 3px;
+  }
+
+  #card {
+    font-style: normal;
+    text-transform: uppercase;
+    color: #e58a60;
+  }
+
+  #objective {
+    font-style: normal;
+    text-transform: uppercase;
+    color: ${victoryPointsColor};
+  }
+
+  #action {
+    font-style: normal;
+    text-transform: uppercase;
+    color: #62afac;
+  }
+
+  #market {
+    font-style: normal;
+    text-transform: uppercase;
+    color: black;
+  }
+
+  #asset {
+    font-style: normal;
+    text-transform: uppercase;
+    color: #605636;
+  }
+
+  #timestamp {
+    color: grey;
+    font-style: normal;
+  }
+
+  #resource {
+    color: ${resourceColor};
+  }
 `
 
 export const NavigationActions = styled.div`

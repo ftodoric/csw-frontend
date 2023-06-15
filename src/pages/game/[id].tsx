@@ -5,6 +5,7 @@ import Head from 'next/head'
 import { withAuth } from '@components/withAuth'
 import { GameActionContextProvider } from '@modules/Game/context/GameActionContext'
 import { GameContextProvider } from '@modules/Game/context/GameContext'
+import { MessageLogContextProvider } from '@modules/Game/context/MessageLogContext'
 import { GameContainer } from '@modules/Game/GameContainer'
 
 type GamePageParams = {
@@ -29,7 +30,9 @@ const GamePage = ({ gameId }: GamePageProps) => {
 
       <GameContextProvider>
         <GameActionContextProvider>
-          <GameContainer gameId={gameId} />
+          <MessageLogContextProvider>
+            <GameContainer gameId={gameId} />
+          </MessageLogContextProvider>
         </GameActionContextProvider>
       </GameContextProvider>
     </>
