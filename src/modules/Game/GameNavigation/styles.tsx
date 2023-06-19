@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { resourceColor, victoryPointsColor, vitalityColor } from '@colors'
+import { blueTeamColor, redTeamColor, resourceColor, victoryPointsColor, vitalityColor } from '@colors'
 import { GameOutcome } from '@types'
 
 export const NavigationContainer = styled.div`
@@ -85,6 +85,11 @@ export const RichFormatMessages = styled.div`
     margin-top: 10px;
   }
 
+  > h2 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
   > p {
     font-style: italic;
   }
@@ -149,6 +154,18 @@ export const RichFormatMessages = styled.div`
 
   #attack {
     color: firebrick;
+  }
+
+  #uk {
+    color: ${blueTeamColor};
+  }
+
+  #russia {
+    color: ${redTeamColor};
+  }
+
+  #tie {
+    color: #727272;
   }
 `
 
