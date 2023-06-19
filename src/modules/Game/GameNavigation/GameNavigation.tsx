@@ -164,6 +164,8 @@ export const GameNavigation = ({ userSide, isOwner }: NavigationProps) => {
         <S.MessageLogTitle>Log</S.MessageLogTitle>
 
         <S.Messages ref={logRef}>
+          <S.UpperShadow />
+
           <S.RichFormatMessages
             dangerouslySetInnerHTML={{
               __html: log ? log : '',

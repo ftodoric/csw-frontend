@@ -16,7 +16,6 @@ export const MessageLogContainer = styled.div`
   width: 30vw;
   height: 120px;
   background-color: white;
-  border-top-right-radius: 10px;
   box-shadow: 0 0 10px #ccc;
   position: absolute;
   align-self: flex-end;
@@ -40,12 +39,35 @@ export const MessageLogTitle = styled.div`
 `
 
 export const Messages = styled.div`
-  padding: 10px;
+  padding: 0 10px 10px;
   height: 100%;
   box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: scroll;
   position: relative;
+
+  // Scrollbar styles
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track-piece {
+    background: #ffffff;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #929292;
+    border-radius: 4px;
+  }
+`
+
+export const UpperShadow = styled.div`
+  background-color: white;
+  width: calc(30vw - 10px);
+  height: 1px;
+  position: sticky;
+  top: 0;
+  transform: translate(-10px, 0);
+  box-shadow: -10px 2px 2px #ccc;
 `
 
 export const DepthMarker = styled.div`
@@ -68,6 +90,8 @@ export const DepthMarkerLeftCorner = styled.div`
 `
 
 export const RichFormatMessages = styled.div`
+  margin-top: 10px;
+
   > h1 {
     margin-bottom: 5px;
     font-size: 18px;
