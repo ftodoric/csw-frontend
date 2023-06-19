@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { resourceColor, victoryPointsColor } from '@colors'
+import { resourceColor, victoryPointsColor, vitalityColor } from '@colors'
 import { GameOutcome } from '@types'
 
 export const NavigationContainer = styled.div`
@@ -114,13 +114,20 @@ export const RichFormatMessages = styled.div`
   #market {
     font-style: normal;
     text-transform: uppercase;
-    color: black;
+    color: #353535;
+    text-shadow: 0.5px 0.5px #51e014;
   }
 
   #asset {
     font-style: normal;
     text-transform: uppercase;
     color: #605636;
+  }
+
+  #ransomware {
+    font-style: normal;
+    text-transform: uppercase;
+    color: #580400;
   }
 
   #timestamp {
@@ -130,6 +137,18 @@ export const RichFormatMessages = styled.div`
 
   #resource {
     color: ${resourceColor};
+  }
+
+  #vitality {
+    color: ${vitalityColor};
+  }
+
+  #victory-points {
+    color: ${victoryPointsColor};
+  }
+
+  #attack {
+    color: firebrick;
   }
 `
 

@@ -1,4 +1,5 @@
 import { removePlayer, useGameActionContext } from '@modules/Game/context/GameActionContext'
+import { useGameContext } from '@modules/Game/context/GameContext'
 
 import * as S from './styles'
 import { usePayRansomwareAttacker } from './usePayRansomwareAttacker'
@@ -10,7 +11,10 @@ interface RansomwareDialogProps {
 }
 
 export const RansomwareDialog = ({ attackerId, victimId, hasVictimEnoughResource }: RansomwareDialogProps) => {
-  const payRansomwareAttacker = usePayRansomwareAttacker(attackerId, victimId)
+  const { game } = useGameContext()
+  const { id: gameId } = game!
+
+  const payRansomwareAttacker = usePayRansomwareAttacker(gameId, attackerId, victimId)
 
   const { dispatch } = useGameActionContext()
 

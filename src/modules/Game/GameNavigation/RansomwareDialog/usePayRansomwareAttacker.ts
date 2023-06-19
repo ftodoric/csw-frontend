@@ -3,12 +3,12 @@ import { useMutation, useQueryClient } from 'react-query'
 import { useAxios } from '@hooks/useAxios'
 import { Asset } from '@types'
 
-export const usePayRansomwareAttacker = (attackerId: string, victimId: string) => {
+export const usePayRansomwareAttacker = (gameId: string, attackerId: string, victimId: string) => {
   const axios = useAxios()
   const queryClient = useQueryClient()
 
   const payRansomwareAttacker = async (answer: string): Promise<Asset[]> => {
-    const response = await axios.post(`/games/payRansomwareAttacker/${answer}`, { attackerId, victimId })
+    const response = await axios.post(`/games/${gameId}/payRansomwareAttacker/${answer}`, { attackerId, victimId })
 
     return response.data
   }
