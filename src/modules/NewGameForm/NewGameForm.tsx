@@ -10,7 +10,16 @@ import { useAllUsers } from '@hooks/auth/useAllUsers'
 import * as S from '@modules/Lobby/styles'
 import { newGameFormSchema, NewGameFormType, TeamSide, User } from '@types'
 
-import { FormContainer, GameDescContainer, ErrorContainer, SubmitButton, TeamsContainer, VersusLabel } from './styles'
+import {
+  FormContainer,
+  GameDescContainer,
+  ErrorContainer,
+  SubmitButton,
+  TeamsContainer,
+  VersusLabel,
+  TimeLimitContainer,
+  TimeLimitInputGroup,
+} from './styles'
 import { TeamForm } from './TeamForm'
 
 export const NewGameForm = () => {
@@ -48,6 +57,8 @@ export const NewGameForm = () => {
     errors.rosenergoatomUserId ||
     errors.scsUserId
 
+  const isTimeLimitError = errors.timeLimit
+
   return (
     <S.LobbyContainer>
       <S.Navbar>
@@ -77,6 +88,15 @@ export const NewGameForm = () => {
           <VersusLabel>VS</VersusLabel>
         </TeamsContainer>
 
+        <TimeLimitContainer>
+          <div id="label">Time Limit</div>
+
+          <TimeLimitInputGroup>
+            <input type="number" defaultValue={3} {...register('timeLimit', { valueAsNumber: true })} min={1} />
+            <div id="unit">min</div>
+          </TimeLimitInputGroup>
+        </TimeLimitContainer>
+
         <GameDescContainer>
           <textarea placeholder="Enter description here." {...register('description')} />
         </GameDescContainer>
@@ -86,6 +106,8 @@ export const NewGameForm = () => {
         {isTeamNameError && <ErrorContainer>Team names are required.</ErrorContainer>}
 
         {isPlayersError && <ErrorContainer>All players must be assigned.</ErrorContainer>}
+
+        {isTimeLimitError && <ErrorContainer>Time limit incorrectly set.</ErrorContainer>}
       </FormContainer>
 
       {/* Bottom padding */}

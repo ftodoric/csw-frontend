@@ -31,6 +31,31 @@ export const ErrorContainer = styled.div`
   font-size: 14px;
 `
 
+export const TimeLimitContainer = styled.div`
+  margin-top: 30px;
+  color: #5f5f5f;
+
+  #label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`
+
+export const TimeLimitInputGroup = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+
+  input {
+    width: 50px;
+  }
+
+  #unit {
+    margin-left: 5px;
+  }
+`
+
 export const GameDescContainer = styled.div`
   width: 100%;
   padding: 0 10px;

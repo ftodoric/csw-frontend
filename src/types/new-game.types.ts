@@ -15,6 +15,7 @@ export const newGameFormSchema = z.object({
   rosenergoatomUserId: z.string().nonempty(),
   scsUserId: z.string().nonempty(),
 
+  timeLimit: z.number().min(1),
   description: z.string(),
 })
 

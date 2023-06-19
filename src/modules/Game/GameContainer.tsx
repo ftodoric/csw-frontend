@@ -68,8 +68,11 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   }, [game, userId, setGame, dispatch])
 
   useEffect(() => {
-    setTime(socketTime)
-  }, [socketTime])
+    // If game is in progress refresh time
+    if (game?.status === GameStatus.InProgress) {
+      setTime(socketTime)
+    }
+  }, [game, socketTime])
 
   // Refetch game data after timer timeout (end of a turn)
   useEffect(() => {
