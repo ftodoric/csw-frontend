@@ -29,7 +29,8 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   const { dispatch } = useGameActionContext()
 
   // Initialize game session socket
-  const { socket, time, record } = useConnectSocket(gameId, game?.turnsRemainingTime)
+  const { socket, socketTime, record } = useConnectSocket(gameId)
+  const [time, setTime] = useState(game ? game.turnsRemainingTime : 0)
 
   const [isOwner, setIsOwner] = useState(false)
   const [isTimerActionLoading, setTimerActionLoading] = useState(false)
@@ -52,11 +53,23 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     const usersSide = determineUserSide(userId, game)
     setUsersSide(usersSide)
 
+    // Set pause button
+    setPauseButtonVisible(game.status === GameStatus.InProgress)
+
+    // Refresh the timer value if the game is paused
+    if (game.status !== GameStatus.InProgress) {
+      setTime(game.turnsRemainingTime)
+    }
+
     // Refresh the game action state if not the users turn anymore
     if (game.activeSide !== usersSide) {
       dispatch(removePlayer())
     }
   }, [game, userId, setGame, dispatch])
+
+  useEffect(() => {
+    setTime(socketTime)
+  }, [socketTime])
 
   // Refetch game data after timer timeout (end of a turn)
   useEffect(() => {
