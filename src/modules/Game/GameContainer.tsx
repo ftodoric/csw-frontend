@@ -7,7 +7,6 @@ import { useConnectSocket, useGame, useUserContext } from '@hooks'
 import { GameStatus, TeamSide } from '@types'
 
 import { Battleground, TeamBackground } from './Battleground'
-import { TURN_TIME } from './config'
 import { removePlayer, resetState, useGameActionContext } from './context/GameActionContext'
 import { useGameContext } from './context/GameContext'
 import { useMessageLogContext } from './context/MessageLogContext'
@@ -29,7 +28,7 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
   const { dispatch } = useGameActionContext()
 
   // Initialize game session socket
-  const { socket, socketTime, record } = useConnectSocket(gameId)
+  const { socket, socketTime, record } = useConnectSocket(gameId, game?.timeLimit)
   const [time, setTime] = useState(game ? game.turnsRemainingTime : 0)
 
   const [isOwner, setIsOwner] = useState(false)
@@ -80,10 +79,10 @@ export const GameContainer = ({ gameId }: { gameId: string }) => {
     if (time % refreshEvery === 0) queryClient.invalidateQueries('game')
 
     // If the timer is restarted reset all game action state
-    if (time === TURN_TIME) {
+    if (time === game?.timeLimit) {
       dispatch(resetState())
     }
-  }, [time, queryClient, dispatch])
+  }, [game, time, queryClient, dispatch])
 
   /**
    * Timer action needs to be waited for completion,

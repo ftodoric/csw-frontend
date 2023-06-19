@@ -38,6 +38,7 @@ export interface Game {
   status: GameStatus
   description?: string
   outcome?: GameOutcome
+  timeLimit: number
   turnsRemainingTime: number
   activeSide: TeamSide
   activePeriod: GamePeriod
