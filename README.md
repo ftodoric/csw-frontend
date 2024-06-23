@@ -28,4 +28,4 @@ The app is then available at [http://localhost:3000](http://localhost:3000) in y
 
 ## TODO
 
-- fix game refetching between-state when entering a game from lobb
+- fix game refetching between-state when entering a game from lobby
